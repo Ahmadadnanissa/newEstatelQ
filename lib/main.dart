@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             OtpVerifivcationPageForPassword(),
       },
       initialRoute: WelcomePage.id,
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
