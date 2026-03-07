@@ -2,7 +2,7 @@ import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/core/widgets/secondary_button.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user3.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/form_field_for_location.dart';
+import 'package:estatelqapp/core/widgets/form_field_for_location.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/sub_title_page.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/title_page.dart';
 import 'package:flutter/material.dart';

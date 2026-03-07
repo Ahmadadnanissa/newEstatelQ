@@ -8,6 +8,7 @@ import 'package:estatelqapp/features/get_info_from_user_features/presentation/pa
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user2.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user3.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user4.dart';
+import 'package:estatelqapp/features/home_feature/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         GetinfoFromUser4.id: (context) => GetinfoFromUser4(),
         ChangePasswordPage.id: (context) => ChangePasswordPage(),
         EnterYourEmail.id: (context) => EnterYourEmail(),
+        HomePage.id: (context) => HomePage(),
         OtpVerifivcationPageForPassword.id: (context) =>
             OtpVerifivcationPageForPassword(),
       },

@@ -19,8 +19,8 @@ class FormFieldForLocation extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: width * 0.04,
-        horizontal: width * 0.05,
+        vertical: width * 0.02,
+        horizontal: width * 0.04,
       ),
       child: Autocomplete<String>(
         optionsBuilder: (TextEditingValue textEditingValue) {
@@ -48,6 +48,19 @@ class FormFieldForLocation extends StatelessWidget {
 
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(color: secondaryColor, width: 0.5),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(color: secondaryColor, width: 0.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(color: secondaryColor, width: 0.5),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(color: secondaryColor, width: 0.5),
               ),
             ),
           );
