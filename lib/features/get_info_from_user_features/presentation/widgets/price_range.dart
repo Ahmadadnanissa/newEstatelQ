@@ -100,6 +100,7 @@ class _PriceRaangeState extends State<PriceRaange> {
               divisions: 45,
 
               activeColor: secondaryColor,
+              // ignore: deprecated_member_use
               inactiveColor: secondaryColor.withOpacity(0.3),
 
               labels: RangeLabels(

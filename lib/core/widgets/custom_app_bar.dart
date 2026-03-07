@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  CustomAppBar({super.key, required this.title});
+  CustomAppBar({super.key, required this.title, required this.onTap});
   String title;
-
+  void Function() onTap;
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
@@ -20,10 +20,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: secondaryColor, fontSize: width * 0.04),
       ),
       centerTitle: true,
-      leading: Icon(
-        Icons.arrow_back,
-        color: secondaryColor,
-        size: width * 0.07,
+      leading: GestureDetector(
+        onTap: onTap,
+        child: Icon(
+          Icons.arrow_back,
+          color: secondaryColor,
+          size: width * 0.07,
+        ),
       ),
     );
   }

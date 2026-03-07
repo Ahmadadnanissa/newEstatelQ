@@ -26,7 +26,7 @@ class _BodyEnterYourEmailPageState extends State<BodyEnterYourEmailPage> {
             EnterYourEmailImage(),
             EnterYourNameDescr(),
             TextFormFieldForEmail(),
-            SizedBox(height: width * 0.2),
+            SizedBox(height: width * 0.3),
 
             PrimaryButton(
               name: 'Next',

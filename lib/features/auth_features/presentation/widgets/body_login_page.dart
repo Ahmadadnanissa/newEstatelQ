@@ -32,7 +32,7 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
               subTitle: 'Don’t Have An Account?',
               name: 'Signup',
               onTap: () {
-                Navigator.pushNamed(context, SignupPage.id);
+                Navigator.pushReplacementNamed(context, SignupPage.id);
               },
             ),
             FinalDoubleTextForLogin(),

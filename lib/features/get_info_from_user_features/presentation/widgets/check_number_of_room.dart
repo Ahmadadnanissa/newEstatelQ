@@ -93,6 +93,7 @@ class _CheckNumberOfRoomState extends State<CheckNumberOfRoom> {
                         style: TextStyle(
                           color: isSelected
                               ? secondaryColor
+                              // ignore: deprecated_member_use
                               : secondaryColor.withOpacity(0.8),
 
                           fontFamily: fontFamily,

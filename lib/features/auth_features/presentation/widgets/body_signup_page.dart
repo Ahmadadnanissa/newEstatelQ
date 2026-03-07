@@ -32,7 +32,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
               subTitle: 'Already Have An Acount? ',
               name: 'Login',
               onTap: () {
-                Navigator.pushNamed(context, LoginPage.id);
+                Navigator.pushReplacementNamed(context, LoginPage.id);
               },
             ),
             CustomFieldNameAndEmail(),

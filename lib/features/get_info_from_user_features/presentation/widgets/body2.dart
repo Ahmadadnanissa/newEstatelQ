@@ -19,25 +19,28 @@ class _Body2State extends State<Body2> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          TitlePage(title: 'Where are you looking ?'),
-          SubTitlePage(
-            subTitle: 'you can enter cities,neighborhoods,zip codes,and more',
-          ),
-          FormFieldForLocation(),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: width * 0.01),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TitlePage(title: 'Where are you looking ?'),
+            SubTitlePage(
+              subTitle: 'you can enter cities,neighborhoods,zip codes,and more',
+            ),
+            FormFieldForLocation(),
 
-          SizedBox(height: width * 0.95),
-          PrimaryButton(
-            name: 'Next',
-            pushing: () {
-              Navigator.push(context, SlideRight(page: GetinfoFromUser3()));
-            },
-          ),
-          SizedBox(height: width * 0.04),
-          SecondaryButton(name: 'Skip', pushing: () {}),
-        ],
+            SizedBox(height: width * 0.95),
+            PrimaryButton(
+              name: 'Next',
+              pushing: () {
+                Navigator.push(context, SlideRight(page: GetinfoFromUser3()));
+              },
+            ),
+            SizedBox(height: width * 0.04),
+            SecondaryButton(name: 'Skip', pushing: () {}),
+          ],
+        ),
       ),
     );
   }

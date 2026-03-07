@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/core/widgets/secondary_button.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _GoToLoginButtonState extends State<GoToLoginButton> {
       child: SecondaryButton(
         name: 'Login',
         pushing: () {
-          Navigator.pushNamed(context, LoginPage.id);
+          Navigator.push(context, SlideRight(page: LoginPage()));
         },
       ),
     );

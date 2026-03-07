@@ -21,6 +21,5 @@ class ChangePasswordImage extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }

@@ -16,7 +16,12 @@ class _GetinfoFromUser4State extends State<GetinfoFromUser4> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryColor,
-      appBar: CustomAppBar(title: '4 0f 4'),
+      appBar: CustomAppBar(
+        title: '4 0f 4',
+        onTap: () {
+          Navigator.pop(context);
+        },
+      ),
       body: Body4(),
     );
   }

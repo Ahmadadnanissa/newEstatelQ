@@ -1,6 +1,8 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
+import 'package:estatelqapp/core/widgets/navigation_route.dart';
+import 'package:estatelqapp/features/forget_password_features/presentation/pages/change_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -20,7 +22,7 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
 
     return Container(
       width: width,
-      height: width * 0.55,
+
       decoration: BoxDecoration(
         color: Color(0xffEDF6F9),
         borderRadius: BorderRadius.only(
@@ -57,7 +59,6 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
 
               onCompleted: (value) {
                 otpCode = value;
-                print("OTP Completed: $otpCode");
               },
 
               pinTheme: PinTheme(
@@ -78,8 +79,13 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
 
           SizedBox(height: width * 0.05),
 
-          PrimaryButton(name: 'Submit', pushing: () {}),
-          SizedBox(height: width * 0.06),
+          PrimaryButton(
+            name: 'Submit',
+            pushing: () {
+              Navigator.push(context, SlideRight(page: ChangePasswordPage()));
+            },
+          ),
+          SizedBox(height: width * 0.04),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -106,6 +112,7 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
               ),
             ],
           ),
+          SizedBox(height: width * 0.04),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/widgets/button.dart';
+import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user1.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _GetStartButtonState extends State<GetStartButton> {
       child: PrimaryButton(
         name: 'Get Start',
         pushing: () {
-          Navigator.pushNamed(context, GetinfoFromUser1.id);
+          Navigator.push(context, SlideRight(page: GetinfoFromUser1()));
         },
       ),
     );

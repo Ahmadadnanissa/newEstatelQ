@@ -18,25 +18,28 @@ class _Body4State extends State<Body4> {
     double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          TitlePage(title: 'How many beds?'),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: width * 0.01),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TitlePage(title: 'How many beds?'),
 
-          SubTitlePage(
-            subTitle:
-                'this is just to get you started.you can change this later.',
-          ),
-          CheckNumberOfRoom(),
+            SubTitlePage(
+              subTitle:
+                  'this is just to get you started.you can change this later.',
+            ),
+            CheckNumberOfRoom(),
 
-          SizedBox(height: width + width * 0.05),
+            SizedBox(height: width + width * 0.05),
 
-          PrimaryButton(name: 'Next', pushing: () {}),
+            PrimaryButton(name: 'Next', pushing: () {}),
 
-          SizedBox(height: width * 0.04),
+            SizedBox(height: width * 0.04),
 
-          SecondaryButton(name: 'Skip', pushing: () {}),
-        ],
+            SecondaryButton(name: 'Skip', pushing: () {}),
+          ],
+        ),
       ),
     );
   }
