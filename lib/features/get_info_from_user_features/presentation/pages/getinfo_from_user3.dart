@@ -14,15 +14,17 @@ class GetinfoFromUser3 extends StatefulWidget {
 class _GetinfoFromUser3State extends State<GetinfoFromUser3> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: CustomAppBar(
-        title: '3 0f 4',
-        onTap: () {
-          Navigator.pop(context);
-        },
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        appBar: CustomAppBar(
+          title: '3 0f 4',
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        body: Body3(),
       ),
-      body: Body3(),
     );
   }
 }

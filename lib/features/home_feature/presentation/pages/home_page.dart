@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/home_feature/presentation/widgets/app_bar_home_page.dart';
 import 'package:estatelqapp/features/home_feature/presentation/widgets/body_home_page.dart';
 import 'package:estatelqapp/features/home_feature/presentation/widgets/custom_bottom_navigation_bar.dart';
@@ -14,10 +15,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarHomePage(title: 'EstatelQ', onTap: () {}),
-      body: BodyHomePage(),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        appBar: AppBarHomePage(title: 'EstatelQ', onTap: () {}),
+        body: BodyHomePage(),
+        floatingActionButton: CustomBottomNavigationBar(),
+      ),
     );
   }
 }

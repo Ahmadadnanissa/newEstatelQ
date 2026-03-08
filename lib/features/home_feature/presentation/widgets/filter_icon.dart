@@ -19,8 +19,8 @@ class _FilterIconState extends State<FilterIcon> {
         bottom: width * 0.04,
       ),
       child: Container(
-        width: width * 0.09,
-        height: width * 0.09,
+        width: width * 0.12,
+        height: width * 0.11,
 
         decoration: BoxDecoration(
           color: primaryColor,
@@ -30,7 +30,7 @@ class _FilterIconState extends State<FilterIcon> {
         child: Icon(
           Icons.filter_list,
           color: secondaryColor,
-          size: width * 0.07,
+          size: width * 0.09,
         ),
       ),
     );

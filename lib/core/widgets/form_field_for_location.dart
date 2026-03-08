@@ -45,6 +45,7 @@ class FormFieldForLocation extends StatelessWidget {
               prefixIcon: Icon(Icons.search, color: secondaryColor),
 
               hintText: "Search Location",
+              hintStyle: TextStyle(fontSize: width * 0.04),
 
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5),

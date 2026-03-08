@@ -1,7 +1,11 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/core/widgets/form_field_for_location.dart';
 import 'package:estatelqapp/features/home_feature/presentation/widgets/filter_icon.dart';
-import 'package:estatelqapp/features/home_feature/presentation/widgets/type_of_property.dart';
+import 'package:estatelqapp/features/home_feature/presentation/widgets/list_of_custom_card_property.dart';
+import 'package:estatelqapp/features/home_feature/presentation/widgets/list_of_more_details.dart';
+import 'package:estatelqapp/features/home_feature/presentation/widgets/more_details_for_property_card.dart';
+import 'package:estatelqapp/features/home_feature/presentation/widgets/row_for_type_of_property.dart';
 import 'package:flutter/material.dart';
 
 class BodyHomePage extends StatefulWidget {
@@ -24,28 +28,10 @@ class _BodyHomePageState extends State<BodyHomePage> {
             GestureDetector(onTap: () {}, child: FilterIcon()),
           ],
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              TypeOfProperty(
-                type: 'All',
-                image: 'assets/images/Earth Planet.png',
-              ),
-              TypeOfProperty(
-                image: 'assets/images/Building.png',
-                type: 'Apartment',
-              ),
-              TypeOfProperty(
-                image: 'assets/images/House With a Garden.png',
-                type: 'Villa',
-              ),
-              TypeOfProperty(image: 'assets/images/Home.png', type: 'House'),
-              TypeOfProperty(image: 'assets/images/Office.png', type: 'office'),
-            ],
-          ),
-        ),
+        RowForTypeOfProperty(),
         Divider(thickness: 0.5),
+
+        Expanded(child: ListOfCustomCardProperty()),
       ],
     );
   }

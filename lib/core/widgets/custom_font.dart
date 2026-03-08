@@ -8,10 +8,12 @@ class CustomFont extends StatelessWidget {
     required this.name,
     required this.fontColor,
     required this.fontSize,
+    this.fontWeight,
   });
   String name;
   double fontSize;
   Color? fontColor;
+  FontWeight? fontWeight;
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -21,6 +23,7 @@ class CustomFont extends StatelessWidget {
         color: fontColor,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        fontWeight: fontWeight,
       ),
     );
   }

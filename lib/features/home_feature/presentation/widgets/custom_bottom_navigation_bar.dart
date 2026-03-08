@@ -18,10 +18,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: width * 0.02,
-        horizontal: width * 0.2,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.2),
       child: Container(
         height: width * 0.12,
         decoration: BoxDecoration(
