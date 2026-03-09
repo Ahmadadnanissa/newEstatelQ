@@ -4,7 +4,7 @@ import 'package:estatelqapp/core/widgets/secondary_button.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/check_number_of_room.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/sub_title_page.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/title_page.dart';
-import 'package:estatelqapp/features/home_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 
 class Body4 extends StatefulWidget {
@@ -40,7 +40,7 @@ class _Body4State extends State<Body4> {
               pushing: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  SlideRight(page: HomePage()),
+                  SlideRight(page: NavigationPage()),
                   (route) => false,
                 );
               },

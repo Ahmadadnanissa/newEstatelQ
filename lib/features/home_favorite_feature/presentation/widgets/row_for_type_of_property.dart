@@ -1,5 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
-import 'package:estatelqapp/features/home_feature/presentation/widgets/type_of_property.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/type_of_property.dart';
 import 'package:flutter/material.dart';
 
 class RowForTypeOfProperty extends StatefulWidget {

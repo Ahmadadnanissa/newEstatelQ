@@ -1,6 +1,6 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
-import 'package:estatelqapp/features/home_feature/presentation/widgets/list_of_more_details.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/list_of_more_details.dart';
 import 'package:flutter/material.dart';
 
 class CustomCardForProperty extends StatelessWidget {
@@ -44,16 +44,47 @@ class CustomCardForProperty extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(width * 0.05),
-            ),
-            child: Image.asset(
-              image,
-              width: double.infinity,
-              height: width * 0.35,
-              fit: BoxFit.cover,
-            ),
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(width * 0.05),
+                ),
+                child: Image.asset(
+                  image,
+                  width: double.infinity,
+                  height: width * 0.38,
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      height: width * 0.08,
+                      width: width * 0.2,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(width * 0.03),
+                      ),
+                      child: Center(
+                        child: CustomFont(
+                          name: type,
+                          fontColor: blackColor,
+                          fontSize: width * 0.035,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: width * 0.45),
+                    Icon(Icons.share, size: width * 0.09),
+                    Icon(Icons.favorite, size: width * 0.09),
+                  ],
+                ),
+              ),
+            ],
           ),
 
           Padding(
@@ -65,24 +96,24 @@ class CustomCardForProperty extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomFont(
                       name: title,
                       fontColor: blackColor,
-                      fontSize: width * 0.045,
+                      fontSize: width * 0.05,
                       fontWeight: FontWeight.bold,
                     ),
                     CustomFont(
                       name: address,
                       fontColor: Color(0xff5F6264),
-                      fontSize: width * 0.03,
+                      fontSize: width * 0.035,
                     ),
                   ],
                 ),
 
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomFont(
                       name: price,
@@ -101,7 +132,7 @@ class CustomCardForProperty extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: width * 0.01),
+            padding: EdgeInsets.symmetric(vertical: width * 0.03),
             child: ListOfMoreDetails(
               numberOfPath: numberOfPath,
               numberOfRoom: numberOfRooms,

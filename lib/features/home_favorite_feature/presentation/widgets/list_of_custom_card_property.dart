@@ -1,4 +1,4 @@
-import 'package:estatelqapp/features/home_feature/presentation/widgets/custom_card_for_property.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/custom_card_for_property.dart';
 import 'package:flutter/material.dart';
 
 class ListOfCustomCardProperty extends StatefulWidget {
@@ -51,8 +51,8 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
         final property = properties[index];
         return Padding(
           padding: EdgeInsets.symmetric(
-            vertical: width * 0.03,
-            horizontal: width * 0.05,
+            vertical: width * 0.02,
+            horizontal: width * 0.04,
           ),
           child: CustomCardForProperty(
             image: property["image"],

@@ -1,5 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
-import 'package:estatelqapp/features/home_feature/presentation/widgets/more_details_for_property_card.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/more_details_for_property_card.dart';
 import 'package:flutter/material.dart';
 
 class ListOfMoreDetails extends StatelessWidget {

@@ -19,7 +19,7 @@ class FormFieldForLocation extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: width * 0.02,
+        vertical: width * 0.04,
         horizontal: width * 0.04,
       ),
       child: Autocomplete<String>(
@@ -34,34 +34,37 @@ class FormFieldForLocation extends StatelessWidget {
         },
 
         fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-          return TextField(
-            controller: controller,
-            focusNode: focusNode,
+          return SizedBox(
+            height: width * 0.11,
+            child: TextField(
+              controller: controller,
+              focusNode: focusNode,
 
-            decoration: InputDecoration(
-              fillColor: primaryColor,
-              filled: true,
+              decoration: InputDecoration(
+                fillColor: primaryColor,
+                filled: true,
 
-              prefixIcon: Icon(Icons.search, color: secondaryColor),
+                prefixIcon: Icon(Icons.search, color: secondaryColor),
 
-              hintText: "Search Location",
-              hintStyle: TextStyle(fontSize: width * 0.04),
+                hintText: "Search Location",
+                hintStyle: TextStyle(fontSize: width * 0.037),
 
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(color: secondaryColor, width: 0.5),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(color: secondaryColor, width: 0.5),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(color: secondaryColor, width: 0.5),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5),
-                borderSide: BorderSide(color: secondaryColor, width: 0.5),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(color: secondaryColor, width: 0.5),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(color: secondaryColor, width: 0.5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(color: secondaryColor, width: 0.5),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(color: secondaryColor, width: 0.5),
+                ),
               ),
             ),
           );

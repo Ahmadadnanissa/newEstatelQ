@@ -15,7 +15,7 @@ class _FilterIconState extends State<FilterIcon> {
     return Padding(
       padding: EdgeInsets.only(
         right: width * 0.04,
-        top: width * 0.02,
+        top: width * 0.04,
         bottom: width * 0.04,
       ),
       child: Container(
