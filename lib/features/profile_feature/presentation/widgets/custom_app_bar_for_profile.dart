@@ -2,9 +2,9 @@ import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/customm_app_bar.dart.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppBarForGetInfo extends StatelessWidget
+class CustomAppBarForProfile extends StatelessWidget
     implements PreferredSizeWidget {
-  const CustomAppBarForGetInfo({super.key, required this.title});
+  const CustomAppBarForProfile({super.key, required this.title});
 
   final String title;
 
@@ -16,7 +16,7 @@ class CustomAppBarForGetInfo extends StatelessWidget
     double width = MediaQuery.of(context).size.width;
     return CustommAppBar(
       title: title,
-      sizeTitle: width * 0.04,
+      sizeTitle: width * 0.06,
       iconLeading: Icon(
         Icons.arrow_back,
         color: secondaryColor,
