@@ -1,3 +1,4 @@
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/map_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
@@ -14,7 +15,12 @@ class NavigationPage extends StatefulWidget {
 class _NavigationPageState extends State<NavigationPage> {
   int currentIndex = 0;
 
-  final List<Widget> pages = [HomePage(), FavoritePage(), ProfilePage()];
+  final List<Widget> pages = [
+    HomePage(),
+    FavoritePage(),
+    MapPage(),
+    ProfilePage(),
+  ];
 
   void changePage(int index) {
     setState(() {

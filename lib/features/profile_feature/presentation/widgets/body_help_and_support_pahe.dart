@@ -1,6 +1,4 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/button.dart';
-import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/form_field_for_describe_issue.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/how_we_can_help_you_text.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/image_help_and_support_page.dart';

@@ -32,7 +32,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
             buildItem(icon: Icons.home_outlined, index: 0, width: width),
 
-            buildItem(icon: Icons.person_outline, index: 2, width: width),
+            buildItem(icon: Icons.search, index: 2, width: width),
+
+            buildItem(icon: Icons.person_outline, index: 3, width: width),
           ],
         ),
       ),
