@@ -1,5 +1,6 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
+import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/custom_button_in_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/details_about_user_container.dart';
@@ -27,7 +28,9 @@ class BodyProfilePage extends StatelessWidget {
 
             CustomButtonInProfilePage(
               nameButton: 'Edit Profile',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, SlideRight(page: EditProfilePage()));
+              },
               icon: Icon(
                 Icons.person_outline,
                 size: width * 0.09,

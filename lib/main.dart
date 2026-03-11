@@ -9,7 +9,9 @@ import 'package:estatelqapp/features/get_info_from_user_features/presentation/pa
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user3.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user4.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/favorite_page.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/filter_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +39,8 @@ class MyApp extends StatelessWidget {
         FavoritePage.id: (context) => FavoritePage(),
         ProfilePage.id: (context) => ProfilePage(),
         HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
+        EditProfilePage.id: (context) => EditProfilePage(),
+        FilterPage.id: (context) => FilterPage(),
         HomePage.id: (context) => HomePage(),
         OtpVerifivcationPageForPassword.id: (context) =>
             OtpVerifivcationPageForPassword(),
