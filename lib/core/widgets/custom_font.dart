@@ -19,6 +19,7 @@ class CustomFont extends StatelessWidget {
     return Text(
       name,
       textAlign: TextAlign.center,
+
       style: TextStyle(
         color: fontColor,
         fontSize: fontSize,

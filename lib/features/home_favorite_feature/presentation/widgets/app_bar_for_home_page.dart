@@ -1,5 +1,7 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/customm_app_bar.dart.dart';
+import 'package:estatelqapp/core/widgets/navigation_route.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/menu_page.dart';
 import 'package:flutter/material.dart';
 
 class AppBarForHomePage extends StatelessWidget implements PreferredSizeWidget {
@@ -13,6 +15,9 @@ class AppBarForHomePage extends StatelessWidget implements PreferredSizeWidget {
       title: 'EstatelQ',
       sizeTitle: width * 0.06,
       iconLeading: Icon(Icons.menu, color: secondaryColor, size: width * 0.08),
+      onTapleading: () {
+        Navigator.push(context, SlideLeft(-0.2, page: MenuPage()));
+      },
     );
   }
 }

@@ -11,6 +11,9 @@ import 'package:estatelqapp/features/get_info_from_user_features/presentation/pa
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/favorite_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/filter_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/menu_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
@@ -41,6 +44,9 @@ class MyApp extends StatelessWidget {
         HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
         EditProfilePage.id: (context) => EditProfilePage(),
         FilterPage.id: (context) => FilterPage(),
+        LiveChatPage.id: (context) => LiveChatPage(),
+        NotificationPage.id: (context) => NotificationPage(),
+        MenuPage.id: (context) => MenuPage(),
         HomePage.id: (context) => HomePage(),
         OtpVerifivcationPageForPassword.id: (context) =>
             OtpVerifivcationPageForPassword(),
