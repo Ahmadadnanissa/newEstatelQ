@@ -2,7 +2,7 @@ import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/form_field_for_describe_issue.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/how_we_can_help_you_text.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/image_help_and_support_page.dart';
-import 'package:estatelqapp/features/profile_feature/presentation/widgets/select_request_type.dart';
+import 'package:estatelqapp/core/widgets/select_request_type.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/selected_request_type_text.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,11 @@ class BodyHelpAndSupportPahe extends StatelessWidget {
           HowWeCanHelpYouText(),
 
           SelectedRequestTypeText(),
-          SelectRequestType(),
+          SelectRequestType(
+            requestTypes: ["Complaint", "Report Property", "General Inquiry"],
+            hintText: 'Select Request Type',
+            selectedRequest: 'Complaint',
+          ),
 
           FormFieldForDescribeIssue(),
 

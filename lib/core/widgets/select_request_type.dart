@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:estatelqapp/core/app_theme.dart';
 
+// ignore: must_be_immutable
 class SelectRequestType extends StatefulWidget {
-  const SelectRequestType({super.key});
-
+  SelectRequestType({
+    super.key,
+    required this.requestTypes,
+    required this.hintText,
+    required this.selectedRequest,
+  });
+  final List<String> requestTypes;
+  final String hintText;
+  String selectedRequest;
   @override
   State<SelectRequestType> createState() => _SelectRequestTypeState();
 }
 
 class _SelectRequestTypeState extends State<SelectRequestType> {
-  final List<String> requestTypes = [
-    "Complaint",
-    "Report Property",
-    "General Inquiry",
-  ];
-
-  String? selectedRequest;
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: width * 0.04,
-        vertical: width * 0.04,
-      ),
+      padding: EdgeInsets.symmetric(vertical: width * 0.02),
 
       child: DropdownMenu<String>(
-        width: width * 0.92,
-
-        hintText: "Select Request Type",
+        hintText: widget.hintText,
 
         textStyle: TextStyle(fontSize: width * 0.035),
 
@@ -78,11 +73,11 @@ class _SelectRequestTypeState extends State<SelectRequestType> {
 
         onSelected: (value) {
           setState(() {
-            selectedRequest = value;
+            widget.selectedRequest = value!;
           });
         },
 
-        dropdownMenuEntries: requestTypes.map((type) {
+        dropdownMenuEntries: widget.requestTypes.map((type) {
           return DropdownMenuEntry(value: type, label: type);
         }).toList(),
       ),
