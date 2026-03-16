@@ -10,7 +10,7 @@ class WelcomeImage extends StatelessWidget {
     return Image.asset(
       'assets/images/jesse-collins-LUitWpwc008-unsplash.jpg',
       width: width,
-      height: height * 0.6,
+      height: height * 0.55,
       fit: BoxFit.cover,
     );
   }

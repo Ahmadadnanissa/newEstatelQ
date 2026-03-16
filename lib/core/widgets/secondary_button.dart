@@ -36,7 +36,7 @@ class _SecondaryButtonState extends State<SecondaryButton> {
     }
 
     return Padding(
-      padding: EdgeInsets.only(bottom: width * 0.04),
+      padding: EdgeInsets.only(bottom: width * 0.02),
       child: GestureDetector(
         onTap: onTap,
         onTapDown: (details) {
@@ -77,7 +77,7 @@ class _SecondaryButtonState extends State<SecondaryButton> {
                 boxShadow: const [
                   BoxShadow(
                     color: Colors.black,
-                    blurRadius: 6,
+                    blurRadius: 2,
                     offset: Offset(0.5, 2),
                   ),
                 ],

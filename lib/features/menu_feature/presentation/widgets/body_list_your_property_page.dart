@@ -4,7 +4,6 @@ import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/core/widgets/select_request_type.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_text_form_field_for_string.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_text_in_list_your_property.dart';
-import 'package:estatelqapp/main.dart';
 import 'package:flutter/material.dart';
 
 class BodyListYourPropertyPage extends StatefulWidget {

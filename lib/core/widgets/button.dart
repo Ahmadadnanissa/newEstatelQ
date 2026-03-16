@@ -75,7 +75,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
               boxShadow: const [
                 BoxShadow(
                   color: Colors.black,
-                  blurRadius: 6,
+                  blurRadius: 2,
                   offset: Offset(0.5, 2),
                 ),
               ],

@@ -1,6 +1,7 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
+import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/custom_button_in_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/details_about_user_container.dart';
@@ -39,7 +40,12 @@ class BodyProfilePage extends StatelessWidget {
             ),
             CustomButtonInProfilePage(
               nameButton: 'Adress Management',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  SlideRight(page: EnterYourAdressWithMapPage()),
+                );
+              },
               icon: Icon(
                 Icons.location_on_sharp,
                 size: width * 0.09,

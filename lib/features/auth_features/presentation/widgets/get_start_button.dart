@@ -15,7 +15,7 @@ class _GetStartButtonState extends State<GetStartButton> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.only(bottom: width * 0.05, top: width * 0.14),
+      padding: EdgeInsets.only(bottom: width * 0.04, top: width * 0.17),
       child: PrimaryButton(
         name: 'Get Start',
         pushing: () {

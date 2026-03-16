@@ -30,7 +30,7 @@ class _Body2State extends State<Body2> {
             ),
             FormFieldForLocation(),
 
-            SizedBox(height: width * 0.95),
+            SizedBox(height: width + width * 0.08),
             PrimaryButton(
               name: 'Next',
               pushing: () {

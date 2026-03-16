@@ -15,7 +15,7 @@ class _GoToLoginButtonState extends State<GoToLoginButton> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.only(bottom: width * 0.04),
+      padding: EdgeInsets.only(bottom: width * 0.02),
       child: SecondaryButton(
         name: 'Login',
         pushing: () {

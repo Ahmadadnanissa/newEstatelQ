@@ -31,7 +31,7 @@ class _Body3State extends State<Body3> {
             ),
             PriceRaange(),
 
-            SizedBox(height: width * 0.8),
+            SizedBox(height: width * 0.75),
             PrimaryButton(
               name: 'Next',
               pushing: () {

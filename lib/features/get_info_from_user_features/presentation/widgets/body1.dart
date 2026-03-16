@@ -40,7 +40,7 @@ class _Body1State extends State<Body1> {
                     name: 'Buy',
                     onTap: () {},
                   ),
-                  SizedBox(width: width * 0.05),
+                  SizedBox(width: width * 0.052),
                   CustomContainerForBRS(
                     image: 'assets/images/rent.png',
                     name: 'Rent',
