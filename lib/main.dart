@@ -20,6 +20,7 @@ import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_pro
 import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         ChangePasswordPage.id: (context) => ChangePasswordPage(),
         EnterYourEmail.id: (context) => EnterYourEmail(),
         FavoritePage.id: (context) => FavoritePage(),
+        PropertyPage.id: (context) => PropertyPage(),
         ProfilePage.id: (context) => ProfilePage(),
         HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
         EditProfilePage.id: (context) => EditProfilePage(),
