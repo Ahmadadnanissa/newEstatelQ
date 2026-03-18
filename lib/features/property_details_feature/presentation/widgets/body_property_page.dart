@@ -101,6 +101,52 @@ class BodyPropertyPage extends StatelessWidget {
               ],
             ),
           ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomFont(
+                  name: 'Location',
+                  fontColor: blackColor,
+                  fontSize: width * 0.06,
+                  fontWeight: FontWeight.w600,
+                ),
+                SizedBox(height: width * 0.04),
+                Row(
+                  children: [
+                    Container(
+                      width: width * 0.4,
+                      height: width * 0.25,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(width * 0.04),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(width * 0.04),
+                        child: Image.asset(
+                          'assets/images/map_Image.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: width * 0.02),
+                    SizedBox(
+                      width: width * 0.45,
+                      child: Text(
+                        'Al-Qadmous, Tartous, Syria',
+                        style: TextStyle(
+                          color: Color(0xff5F6264),
+                          fontSize: width * 0.04,
+                          fontFamily: fontFamily,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
           SizedBox(height: width * 0.04),
         ],
       ),

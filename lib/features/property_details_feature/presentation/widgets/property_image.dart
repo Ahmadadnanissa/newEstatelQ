@@ -21,7 +21,16 @@ class PropertyImage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Icon(Icons.arrow_back, color: blackColor, size: width * 0.07),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: blackColor,
+                  size: width * 0.07,
+                ),
+              ),
 
               Spacer(),
               Icon(Icons.share, size: width * 0.09),
