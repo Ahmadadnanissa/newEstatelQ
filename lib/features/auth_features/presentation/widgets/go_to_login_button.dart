@@ -13,15 +13,11 @@ class GoToLoginButton extends StatefulWidget {
 class _GoToLoginButtonState extends State<GoToLoginButton> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: EdgeInsets.only(bottom: width * 0.02),
-      child: SecondaryButton(
-        name: 'Login',
-        pushing: () {
-          Navigator.push(context, SlideRight(page: LoginPage()));
-        },
-      ),
+    return SecondaryButton(
+      name: 'Login',
+      pushing: () {
+        Navigator.push(context, SlideRight(page: LoginPage()));
+      },
     );
   }
 }

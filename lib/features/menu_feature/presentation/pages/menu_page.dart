@@ -7,6 +7,8 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Color(0xffEDF6F9), body: BodyMenuPage());
+    return SafeArea(
+      child: Scaffold(backgroundColor: Color(0xffEDF6F9), body: BodyMenuPage()),
+    );
   }
 }

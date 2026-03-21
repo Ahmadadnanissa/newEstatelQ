@@ -23,7 +23,7 @@ class BodyMenuPage extends StatelessWidget {
 
           CheckPageToNavigate(),
 
-          SizedBox(height: width * 0.02),
+          SizedBox(height: width * 0.03),
           Padding(
             padding: EdgeInsets.only(left: width * 0.24),
             child: Column(
@@ -34,14 +34,14 @@ class BodyMenuPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.assistant,
-                      size: width * 0.06,
+                      size: width * 0.065,
                       color: Color(0xff5F6264),
                     ),
                     SizedBox(width: width * 0.04),
                     CustomFont(
                       name: 'AI Assistant',
                       fontColor: blackColor,
-                      fontSize: width * 0.04,
+                      fontSize: width * 0.045,
                     ),
                   ],
                 ),

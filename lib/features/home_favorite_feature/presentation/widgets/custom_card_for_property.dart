@@ -3,7 +3,7 @@ import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/list_of_more_details.dart';
 import 'package:flutter/material.dart';
 
-class CustomCardForProperty extends StatelessWidget {
+class CustomCardForProperty extends StatefulWidget {
   const CustomCardForProperty({
     super.key,
     required this.image,
@@ -24,6 +24,12 @@ class CustomCardForProperty extends StatelessWidget {
   final int numberOfPath;
   final int sqft;
 
+  @override
+  State<CustomCardForProperty> createState() => _CustomCardForPropertyState();
+}
+
+class _CustomCardForPropertyState extends State<CustomCardForProperty> {
+  bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -51,7 +57,7 @@ class CustomCardForProperty extends StatelessWidget {
                   top: Radius.circular(width * 0.05),
                 ),
                 child: Image.asset(
-                  image,
+                  widget.image,
                   width: double.infinity,
                   height: width * 0.38,
                   fit: BoxFit.cover,
@@ -65,22 +71,34 @@ class CustomCardForProperty extends StatelessWidget {
                   children: [
                     Container(
                       height: width * 0.08,
-                      width: width * 0.2,
+                      width: width * 0.23,
                       decoration: BoxDecoration(
                         color: primaryColor,
                         borderRadius: BorderRadius.circular(width * 0.03),
                       ),
                       child: Center(
                         child: CustomFont(
-                          name: type,
+                          name: widget.type,
                           fontColor: blackColor,
                           fontSize: width * 0.035,
                         ),
                       ),
                     ),
-                    SizedBox(width: width * 0.45),
+                    Spacer(),
                     Icon(Icons.share, size: width * 0.09),
-                    Icon(Icons.favorite, size: width * 0.09),
+                    GestureDetector(
+                      onTap: () {
+                        isFavorite = !isFavorite;
+                        setState(() {});
+                      },
+                      child: isFavorite
+                          ? Icon(
+                              Icons.favorite,
+                              color: Colors.red,
+                              size: width * 0.09,
+                            )
+                          : Icon(Icons.favorite, size: width * 0.09),
+                    ),
                   ],
                 ),
               ),
@@ -90,7 +108,7 @@ class CustomCardForProperty extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.03,
-              vertical: width * 0.01,
+              vertical: width * 0.03,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,13 +117,13 @@ class CustomCardForProperty extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomFont(
-                      name: title,
+                      name: widget.title,
                       fontColor: blackColor,
                       fontSize: width * 0.05,
                       fontWeight: FontWeight.bold,
                     ),
                     CustomFont(
-                      name: address,
+                      name: widget.address,
                       fontColor: Color(0xff5F6264),
                       fontSize: width * 0.035,
                     ),
@@ -116,29 +134,29 @@ class CustomCardForProperty extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomFont(
-                      name: price,
+                      name: widget.price,
                       fontColor: blackColor,
-                      fontSize: width * 0.045,
+                      fontSize: width * 0.05,
                       fontWeight: FontWeight.bold,
                     ),
                     CustomFont(
-                      name: type,
+                      name: 'For Sale',
+                      // widget.type
                       fontColor: Color(0xff5F6264),
-                      fontSize: width * 0.03,
+                      fontSize: width * 0.035,
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: width * 0.03),
-            child: ListOfMoreDetails(
-              numberOfPath: numberOfPath,
-              numberOfRoom: numberOfRooms,
-              sqft: sqft,
-            ),
+          ListOfMoreDetails(
+            numberOfPath: widget.numberOfPath,
+            numberOfRoom: widget.numberOfRooms,
+            sqft: widget.sqft,
           ),
+
+          SizedBox(height: width * 0.03),
         ],
       ),
     );

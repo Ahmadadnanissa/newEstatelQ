@@ -17,14 +17,17 @@ class MoreDetailsForPropertyCard extends StatelessWidget {
     return AnimatedContainer(
       duration: Duration(milliseconds: 250),
       curve: Curves.easeInOut,
-      height: width * 0.08,
-      width: width * 0.29,
+      // height: width * 0.08,
+      // width: width * 0.29,
       decoration: BoxDecoration(
         color: greenColor,
         borderRadius: BorderRadius.circular(width * 0.03),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+        padding: EdgeInsets.symmetric(
+          horizontal: width * 0.02,
+          vertical: width * 0.01,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

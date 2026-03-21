@@ -21,31 +21,34 @@ class TypeOfProperty extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width * 0.005),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.01),
       child: InkWell(
         borderRadius: BorderRadius.circular(width * 0.03),
         onTap: onTap,
         child: AnimatedContainer(
           duration: Duration(milliseconds: 250),
           curve: Curves.easeInOut,
-          height: width * 0.07,
+          // height: width * 0.07,
           decoration: BoxDecoration(
             color: isSelected ? blackColor : backgroundColor,
             borderRadius: BorderRadius.circular(width * 0.03),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.03),
-            child: Center(
-              child: Row(
-                children: [
-                  Image.asset(image, width: width * 0.06, height: width * 0.06),
-                  CustomFont(
-                    name: type,
-                    fontColor: isSelected ? primaryColor : blackColor,
-                    fontSize: width * 0.05,
-                  ),
-                ],
-              ),
+            padding: EdgeInsets.symmetric(
+              horizontal: width * 0.03,
+              vertical: width * 0.01,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(image, width: width * 0.07, height: width * 0.07),
+                CustomFont(
+                  name: type,
+                  fontColor: isSelected ? primaryColor : blackColor,
+                  fontSize: width * 0.04,
+                ),
+              ],
             ),
           ),
         ),

@@ -32,19 +32,19 @@ class CheckPageToNavigate extends StatelessWidget {
               children: [
                 Icon(
                   Icons.chat_bubble_outline,
-                  size: width * 0.06,
+                  size: width * 0.065,
                   color: Color(0xff5F6264),
                 ),
                 SizedBox(width: width * 0.04),
                 CustomFont(
                   name: 'Live Chat',
                   fontColor: blackColor,
-                  fontSize: width * 0.04,
+                  fontSize: width * 0.045,
                 ),
               ],
             ),
           ),
-          SizedBox(height: width * 0.02),
+          SizedBox(height: width * 0.03),
           InkWell(
             focusColor: Color(0xffEDF6F9),
             hoverColor: Color(0xffEDF6F9),
@@ -59,18 +59,18 @@ class CheckPageToNavigate extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.list, size: width * 0.06, color: Color(0xff5F6264)),
+                Icon(Icons.list, size: width * 0.065, color: Color(0xff5F6264)),
                 SizedBox(width: width * 0.04),
                 CustomFont(
                   name: 'List Your Property',
                   fontColor: blackColor,
-                  fontSize: width * 0.04,
+                  fontSize: width * 0.045,
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: width * 0.02),
+          SizedBox(height: width * 0.03),
           InkWell(
             focusColor: Color(0xffEDF6F9),
             hoverColor: Color(0xffEDF6F9),
@@ -86,14 +86,14 @@ class CheckPageToNavigate extends StatelessWidget {
               children: [
                 Icon(
                   Icons.notifications,
-                  size: width * 0.06,
+                  size: width * 0.065,
                   color: Color(0xff5F6264),
                 ),
                 SizedBox(width: width * 0.04),
                 CustomFont(
                   name: 'Notifications',
                   fontColor: blackColor,
-                  fontSize: width * 0.04,
+                  fontSize: width * 0.045,
                 ),
               ],
             ),

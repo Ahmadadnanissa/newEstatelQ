@@ -27,7 +27,7 @@ class BodyHomePage extends StatelessWidget {
           ],
         ),
         RowForTypeOfProperty(),
-        Divider(thickness: 0.5),
+        Divider(thickness: 0.8),
 
         Expanded(child: ListOfCustomCardProperty()),
       ],

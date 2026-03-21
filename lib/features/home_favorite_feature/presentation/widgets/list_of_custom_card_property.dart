@@ -43,6 +43,16 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
       "bath": 4,
       "sqft": 300,
     },
+    {
+      "image": "assets/images/apartment.jpg",
+      "title": "Luxury Villa",
+      "address": "California",
+      "price": "\$3500",
+      "type": "Villa",
+      "rooms": 5,
+      "bath": 4,
+      "sqft": 300,
+    },
   ];
 
   @override

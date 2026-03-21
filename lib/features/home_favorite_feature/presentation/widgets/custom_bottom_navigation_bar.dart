@@ -18,10 +18,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.2),
       child: Container(
-        height: width * 0.12,
+        height: width * 0.15,
         decoration: BoxDecoration(
           color: secondaryColor,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(40),
           boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
         ),
 
@@ -64,7 +64,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           shape: BoxShape.circle,
         ),
 
-        child: Icon(icon, size: width * 0.09),
+        child: Icon(icon, size: width * 0.11),
       ),
     );
   }
