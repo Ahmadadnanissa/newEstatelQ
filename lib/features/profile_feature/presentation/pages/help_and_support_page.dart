@@ -9,10 +9,12 @@ class HelpAndSupportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: CustomAppBarForProfile(title: 'Help&Support'),
-      body: BodyHelpAndSupportPahe(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        appBar: CustomAppBarForProfile(title: 'Help&Support'),
+        body: BodyHelpAndSupportPahe(),
+      ),
     );
   }
 }

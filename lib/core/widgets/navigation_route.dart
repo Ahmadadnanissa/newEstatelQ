@@ -5,7 +5,7 @@ class SlideRight extends PageRouteBuilder {
   SlideRight({this.page})
     : super(
         pageBuilder: (context, animation, secondaryAnimation) => page!,
-        transitionDuration: const Duration(milliseconds: 500),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = const Offset(1, 0);
           var end = const Offset(0, 0);
@@ -30,7 +30,7 @@ class SlideLeft extends PageRouteBuilder {
         opaque: false,
         //  barrierColor: Colors.transparent,
         pageBuilder: (context, animation, secondaryAnimation) => page!,
-        transitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = const Offset(-1, 0);
           var end = Offset(endSlide, 0);

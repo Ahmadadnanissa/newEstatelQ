@@ -12,13 +12,13 @@ class BottomNavigationBarForLiveChatPage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          Icon(Icons.image, size: width * 0.06, color: secondaryColor),
+          Icon(Icons.image, size: width * 0.075, color: secondaryColor),
           SizedBox(width: width * 0.02),
-          Icon(Icons.mic, size: width * 0.06, color: secondaryColor),
+          Icon(Icons.mic, size: width * 0.075, color: secondaryColor),
           SizedBox(width: width * 0.02),
           CustomTextFieldForSendMessage(),
           SizedBox(width: width * 0.02),
-          Icon(Icons.send, size: width * 0.06, color: secondaryColor),
+          Icon(Icons.send, size: width * 0.075, color: secondaryColor),
         ],
       ),
     );

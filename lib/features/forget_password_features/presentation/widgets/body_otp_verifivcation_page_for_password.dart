@@ -19,7 +19,7 @@ class _BodyOtpVerifivcationPageForPasswordState
       child: Column(
         children: [
           OtpImage(),
-          SizedBox(height: width * 0.3),
+          SizedBox(height: width * 0.7),
           CustomContainerForOtp(),
         ],
       ),

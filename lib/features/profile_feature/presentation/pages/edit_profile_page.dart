@@ -9,10 +9,12 @@ class EditProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: CustomAppBarForProfile(title: 'Edite Profile'),
-      body: BodyEditProfilePage(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        appBar: CustomAppBarForProfile(title: 'Edite Profile'),
+        body: BodyEditProfilePage(),
+      ),
     );
   }
 }

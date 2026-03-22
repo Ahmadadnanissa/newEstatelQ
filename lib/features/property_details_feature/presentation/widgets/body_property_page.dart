@@ -1,6 +1,7 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/bed_and_bath_and_sqft.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_nearby_widget.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_widget_for_more_details.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/details_of_description.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/property_image.dart';
@@ -22,16 +23,19 @@ class BodyPropertyPage extends StatelessWidget {
           SumDetailsForPropertyLikeTitle(),
           TypeButtonReviewsWidget(),
           DetailsOfDescription(),
-          SizedBox(height: width * 0.06),
+          SizedBox(height: width * 0.04),
+          Divider(color: Colors.grey.shade300, thickness: 1, height: 20),
+          SizedBox(height: width * 0.02),
           BedAndBathAndSqft(),
           SizedBox(height: width * 0.04),
+          Divider(color: Colors.grey.shade300, thickness: 1, height: 20),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.03),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomFont(
-                  name: 'More Details',
+                  name: 'Outdoor Details',
                   fontColor: blackColor,
                   fontSize: width * 0.06,
                   fontWeight: FontWeight.w600,
@@ -50,7 +54,7 @@ class BodyPropertyPage extends StatelessWidget {
                   image4: 'assets/images/egor-myznik-rCZQCbUAQvg-unsplash.jpg',
                 ),
                 CustomWidgetForMoreDetails(
-                  whichDetail: 'Outdoor',
+                  whichDetail: 'Garden',
                   value: 'Yes(Garden,Terrace)',
                   description:
                       'The house has a 30-meter garden surrounding it, containing several fruit trees, a decorative terrace, and a fountain.',
@@ -62,29 +66,17 @@ class BodyPropertyPage extends StatelessWidget {
                   image4:
                       'assets/images/matthew-smith-rFBA42UFpLs-unsplash.jpg',
                 ),
-                CustomWidgetForMoreDetails(
-                  whichDetail: 'Furnishing',
-                  value: 'fully Furnished',
-                  description:
-                      'The house is furnished with everything from carpets to curtains to a refrigerator and washing machine.',
-                  image1:
-                      'assets/images/fairuz-naufal-zaki-DzCGADQSDxM-unsplash.jpg',
-                  image2: 'assets/images/spacejoy-KJUGhE9ojro-unsplash.jpg',
-                  image3:
-                      'assets/images/lotus-design-n-print-0sDzRgrN_pI-unsplash.jpg',
-                  image4: 'assets/images/don-kaveen-NFbwes_e-jI-unsplash.jpg',
-                ),
-                CustomWidgetForMoreDetails(
-                  whichDetail: 'Heating',
-                  value: 'Available',
-                  description:
-                      'The entire house has central heating in addition to a fireplace.',
-                  image1: 'assets/images/immo-wegmann-2nsQWyPU6tw-unsplash.jpg',
-                  image2: 'assets/images/alfonso-escu-_wcXtm0iKJU-unsplash.jpg',
-                  image3: 'assets/images/immo-wegmann-7cNw5DZAVkc-unsplash.jpg',
-                  image4: 'assets/images/clay-banks-79yk4XalXCM-unsplash.jpg',
-                ),
 
+                // CustomWidgetForMoreDetails(
+                //   whichDetail: 'Heating',
+                //   value: 'Available',
+                //   description:
+                //       'The entire house has central heating in addition to a fireplace.',
+                //   image1: 'assets/images/immo-wegmann-2nsQWyPU6tw-unsplash.jpg',
+                //   image2: 'assets/images/alfonso-escu-_wcXtm0iKJU-unsplash.jpg',
+                //   image3: 'assets/images/immo-wegmann-7cNw5DZAVkc-unsplash.jpg',
+                //   image4: 'assets/images/clay-banks-79yk4XalXCM-unsplash.jpg',
+                // ),
                 CustomWidgetForMoreDetails(
                   whichDetail: 'swimming pool',
                   value: 'Available',
@@ -101,6 +93,7 @@ class BodyPropertyPage extends StatelessWidget {
               ],
             ),
           ),
+          Divider(color: Colors.grey.shade300, thickness: 1, height: 20),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.03),
             child: Column(
@@ -143,11 +136,80 @@ class BodyPropertyPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: width * 0.02),
+                CustomFont(
+                  name: 'Nearby Places',
+                  fontColor: blackColor,
+                  fontSize: width * 0.04,
+                  fontWeight: FontWeight.w600,
+                ),
+                SizedBox(height: width * 0.02),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    CustomNearbyWidget(name: 'University'),
+                    CustomNearbyWidget(name: 'School'),
+                    CustomNearbyWidget(name: 'Pharmacy'),
+                    CustomNearbyWidget(name: 'Supermarket'),
+                    CustomNearbyWidget(name: 'Restaurant'),
+                  ],
+                ),
               ],
             ),
           ),
 
           SizedBox(height: width * 0.04),
+          Divider(color: Colors.grey.shade300, thickness: 1, height: 20),
+          SizedBox(height: width * 0.02),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomFont(
+                  name: 'More Details',
+                  fontColor: blackColor,
+                  fontSize: width * 0.06,
+                  fontWeight: FontWeight.w600,
+                ),
+                CustomWidgetForMoreDetails(
+                  whichDetail: 'Heating',
+                  value: 'Available',
+                  description:
+                      'The entire house has central heating in addition to a fireplace.',
+                  image1: 'assets/images/immo-wegmann-2nsQWyPU6tw-unsplash.jpg',
+                  image2: 'assets/images/alfonso-escu-_wcXtm0iKJU-unsplash.jpg',
+                  image3: 'assets/images/immo-wegmann-7cNw5DZAVkc-unsplash.jpg',
+                  image4: 'assets/images/clay-banks-79yk4XalXCM-unsplash.jpg',
+                ),
+                CustomWidgetForMoreDetails(
+                  whichDetail: '2000 sqft',
+                  value: 'More Info',
+                  description:
+                      'The net area of ​​the property is 150 square meters, with an external garden measuring 50 square meters; thus, the total area of ​​the property—including the garden—is 200 square meters.',
+                  image1:
+                      'assets/images/amsterdam-city-archives-IIyMRyOGyag-unsplash.jpg',
+                  image2:
+                      'assets/images/claudio-schwarz-9Egaj7L5cJM-unsplash.jpg',
+                  image3:
+                      'assets/images/amsterdam-city-archives--StEPF2CK2M-unsplash.jpg',
+                  image4: 'assets/images/th-nh-l-u-S3cF3QeZ7Zs-unsplash.jpg',
+                ),
+                SizedBox(height: width * 0.04),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    CustomNearbyWidget(name: 'Year Built: 2015'),
+                    CustomNearbyWidget(name: 'Floor number is 3'),
+                    CustomNearbyWidget(name: 'There is an elevator'),
+                  ],
+                ),
+                SizedBox(height: width * 0.06),
+              ],
+            ),
+          ),
         ],
       ),
     );

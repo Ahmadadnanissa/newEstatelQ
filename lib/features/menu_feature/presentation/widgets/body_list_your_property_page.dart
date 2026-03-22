@@ -51,7 +51,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                 return null;
               },
             ),
-            SizedBox(height: width * 0.04),
+            SizedBox(height: width * 0.06),
             Row(
               children: [
                 Column(

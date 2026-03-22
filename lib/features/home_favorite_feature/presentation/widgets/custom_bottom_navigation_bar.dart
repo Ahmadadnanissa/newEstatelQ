@@ -18,7 +18,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.2),
       child: Container(
-        height: width * 0.15,
+        height: width * 0.17,
         decoration: BoxDecoration(
           color: secondaryColor,
           borderRadius: BorderRadius.circular(40),
@@ -26,15 +26,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ),
 
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             buildItem(icon: Icons.favorite_border, index: 1, width: width),
 
             buildItem(icon: Icons.home_outlined, index: 0, width: width),
 
-            buildItem(icon: Icons.search, index: 2, width: width),
-
-            buildItem(icon: Icons.person_outline, index: 3, width: width),
+            buildItem(icon: Icons.person_outline, index: 2, width: width),
           ],
         ),
       ),
@@ -64,7 +62,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           shape: BoxShape.circle,
         ),
 
-        child: Icon(icon, size: width * 0.11),
+        child: Icon(icon, size: width * 0.13),
       ),
     );
   }

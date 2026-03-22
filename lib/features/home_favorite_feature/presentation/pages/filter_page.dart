@@ -8,10 +8,12 @@ class FilterPage extends StatelessWidget {
   static String id = 'FilterPage';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: CustomAppBarForFilterPage(),
-      body: BodyFilterPage(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        appBar: CustomAppBarForFilterPage(),
+        body: BodyFilterPage(),
+      ),
     );
   }
 }

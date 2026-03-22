@@ -11,7 +11,6 @@ import 'package:estatelqapp/features/get_info_from_user_features/presentation/pa
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/favorite_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/filter_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
-import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/map_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/menu_page.dart';
@@ -53,7 +52,6 @@ class MyApp extends StatelessWidget {
         NotificationPage.id: (context) => NotificationPage(),
         ListYourPropertyPage.id: (context) => ListYourPropertyPage(),
         MenuPage.id: (context) => MenuPage(),
-        MapPage.id: (context) => MapPage(),
         EnterYourAdressWithMapPage.id: (context) =>
             EnterYourAdressWithMapPage(),
         HomePage.id: (context) => HomePage(),

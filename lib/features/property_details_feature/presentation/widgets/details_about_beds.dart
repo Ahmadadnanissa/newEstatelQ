@@ -3,8 +3,19 @@ import 'package:estatelqapp/features/property_details_feature/presentation/widge
 import 'package:flutter/material.dart';
 
 class DetailsAboutBeds extends StatelessWidget {
-  const DetailsAboutBeds({super.key});
-
+  const DetailsAboutBeds({
+    super.key,
+    required this.descr,
+    required this.image1,
+    required this.image2,
+    required this.image3,
+    required this.image4,
+  });
+  final String descr;
+  final String image1;
+  final String image2;
+  final String image3;
+  final String image4;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -13,7 +24,7 @@ class DetailsAboutBeds extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'The home features two rooms—one bedroom and one living room—both offering views of the city. The bedroom measures 20 square meters, while the other room measures 30 square meters.',
+            descr,
             style: TextStyle(
               color: Color(0xff5F6264),
               fontSize: width * 0.04,
@@ -25,23 +36,13 @@ class DetailsAboutBeds extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                CustomImageForBeds(
-                  image:
-                      'assets/images/fairuz-naufal-zaki-DzCGADQSDxM-unsplash.jpg',
-                ),
+                CustomImageForBeds(image: image1),
                 SizedBox(width: width * 0.02),
-                CustomImageForBeds(
-                  image: 'assets/images/spacejoy-KJUGhE9ojro-unsplash.jpg',
-                ),
+                CustomImageForBeds(image: image2),
                 SizedBox(width: width * 0.02),
-                CustomImageForBeds(
-                  image:
-                      'assets/images/lotus-design-n-print-0sDzRgrN_pI-unsplash.jpg',
-                ),
+                CustomImageForBeds(image: image3),
                 SizedBox(width: width * 0.02),
-                CustomImageForBeds(
-                  image: 'assets/images/don-kaveen-NFbwes_e-jI-unsplash.jpg',
-                ),
+                CustomImageForBeds(image: image4),
               ],
             ),
           ),

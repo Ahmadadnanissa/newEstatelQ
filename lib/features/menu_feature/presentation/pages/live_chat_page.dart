@@ -10,22 +10,24 @@ class LiveChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: CustommAppBar(
-        title: 'Live Chat',
-        sizeTitle: width * 0.06,
-        iconLeading: Icon(
-          Icons.chevron_left,
-          color: secondaryColor,
-          size: width * 0.1,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        appBar: CustommAppBar(
+          title: 'Live Chat',
+          sizeTitle: width * 0.06,
+          iconLeading: Icon(
+            Icons.chevron_left,
+            color: secondaryColor,
+            size: width * 0.1,
+          ),
+          onTapleading: () {
+            Navigator.pop(context);
+          },
         ),
-        onTapleading: () {
-          Navigator.pop(context);
-        },
+        body: BodyLiveChatPage(),
+        bottomNavigationBar: BottomNavigationBarForLiveChatPage(),
       ),
-      body: BodyLiveChatPage(),
-      bottomNavigationBar: BottomNavigationBarForLiveChatPage(),
     );
   }
 }

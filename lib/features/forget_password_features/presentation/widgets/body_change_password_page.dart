@@ -20,7 +20,7 @@ class _BodyChangePasswordPageState extends State<BodyChangePasswordPage> {
           ChangePasswordImage(),
           SizedBox(height: width * 0.06),
           CustomTextFieldForChangePassword(),
-          SizedBox(height: width * 0.4),
+          SizedBox(height: width * 0.85),
           PrimaryButton(name: 'Done', pushing: () {}),
         ],
       ),

@@ -26,7 +26,7 @@ class _SelectRequestTypeState extends State<SelectRequestType> {
 
       child: DropdownMenu<String>(
         hintText: widget.hintText,
-
+        width: width * 0.45,
         textStyle: TextStyle(fontSize: width * 0.035),
 
         inputDecorationTheme: InputDecorationTheme(

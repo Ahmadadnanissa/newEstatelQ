@@ -18,14 +18,14 @@ class CustomEditTextField extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Container(
       width: double.infinity,
-      height: width * 0.15,
+      height: width * 0.17,
       decoration: BoxDecoration(
         color: primaryColor,
         border: Border.all(width: 0.5, color: secondaryColor),
         borderRadius: BorderRadius.circular(width * 0.01),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         child: Row(
           children: [
             Expanded(

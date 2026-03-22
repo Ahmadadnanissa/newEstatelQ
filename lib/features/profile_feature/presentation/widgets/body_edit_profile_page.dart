@@ -44,9 +44,9 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: width * 0.06),
+              SizedBox(height: width * 0.08),
               CustomImageForEditProfile(),
-              SizedBox(height: width * 0.06),
+              SizedBox(height: width * 0.08),
               CustomEditTextField(
                 controller: nameController,
                 title: 'Full Name',
@@ -70,7 +70,7 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
                 title: 'Location',
                 icon: Icon(Icons.location_on_outlined, size: width * 0.08),
               ),
-              SizedBox(height: width * 0.06),
+              SizedBox(height: width * 0.08),
 
               PrimaryButton(name: 'Save', pushing: () {}),
               SizedBox(height: width * 0.04),
