@@ -7,8 +7,6 @@ class PropertyPage extends StatelessWidget {
   static String id = 'PropertyPage';
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(backgroundColor: primaryColor, body: BodyPropertyPage()),
-    );
+    return Scaffold(backgroundColor: primaryColor, body: BodyPropertyPage());
   }
 }

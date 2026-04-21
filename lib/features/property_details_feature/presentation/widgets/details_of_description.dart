@@ -4,8 +4,19 @@ import 'package:estatelqapp/features/property_details_feature/presentation/widge
 import 'package:flutter/material.dart';
 
 class DetailsOfDescription extends StatelessWidget {
-  const DetailsOfDescription({super.key});
-
+  const DetailsOfDescription({
+    super.key,
+    required this.fullDescr,
+    required this.image1,
+    required this.image2,
+    required this.image3,
+    required this.image4,
+  });
+  final String fullDescr;
+  final String image1;
+  final String image2;
+  final String image3;
+  final String image4;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -22,7 +33,8 @@ class DetailsOfDescription extends StatelessWidget {
           ),
           SizedBox(height: width * 0.02),
           Text(
-            'A clean and comfortable apartment with good space and natural light. Close to shops and public transportation.',
+            fullDescr,
+
             style: TextStyle(
               color: Color(0xff5F6264),
               fontSize: width * 0.04,
@@ -34,21 +46,13 @@ class DetailsOfDescription extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                CustomImageForDescription(
-                  image: 'assets/images/jesse-collins-LUitWpwc008-unsplash.jpg',
-                ),
+                CustomImageForDescription(image: image1),
                 SizedBox(width: width * 0.02),
-                CustomImageForDescription(
-                  image: 'assets/images/uday-vatti-8YC9T7W-lE4-unsplash.jpg',
-                ),
+                CustomImageForDescription(image: image2),
                 SizedBox(width: width * 0.02),
-                CustomImageForDescription(
-                  image: 'assets/images/tobias-wilden-4453DIQWtsQ-unsplash.jpg',
-                ),
+                CustomImageForDescription(image: image3),
                 SizedBox(width: width * 0.02),
-                CustomImageForDescription(
-                  image: 'assets/images/bogdan-vaskan-1taEJJwIv-0-unsplash.jpg',
-                ),
+                CustomImageForDescription(image: image4),
               ],
             ),
           ),

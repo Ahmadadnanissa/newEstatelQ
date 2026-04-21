@@ -1,6 +1,8 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/type_of_property.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RowForTypeOfProperty extends StatefulWidget {
   const RowForTypeOfProperty({super.key});
@@ -28,6 +30,11 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'All';
                 });
+
+                Provider.of<HomeProvider>(
+                  context,
+                  listen: false,
+                ).setType(selectedType);
               },
             ),
             TypeOfProperty(
@@ -39,6 +46,10 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'Apartment';
                 });
+                Provider.of<HomeProvider>(
+                  context,
+                  listen: false,
+                ).setType(selectedType);
               },
             ),
             TypeOfProperty(
@@ -50,6 +61,10 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'Villa';
                 });
+                Provider.of<HomeProvider>(
+                  context,
+                  listen: false,
+                ).setType(selectedType);
               },
             ),
             TypeOfProperty(
@@ -61,6 +76,10 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'House';
                 });
+                Provider.of<HomeProvider>(
+                  context,
+                  listen: false,
+                ).setType(selectedType);
               },
             ),
             TypeOfProperty(
@@ -72,6 +91,10 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'office';
                 });
+                Provider.of<HomeProvider>(
+                  context,
+                  listen: false,
+                ).setType(selectedType);
               },
             ),
           ],

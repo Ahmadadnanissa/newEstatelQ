@@ -16,9 +16,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width * 0.2),
+      padding: EdgeInsetsGeometry.only(left: width * 0.26, right: width * 0.18),
       child: Container(
-        height: width * 0.17,
+        height: width * 0.16,
         decoration: BoxDecoration(
           color: secondaryColor,
           borderRadius: BorderRadius.circular(40),
@@ -62,7 +62,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           shape: BoxShape.circle,
         ),
 
-        child: Icon(icon, size: width * 0.13),
+        child: Icon(icon, size: width * 0.12),
       ),
     );
   }

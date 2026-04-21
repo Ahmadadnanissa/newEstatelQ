@@ -6,9 +6,10 @@ import 'package:estatelqapp/core/widgets/select_request_type.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/selected_request_type_text.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class BodyHelpAndSupportPahe extends StatelessWidget {
-  const BodyHelpAndSupportPahe({super.key});
-
+  BodyHelpAndSupportPahe({super.key});
+  String selectType = 'Complaint';
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -24,7 +25,10 @@ class BodyHelpAndSupportPahe extends StatelessWidget {
           SelectRequestType(
             requestTypes: ["Complaint", "Report Property", "General Inquiry"],
             hintText: 'Select Request Type',
-            selectedRequest: 'Complaint',
+            selectedValue: selectType,
+            onChanged: (String p1) {
+              selectType = p1;
+            },
           ),
 
           FormFieldForDescribeIssue(),

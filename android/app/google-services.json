@@ -1,0 +1,54 @@
+{
+"project_info": {
+"project_number": "163024178822",
+"project_id": "estatelq",
+"storage_bucket": "estatelq.firebasestorage.app"
+},
+"client": [
+{
+"client_info": {
+"mobilesdk_app_id": "1:163024178822:android:06d9855d1cb49d4d38cb07",
+"android_client_info": {
+"package_name": "com.example.estatelqapp"
+}
+},
+"oauth_client": [
+{
+"client_id": "163024178822-mjnc66ra133vg8n8iesac6hq9j9u921d.apps.googleusercontent.com",
+"client_type": 1,
+"android_info": {
+"package_name": "com.example.estatelqapp",
+"certificate_hash": "e2d78cdae25bbdd9894c2c15dc5f3ab77bb96720"
+}
+},
+{
+"client_id": "163024178822-6klrbqvn8bqc7r0mvokvj9tk2vefj7hs.apps.googleusercontent.com",
+"client_type": 3
+}
+],
+"api_key": [
+{
+"current_key": "AIzaSyB6FRPGSfm41Ztx1l4PonzMsOfPu9VM-7g"
+}
+],
+"services": {
+"appinvite_service": {
+"other_platform_oauth_client": [
+{
+"client_id": "163024178822-6klrbqvn8bqc7r0mvokvj9tk2vefj7hs.apps.googleusercontent.com",
+"client_type": 3
+},
+{
+"client_id": "163024178822-6dss2hccaa4d0rotip7epmloc78kalvb.apps.googleusercontent.com",
+"client_type": 2,
+"ios_info": {
+"bundle_id": "com.example.estatelqapp"
+}
+}
+]
+}
+}
+}
+],
+"configuration_version": "1"
+}

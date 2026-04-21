@@ -28,22 +28,32 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter_map: ^6.1.0
+  firebase_core:
+  firebase_auth: ^4.0.0
+  google_sign_in: ^6.2.1
+
+  provider: ^6.1.2
+  image_picker: ^1.0.7
+  flutter_map:
   latlong2: ^0.9.0
   flutter_map_cancellable_tile_provider: ^1.0.0
   flutter_map_marker_cluster: ^1.0.1
   pin_code_fields: ^8.0.1
   font_awesome_flutter: ^10.7.0
   geolocator: ^11.0.0
-  http: ^1.2.0
+  http: ^1.6.0
   flutter:
     sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  geocoding: ^4.0.0
+  socket_io_client: ^3.1.4
 
 dev_dependencies:
+  flutter_native_splash: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
 
@@ -93,3 +103,17 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/Gemini_Generated_Image_r6bcsir6bcsir6bc.png"
+flutter_native_splash:
+  color: "#EDF6F9"
+  image: assets/images/Gemini_Generated_Image_r6bcsir6bcsir6bc.png
+
+  android: true
+  ios: true
+
+  android_12:
+    image: assets/images/Gemini_Generated_Image_r6bcsir6bcsir6bc.png
+    icon_background_color: "#EDF6F9"

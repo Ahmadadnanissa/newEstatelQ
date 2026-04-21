@@ -4,8 +4,10 @@ import 'package:estatelqapp/features/get_info_from_user_features/presentation/wi
 import 'package:flutter/material.dart';
 
 class GetinfoFromUser3 extends StatefulWidget {
-  const GetinfoFromUser3({super.key});
+  const GetinfoFromUser3({super.key, this.selectedType, this.selectedLocation});
   static String id = 'GetinfoFromUser3';
+  final String? selectedType;
+  final String? selectedLocation;
 
   @override
   State<GetinfoFromUser3> createState() => _GetinfoFromUser3State();
@@ -14,11 +16,12 @@ class GetinfoFromUser3 extends StatefulWidget {
 class _GetinfoFromUser3State extends State<GetinfoFromUser3> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: CustomAppBarForGetInfo(title: '3 0f 4'),
-        body: Body3(),
+    return Scaffold(
+      backgroundColor: primaryColor,
+      appBar: CustomAppBarForGetInfo(title: '3 0f 4'),
+      body: Body3(
+        selectedLocation: widget.selectedLocation,
+        selectedType: widget.selectedType,
       ),
     );
   }

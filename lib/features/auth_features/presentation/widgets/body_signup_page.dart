@@ -19,35 +19,78 @@ class BodySignupPage extends StatefulWidget {
 
 class _BodySignupPageState extends State<BodySignupPage> {
   GlobalKey<FormState> globalKey = GlobalKey();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: globalKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            LoginAndSignupImage(),
-            NamePage(name: 'Signup'),
-            RowForNavigationBetweenLoginAndSignup(
-              subTitle: 'Already Have An Acount? ',
-              name: 'Login',
-              onTap: () {
-                Navigator.pushReplacementNamed(context, LoginPage.id);
-              },
-            ),
-            CustomFieldNameAndEmail(),
-            CustomTextFormFieldForNumber(),
-            CustomFieldPasswordDouble(),
-            SizedBox(height: 30),
-            PrimaryButton(
-              name: 'Signup',
-              pushing: () {
-                if (globalKey.currentState!.validate()) {}
-              },
-            ),
-            OrContinueWith(),
-            GoogleOrFaceWidget(),
-          ],
+    return SafeArea(
+      child: Form(
+        key: globalKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              LoginAndSignupImage(),
+              NamePage(name: 'Signup'),
+              RowForNavigationBetweenLoginAndSignup(
+                subTitle: 'Already Have An Acount? ',
+                name: 'Login',
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, LoginPage.id);
+                },
+              ),
+              CustomFieldNameAndEmail(
+                emailController: emailController,
+                nameController: nameController,
+              ),
+              CustomTextFormFieldForNumber(phoneController: phoneController),
+              CustomFieldPasswordDouble(
+                passwordController: passwordController,
+                confirmPasswordController: confirmPasswordController,
+              ),
+              SizedBox(height: 30),
+              PrimaryButton(
+                name: 'Signup',
+                pushing: () {
+                  if (globalKey.currentState!.validate()) {
+                    final email = emailController.text.trim();
+                    final phone = phoneController.text.trim();
+                    final name = nameController.text.trim();
+                    final password = passwordController.text.trim();
+                    final confirmPassword = confirmPasswordController.text
+                        .trim();
+                    // ignore: avoid_print
+                    print(email);
+                    // ignore: avoid_print
+                    print(name);
+                    // ignore: avoid_print
+                    print(password);
+                    // ignore: avoid_print
+                    print(phone);
+                    // ignore: avoid_print
+                    print(confirmPassword);
+                    nameController.clear();
+                    phoneController.clear();
+                    emailController.clear();
+                    passwordController.clear();
+                    confirmPasswordController.clear();
+                  }
+                },
+              ),
+              OrContinueWith(),
+              GoogleOrFaceWidget(),
+            ],
+          ),
         ),
       ),
     );

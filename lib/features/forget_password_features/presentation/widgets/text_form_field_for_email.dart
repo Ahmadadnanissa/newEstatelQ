@@ -57,7 +57,7 @@ class _TextFormFieldForEmailState extends State<TextFormFieldForEmail> {
                 color: secondaryColor,
               ),
             ),
-            hintText: 'Enter Your Number',
+            hintText: 'Enter Your Email',
             hintStyle: TextStyle(
               color: Color(0xff5F6264),
               fontFamily: fontFamily,

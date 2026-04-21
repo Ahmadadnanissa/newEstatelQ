@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/widgets/app_image.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/list_of_more_details.dart';
 import 'package:flutter/material.dart';
@@ -56,8 +57,8 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(width * 0.05),
                 ),
-                child: Image.asset(
-                  widget.image,
+                child: AppImage(
+                  path: widget.image,
                   width: double.infinity,
                   height: width * 0.38,
                   fit: BoxFit.cover,

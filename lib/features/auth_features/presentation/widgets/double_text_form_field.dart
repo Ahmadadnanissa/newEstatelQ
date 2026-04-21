@@ -9,17 +9,21 @@ class DoubleTextFormfield extends StatelessWidget {
     required this.text2,
     required this.validator1,
     required this.validator2,
-    required this.onChanged1,
-    required this.onChanged2,
+    this.onChanged1,
+    this.onChanged2,
     required this.icon1,
     required this.icon2,
     required this.obsecureText1,
     required this.obsecureText2,
+    this.controller1,
+    this.controller2,
   });
+  TextEditingController? controller1;
+  TextEditingController? controller2;
   bool obsecureText1;
   bool obsecureText2;
   String text1, text2;
-  Function(String) onChanged1, onChanged2;
+  Function(String)? onChanged1, onChanged2;
   String? Function(String?) validator1, validator2;
   Widget icon1, icon2;
 
@@ -46,6 +50,7 @@ class DoubleTextFormfield extends StatelessWidget {
               ],
             ),
             child: TextFormField(
+              controller: controller1,
               obscureText: obsecureText1,
               validator: validator1,
               onChanged: onChanged1,
@@ -124,6 +129,7 @@ class DoubleTextFormfield extends StatelessWidget {
                 ],
               ),
               child: TextFormField(
+                controller: controller2,
                 obscureText: obsecureText2,
                 validator: validator2,
                 onChanged: onChanged2,

@@ -3,7 +3,18 @@ import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 
 class SumDetailsForPropertyLikeTitle extends StatelessWidget {
-  const SumDetailsForPropertyLikeTitle({super.key});
+  const SumDetailsForPropertyLikeTitle({
+    super.key,
+    required this.subDescription,
+    required this.address,
+    required this.rentOrSale,
+    required this.price,
+  });
+
+  final String subDescription;
+  final String address;
+  final String rentOrSale;
+  final String price;
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +31,14 @@ class SumDetailsForPropertyLikeTitle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomFont(
-                name: 'Mountain View Villa',
+                name: subDescription,
                 fontColor: blackColor,
                 fontSize: width * 0.05,
                 fontWeight: FontWeight.bold,
               ),
               CustomFont(
-                name: 'Al-Qadmous, Tartous, Syria',
+                name: address,
+
                 fontColor: Color(0xff5F6264),
                 fontSize: width * 0.035,
               ),
@@ -37,13 +49,15 @@ class SumDetailsForPropertyLikeTitle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomFont(
-                name: '\$ 165,000',
+                name: price,
+
                 fontColor: blackColor,
                 fontSize: width * 0.045,
                 fontWeight: FontWeight.bold,
               ),
               CustomFont(
-                name: 'for sale',
+                name: rentOrSale,
+
                 fontColor: Color(0xff5F6264),
                 fontSize: width * 0.03,
               ),

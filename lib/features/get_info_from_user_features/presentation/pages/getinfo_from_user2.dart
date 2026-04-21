@@ -4,8 +4,9 @@ import 'package:estatelqapp/features/get_info_from_user_features/presentation/wi
 import 'package:flutter/material.dart';
 
 class GetinfoFromUser2 extends StatefulWidget {
-  const GetinfoFromUser2({super.key});
+  const GetinfoFromUser2({super.key, this.selectedType});
   static String id = 'GetinfoFromUser2';
+  final String? selectedType;
 
   @override
   State<GetinfoFromUser2> createState() => _GetinfoFromUser2State();
@@ -14,13 +15,11 @@ class GetinfoFromUser2 extends StatefulWidget {
 class _GetinfoFromUser2State extends State<GetinfoFromUser2> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: CustomAppBarForGetInfo(title: '2 0f 4'),
+    return Scaffold(
+      backgroundColor: primaryColor,
+      appBar: CustomAppBarForGetInfo(title: '2 0f 4'),
 
-        body: Body2(),
-      ),
+      body: Body2(selectedType: widget.selectedType),
     );
   }
 }

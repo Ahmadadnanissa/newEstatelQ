@@ -17,35 +17,60 @@ class BodyLoginPage extends StatefulWidget {
 }
 
 class _BodyLoginPageState extends State<BodyLoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   GlobalKey<FormState> globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: globalKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            LoginAndSignupImage(),
-            NamePage(name: 'Login'),
-            RowForNavigationBetweenLoginAndSignup(
-              subTitle: 'Don’t Have An Account?',
-              name: 'Signup',
-              onTap: () {
-                Navigator.pushReplacementNamed(context, SignupPage.id);
-              },
-            ),
-            FinalDoubleTextForLogin(),
-            ForgetYourPassword(),
-            PrimaryButton(
-              name: 'Login',
-              pushing: () {
-                if (globalKey.currentState!.validate()) {}
-              },
-            ),
-            OrContinueWith(),
-            GoogleOrFaceWidget(),
-          ],
+    return SafeArea(
+      child: Form(
+        key: globalKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              LoginAndSignupImage(),
+              NamePage(name: 'Login'),
+              RowForNavigationBetweenLoginAndSignup(
+                subTitle: 'Don’t Have An Account?',
+                name: 'Signup',
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, SignupPage.id);
+                },
+              ),
+              FinalDoubleTextForLogin(
+                emailController: emailController,
+                passwordController: passwordController,
+              ),
+              ForgetYourPassword(),
+              PrimaryButton(
+                name: 'Login',
+                pushing: () {
+                  if (globalKey.currentState!.validate()) {
+                    final email = emailController.text.trim();
+                    final password = passwordController.text.trim();
+
+                    // ignore: avoid_print
+                    print(email);
+                    // ignore: avoid_print
+                    print(password);
+                    emailController.clear();
+                    passwordController.clear();
+                  }
+                },
+              ),
+              OrContinueWith(),
+              GoogleOrFaceWidget(),
+            ],
+          ),
         ),
       ),
     );

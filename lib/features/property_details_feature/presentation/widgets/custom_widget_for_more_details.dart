@@ -1,34 +1,20 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/outdoor_detail_model.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_image_for_more_details.dart';
 import 'package:flutter/material.dart';
 
-class CustomWidgetForMoreDetails extends StatefulWidget {
-  const CustomWidgetForMoreDetails({
-    super.key,
-    required this.whichDetail,
-    required this.value,
-    required this.description,
-    required this.image1,
-    required this.image2,
-    required this.image3,
-    required this.image4,
-  });
-  final String whichDetail;
-  final String value;
-  final String description;
-  final String image1;
-  final String image2;
-  final String image3;
-  final String image4;
+class CustomWidgetForOutdoorPlaces extends StatefulWidget {
+  const CustomWidgetForOutdoorPlaces({super.key, required this.outDoor});
 
+  final OutdoorDetail outDoor;
   @override
-  State<CustomWidgetForMoreDetails> createState() =>
-      _CustomWidgetForMoreDetailsState();
+  State<CustomWidgetForOutdoorPlaces> createState() =>
+      _CustomWidgetForOutdoorPlacesState();
 }
 
-class _CustomWidgetForMoreDetailsState
-    extends State<CustomWidgetForMoreDetails> {
+class _CustomWidgetForOutdoorPlacesState
+    extends State<CustomWidgetForOutdoorPlaces> {
   bool isSelected = false;
   @override
   Widget build(BuildContext context) {
@@ -51,13 +37,13 @@ class _CustomWidgetForMoreDetailsState
             child: Row(
               children: [
                 CustomFont(
-                  name: widget.whichDetail,
+                  name: widget.outDoor.title,
                   fontColor: blackColor,
                   fontSize: width * 0.045,
                 ),
                 Spacer(),
                 CustomFont(
-                  name: widget.value,
+                  name: widget.outDoor.value,
                   fontColor: blackColor,
                   fontSize: width * 0.045,
                 ),
@@ -78,7 +64,7 @@ class _CustomWidgetForMoreDetailsState
                 ? [
                     SizedBox(height: width * 0.02),
                     Text(
-                      widget.description,
+                      widget.outDoor.description,
 
                       style: TextStyle(
                         color: Color(0xff5F6264),
@@ -90,15 +76,12 @@ class _CustomWidgetForMoreDetailsState
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: [
-                          CustomImageForMoreDetails(image: widget.image1),
-                          SizedBox(width: width * 0.02),
-                          CustomImageForMoreDetails(image: widget.image2),
-                          SizedBox(width: width * 0.02),
-                          CustomImageForMoreDetails(image: widget.image3),
-                          SizedBox(width: width * 0.02),
-                          CustomImageForMoreDetails(image: widget.image4),
-                        ],
+                        children: widget.outDoor.images.map((img) {
+                          return Padding(
+                            padding: EdgeInsets.only(right: width * 0.02),
+                            child: CustomImageForMoreDetails(image: img),
+                          );
+                        }).toList(),
                       ),
                     ),
                     SizedBox(height: width * 0.02),

@@ -14,12 +14,10 @@ class GetinfoFromUser1 extends StatefulWidget {
 class _GetinfoFromUser1State extends State<GetinfoFromUser1> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: CustomAppBarForGetInfo(title: '1 0f 4'),
-        body: Body1(),
-      ),
+    return Scaffold(
+      backgroundColor: primaryColor,
+      appBar: CustomAppBarForGetInfo(title: '1 0f 4'),
+      body: Body1(),
     );
   }
 }

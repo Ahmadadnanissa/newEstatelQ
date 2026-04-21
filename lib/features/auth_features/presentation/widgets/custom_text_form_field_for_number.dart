@@ -2,8 +2,11 @@ import 'package:estatelqapp/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormFieldForNumber extends StatefulWidget {
-  const CustomTextFormFieldForNumber({super.key});
-
+  const CustomTextFormFieldForNumber({
+    super.key,
+    required this.phoneController,
+  });
+  final TextEditingController phoneController;
   @override
   State<CustomTextFormFieldForNumber> createState() =>
       _CustomTextFormFieldForNumberState();
@@ -40,9 +43,7 @@ class _CustomTextFormFieldForNumberState
             }
             return null;
           },
-          onChanged: (data) {
-            number = data.trim();
-          },
+          controller: widget.phoneController,
           textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(

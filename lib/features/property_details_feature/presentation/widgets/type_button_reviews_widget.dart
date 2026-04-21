@@ -1,10 +1,19 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/widgets/app_image.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class TypeButtonReviewsWidget extends StatelessWidget {
-  const TypeButtonReviewsWidget({super.key});
+  const TypeButtonReviewsWidget({
+    super.key,
+    required this.propertyType,
+    required this.reviewCount,
+    required this.rating,
+  });
+  final String propertyType;
+  final String reviewCount;
+  final String rating;
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +26,14 @@ class TypeButtonReviewsWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
 
             children: [
-              Image.asset(
-                'assets/images/Building.png',
+              AppImage(
+                path: 'assets/images/Building.png',
                 width: width * 0.1,
                 height: width * 0.1,
               ),
               CustomFont(
-                name: 'Apartments',
+                name: propertyType,
+
                 fontColor: Color(0xff5F6264),
                 fontSize: width * 0.03,
               ),
@@ -48,7 +58,8 @@ class TypeButtonReviewsWidget extends StatelessWidget {
                   ),
                   SizedBox(width: width * 0.01),
                   CustomFont(
-                    name: '200 review',
+                    name: reviewCount,
+
                     fontColor: Color(0xff5F6264),
                     fontSize: width * 0.035,
                   ),
@@ -84,7 +95,7 @@ class TypeButtonReviewsWidget extends StatelessWidget {
                 ],
               ),
               CustomFont(
-                name: '10.0',
+                name: rating,
                 fontColor: Color(0xff5F6264),
                 fontSize: width * 0.04,
               ),

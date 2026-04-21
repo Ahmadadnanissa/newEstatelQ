@@ -10,23 +10,21 @@ class ListYourPropertyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: CustommAppBar(
-          title: 'List Your Property',
-          sizeTitle: width * 0.06,
-          iconLeading: Icon(
-            Icons.chevron_left,
-            color: secondaryColor,
-            size: width * 0.1,
-          ),
-          onTapleading: () {
-            Navigator.pop(context);
-          },
+    return Scaffold(
+      backgroundColor: primaryColor,
+      appBar: CustommAppBar(
+        title: 'List Your Property',
+        sizeTitle: width * 0.06,
+        iconLeading: Icon(
+          Icons.chevron_left,
+          color: secondaryColor,
+          size: width * 0.1,
         ),
-        body: BodyListYourPropertyPage(),
+        onTapleading: () {
+          Navigator.pop(context);
+        },
       ),
+      body: BodyListYourPropertyPage(),
     );
   }
 }

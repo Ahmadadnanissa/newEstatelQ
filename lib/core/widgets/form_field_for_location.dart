@@ -1,16 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FormFieldForLocation extends StatelessWidget {
-  FormFieldForLocation({super.key});
+  final TextEditingController? controller;
+
+  FormFieldForLocation({super.key, this.controller});
 
   final List<String> locations = [
-    'حمص',
-    'حماة',
-    'دمشق',
-    'حلب',
-    'اللاذقية',
-    'طرطوس',
+    'Homs',
+    'Hama',
+    'Damascus',
+    'Aleppo',
+    'Latakia',
+    'Tartus',
   ];
 
   @override
@@ -29,48 +33,49 @@ class FormFieldForLocation extends StatelessWidget {
           }
 
           return locations.where((String option) {
-            return option.contains(textEditingValue.text);
+            return option.toLowerCase().contains(
+              textEditingValue.text.toLowerCase(),
+            );
           });
         },
 
-        fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-          return SizedBox(
-            height: width * 0.11,
-            child: TextField(
-              controller: controller,
-              focusNode: focusNode,
+        fieldViewBuilder:
+            (context, autoController, focusNode, onEditingComplete) {
+              return SizedBox(
+                height: width * 0.11,
+                child: TextField(
+                  controller: autoController,
+                  focusNode: focusNode,
 
-              decoration: InputDecoration(
-                fillColor: primaryColor,
-                filled: true,
+                  onChanged: (value) {
+                    controller?.text = value;
+                    Provider.of<HomeProvider>(
+                      context,
+                      listen: false,
+                    ).setLocation(value);
+                  },
 
-                prefixIcon: Icon(Icons.search, color: secondaryColor),
+                  decoration: InputDecoration(
+                    fillColor: primaryColor,
+                    filled: true,
+                    prefixIcon: Icon(Icons.search, color: secondaryColor),
+                    hintText: "Search Location",
+                    hintStyle: TextStyle(fontSize: width * 0.037),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                ),
+              );
+            },
 
-                hintText: "Search Location",
-                hintStyle: TextStyle(fontSize: width * 0.037),
-
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: secondaryColor, width: 0.5),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: secondaryColor, width: 0.5),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: secondaryColor, width: 0.5),
-                ),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: secondaryColor, width: 0.5),
-                ),
-              ),
-            ),
-          );
+        onSelected: (String selection) {
+          controller?.text = selection;
+          Provider.of<HomeProvider>(
+            context,
+            listen: false,
+          ).setLocation(selection);
         },
-
-        onSelected: (String selection) {},
       ),
     );
   }

@@ -2,8 +2,13 @@ import 'package:estatelqapp/features/auth_features/presentation/widgets/double_t
 import 'package:flutter/material.dart';
 
 class FinalDoubleTextForLogin extends StatefulWidget {
-  const FinalDoubleTextForLogin({super.key});
-
+  const FinalDoubleTextForLogin({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+  });
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
   @override
   State<FinalDoubleTextForLogin> createState() =>
       _FinalDoubleTextForLoginState();
@@ -12,6 +17,7 @@ class FinalDoubleTextForLogin extends StatefulWidget {
 class _FinalDoubleTextForLoginState extends State<FinalDoubleTextForLogin> {
   String? email, password;
   bool ishidden = true;
+
   @override
   Widget build(BuildContext context) {
     return DoubleTextFormfield(
@@ -33,12 +39,8 @@ class _FinalDoubleTextForLoginState extends State<FinalDoubleTextForLogin> {
         }
         return null;
       },
-      onChanged1: (data) {
-        email = data.trim();
-      },
-      onChanged2: (data) {
-        password = data.trim();
-      },
+      controller1: widget.emailController,
+      controller2: widget.passwordController,
       icon1: Icon(Icons.mail),
       icon2: GestureDetector(
         onTap: () {
@@ -46,7 +48,7 @@ class _FinalDoubleTextForLoginState extends State<FinalDoubleTextForLogin> {
             ishidden = !ishidden;
           });
         },
-        child: ishidden ? Icon(Icons.lock) : Icon(Icons.lock),
+        child: ishidden ? Icon(Icons.lock) : Icon(Icons.lock_open),
       ),
       obsecureText1: false,
       obsecureText2: ishidden,

@@ -11,19 +11,46 @@ import 'package:estatelqapp/features/get_info_from_user_features/presentation/pa
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/favorite_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/filter_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
+import 'package:estatelqapp/features/menu_feature/data/datasources/notification_remote.dart';
+import 'package:estatelqapp/features/menu_feature/data/repositories/notification_impl.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/map_page_for_request_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/menu_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
+import 'package:estatelqapp/firebase_options.dart';
+import 'package:estatelqapp/splash__page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(
+          create: (_) => NotificationProvider(
+            NotificationRepositoryImpl(
+              NotificationRemoteDataSource(http.Client()),
+            ),
+          ),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -34,6 +61,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         WelcomePage.id: (context) => WelcomePage(),
+        SplashPage.id: (context) => SplashPage(),
         LoginPage.id: (context) => LoginPage(),
         SignupPage.id: (context) => SignupPage(),
         GetinfoFromUser1.id: (context) => GetinfoFromUser1(),
@@ -52,13 +80,14 @@ class MyApp extends StatelessWidget {
         NotificationPage.id: (context) => NotificationPage(),
         ListYourPropertyPage.id: (context) => ListYourPropertyPage(),
         MenuPage.id: (context) => MenuPage(),
+        MapPageForRequestPage.id: (context) => MapPageForRequestPage(),
         EnterYourAdressWithMapPage.id: (context) =>
             EnterYourAdressWithMapPage(),
         HomePage.id: (context) => HomePage(),
         OtpVerifivcationPageForPassword.id: (context) =>
             OtpVerifivcationPageForPassword(),
       },
-      initialRoute: WelcomePage.id,
+      initialRoute: SplashPage.id,
       debugShowCheckedModeBanner: false,
     );
   }

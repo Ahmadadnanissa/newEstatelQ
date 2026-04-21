@@ -145,9 +145,6 @@ class _EnterYourAdressWithMapPageState
                 ),
                 onPressed: () {
                   if (_selectedPoint != null) {
-                    print(
-                      "FINAL: ${_selectedPoint!.latitude}, ${_selectedPoint!.longitude}",
-                    );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Please select a location")),

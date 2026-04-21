@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/widgets/app_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomImageForMoreDetails extends StatelessWidget {
@@ -8,8 +9,8 @@ class CustomImageForMoreDetails extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return ClipRRect(
       borderRadius: BorderRadius.circular(width * 0.01),
-      child: Image.asset(
-        image,
+      child: AppImage(
+        path: image,
         width: width * 0.25,
         height: width * 0.25,
         fit: BoxFit.cover,

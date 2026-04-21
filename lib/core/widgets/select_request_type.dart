@@ -1,83 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:estatelqapp/core/app_theme.dart';
 
-// ignore: must_be_immutable
-class SelectRequestType extends StatefulWidget {
-  SelectRequestType({
+class SelectRequestType extends StatelessWidget {
+  const SelectRequestType({
     super.key,
     required this.requestTypes,
     required this.hintText,
-    required this.selectedRequest,
+    required this.selectedValue,
+    required this.onChanged,
   });
+
   final List<String> requestTypes;
   final String hintText;
-  String selectedRequest;
-  @override
-  State<SelectRequestType> createState() => _SelectRequestTypeState();
-}
+  final String selectedValue;
+  final Function(String) onChanged;
 
-class _SelectRequestTypeState extends State<SelectRequestType> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: width * 0.02),
-
       child: DropdownMenu<String>(
-        hintText: widget.hintText,
+        initialSelection: selectedValue,
+        hintText: hintText,
         width: width * 0.45,
         textStyle: TextStyle(fontSize: width * 0.035),
 
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: primaryColor,
-
-          enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16),
-            ),
-            borderSide: BorderSide(color: blackColor, width: 0.5),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16),
-            ),
-            borderSide: BorderSide(color: blackColor, width: 0.5),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16),
-            ),
-            borderSide: BorderSide(color: blackColor, width: 0.5),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16),
-            ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide(color: blackColor, width: 0.5),
           ),
         ),
 
         onSelected: (value) {
-          setState(() {
-            widget.selectedRequest = value!;
-          });
+          if (value != null) {
+            onChanged(value);
+          }
         },
 
-        dropdownMenuEntries: widget.requestTypes.map((type) {
+        dropdownMenuEntries: requestTypes.map((type) {
           return DropdownMenuEntry(value: type, label: type);
         }).toList(),
       ),

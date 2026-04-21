@@ -15,7 +15,7 @@ class NamePage extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: secondaryColor,
-          fontSize: width * 0.075,
+          fontSize: width * 0.07,
           fontFamily: fontFamily,
         ),
       ),

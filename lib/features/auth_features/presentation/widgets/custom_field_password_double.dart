@@ -2,8 +2,13 @@ import 'package:estatelqapp/features/auth_features/presentation/widgets/double_t
 import 'package:flutter/material.dart';
 
 class CustomFieldPasswordDouble extends StatefulWidget {
-  const CustomFieldPasswordDouble({super.key});
-
+  const CustomFieldPasswordDouble({
+    super.key,
+    required this.passwordController,
+    required this.confirmPasswordController,
+  });
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
   @override
   State<CustomFieldPasswordDouble> createState() =>
       _CustomFieldPasswordDoubleState();
@@ -33,10 +38,9 @@ class _CustomFieldPasswordDoubleState extends State<CustomFieldPasswordDouble> {
         }
         return null;
       },
-      onChanged1: (data) {
-        password = data.trim();
-      },
-      onChanged2: (data) {},
+
+      controller1: widget.passwordController,
+      controller2: widget.confirmPasswordController,
       icon1: GestureDetector(
         onTap: () {
           setState(() {

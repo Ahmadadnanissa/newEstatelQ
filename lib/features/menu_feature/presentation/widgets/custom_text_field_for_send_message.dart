@@ -22,12 +22,15 @@ class CustomTextFieldForSendMessage extends StatelessWidget {
           textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: width * 0.035),
+            contentPadding: EdgeInsets.symmetric(
+              vertical: width * 0.025,
+              horizontal: width * 0.05,
+            ),
             fillColor: Color(0xffEDF6F9),
             filled: true,
-            prefixIcon: Padding(
-              padding: EdgeInsets.only(left: width * 0.02, right: width * 0.01),
-            ),
+            // prefixIcon: Padding(
+            //   padding: EdgeInsets.only(left: width * 0.02, right: width * 0.01),
+            // ),
             hintText: 'Write a Message',
             hintStyle: TextStyle(
               color: Color(0xff5F6264),

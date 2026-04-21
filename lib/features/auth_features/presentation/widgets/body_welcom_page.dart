@@ -15,15 +15,17 @@ class BodyWelcomPage extends StatefulWidget {
 class _BodyWelcomPageState extends State<BodyWelcomPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          WelcomeImage(),
-          TitleText(),
-          SubtitleText(),
-          GetStartButton(),
-          GoToLoginButton(),
-        ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            WelcomeImage(),
+            TitleText(),
+            SubtitleText(),
+            GetStartButton(),
+            GoToLoginButton(),
+          ],
+        ),
       ),
     );
   }

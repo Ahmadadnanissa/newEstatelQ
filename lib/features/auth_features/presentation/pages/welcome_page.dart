@@ -13,8 +13,6 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(backgroundColor: primaryColor, body: BodyWelcomPage()),
-    );
+    return Scaffold(backgroundColor: primaryColor, body: BodyWelcomPage());
   }
 }

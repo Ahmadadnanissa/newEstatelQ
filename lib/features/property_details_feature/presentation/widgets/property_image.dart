@@ -1,8 +1,10 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/widgets/app_image.dart';
 import 'package:flutter/material.dart';
 
 class PropertyImage extends StatelessWidget {
-  const PropertyImage({super.key});
+  const PropertyImage({super.key, required this.primaryImage});
+  final String primaryImage;
 
   @override
   Widget build(BuildContext context) {
@@ -10,8 +12,8 @@ class PropertyImage extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Stack(
       children: [
-        Image.asset(
-          'assets/images/jesse-collins-LUitWpwc008-unsplash.jpg',
+        AppImage(
+          path: primaryImage,
           width: width,
           height: height * 0.55,
           fit: BoxFit.cover,

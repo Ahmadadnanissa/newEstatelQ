@@ -1,6 +1,7 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/app_bar_menu_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/widgets/body_ai_assistant.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/check_page_to_navigate.dart';
 import 'package:flutter/material.dart';
 
@@ -45,6 +46,7 @@ class BodyMenuPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                BodyAiAssistant(),
               ],
             ),
           ),

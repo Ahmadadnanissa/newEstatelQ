@@ -2,8 +2,13 @@ import 'package:estatelqapp/features/auth_features/presentation/widgets/double_t
 import 'package:flutter/material.dart';
 
 class CustomFieldNameAndEmail extends StatefulWidget {
-  const CustomFieldNameAndEmail({super.key});
-
+  const CustomFieldNameAndEmail({
+    super.key,
+    required this.emailController,
+    required this.nameController,
+  });
+  final TextEditingController emailController;
+  final TextEditingController nameController;
   @override
   State<CustomFieldNameAndEmail> createState() =>
       _CustomFieldNameAndEmailState();
@@ -14,6 +19,8 @@ class _CustomFieldNameAndEmailState extends State<CustomFieldNameAndEmail> {
   @override
   Widget build(BuildContext context) {
     return DoubleTextFormfield(
+      controller1: widget.nameController,
+      controller2: widget.emailController,
       text1: 'Enter Your Name',
       text2: 'Enter Your Email',
       validator1: (data) {
@@ -31,12 +38,6 @@ class _CustomFieldNameAndEmailState extends State<CustomFieldNameAndEmail> {
           return 'Email not valid';
         }
         return null;
-      },
-      onChanged1: (data) {
-        fullName = data.trim();
-      },
-      onChanged2: (data) {
-        email = data.trim();
       },
       icon1: Icon(Icons.person),
       icon2: Icon(Icons.mail),
