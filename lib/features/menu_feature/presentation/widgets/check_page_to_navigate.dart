@@ -4,6 +4,7 @@ import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/property_status_page.dart';
 import 'package:flutter/material.dart';
 
 class CheckPageToNavigate extends StatelessWidget {
@@ -92,6 +93,35 @@ class CheckPageToNavigate extends StatelessWidget {
                 SizedBox(width: width * 0.04),
                 CustomFont(
                   name: 'Notifications',
+                  fontColor: blackColor,
+                  fontSize: width * 0.045,
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(height: width * 0.03),
+          InkWell(
+            focusColor: Color(0xffEDF6F9),
+            hoverColor: Color(0xffEDF6F9),
+            splashColor: Color(0xffEDF6F9),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                SlideLeft(0, page: PropertyStatusPage()),
+              );
+            },
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.home_work,
+                  size: width * 0.065,
+                  color: Color(0xff5F6264),
+                ),
+                SizedBox(width: width * 0.04),
+                CustomFont(
+                  name: 'My Property Status',
                   fontColor: blackColor,
                   fontSize: width * 0.045,
                 ),
