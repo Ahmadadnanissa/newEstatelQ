@@ -13,13 +13,16 @@ import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/fi
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/notification_remote.dart';
+import 'package:estatelqapp/features/menu_feature/data/datasources/property_status_remote_data_source.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/notification_impl.dart';
+import 'package:estatelqapp/features/menu_feature/data/repositories/property_status_reomte_data_source_impl.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/map_page_for_request_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/menu_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
@@ -33,6 +36,10 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 void main() async {
+  final remote = NotificationRemoteDataSource(http.Client());
+  final repo = NotificationRepositoryImpl(remote);
+  final statusRemote = PropertyStatusRemoteDataSource();
+  final statusRepo = PropertyStatusRepositoryImpl(statusRemote);
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -40,12 +47,11 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
+
+        ChangeNotifierProvider(create: (_) => NotificationProvider(repo)),
+
         ChangeNotifierProvider(
-          create: (_) => NotificationProvider(
-            NotificationRepositoryImpl(
-              NotificationRemoteDataSource(http.Client()),
-            ),
-          ),
+          create: (_) => PropertyStatusProvider(statusRepo),
         ),
       ],
       child: const MyApp(),

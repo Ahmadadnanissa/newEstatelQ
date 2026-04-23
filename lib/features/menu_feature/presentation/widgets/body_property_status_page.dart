@@ -1,11 +1,12 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/app_image.dart';
-import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/list_of_more_details.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_card_for_status_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/row_for_see_activity_in_property_status.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/title_and_type_for_property_status.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BodyPropertyStatusPage extends StatefulWidget {
   const BodyPropertyStatusPage({super.key});
@@ -16,7 +17,16 @@ class BodyPropertyStatusPage extends StatefulWidget {
 
 class _BodyPropertyStatusPageState extends State<BodyPropertyStatusPage> {
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<PropertyStatusProvider>().getActivities("1");
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final provider = context.watch<PropertyStatusProvider>();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return ListView(
@@ -45,59 +55,11 @@ class _BodyPropertyStatusPageState extends State<BodyPropertyStatusPage> {
 
         ListView.builder(
           shrinkWrap: true,
-          itemCount: 5,
+          itemCount: provider.activities.length,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 7),
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      Icon(
-                        Icons.home,
-                        color: secondaryColor,
-                        size: width * 0.07,
-                      ),
-                      Container(
-                        height: width * 0.2,
-                        width: width * 0.002,
-                        color: secondaryColor,
-                      ),
-                    ],
-                  ),
+            final activity = provider.activities[index];
 
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            CustomFont(
-                              name: 'Titlte',
-                              fontColor: blackColor,
-                              fontSize: width * 0.05,
-                            ),
-                            Spacer(),
-                            CustomFont(
-                              name: 'date',
-                              fontColor: blackColor,
-                              fontSize: width * 0.03,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-
-                        CustomFont(
-                          name:
-                              ' SubTitl SubTitle SubTitleSubTitle SubTitlee SubTitle',
-                          fontColor: greenColor,
-                          fontSize: width * 0.04,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return CustomCardForStatusPage(activity: activity);
           },
         ),
       ],
