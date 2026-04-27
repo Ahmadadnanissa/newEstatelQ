@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/signup_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
@@ -21,6 +22,7 @@ import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_p
 import 'package:estatelqapp/features/menu_feature/presentation/pages/map_page_for_request_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/menu_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
@@ -49,6 +51,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => HomeProvider()),
 
         ChangeNotifierProvider(create: (_) => NotificationProvider(repo)),
+
+        ChangeNotifierProvider(create: (_) => ChatProvider(SocketService())),
 
         ChangeNotifierProvider(
           create: (_) => PropertyStatusProvider(statusRepo),

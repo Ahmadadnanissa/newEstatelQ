@@ -1,48 +1,41 @@
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/body_message.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class BodyLiveChatPage extends StatelessWidget {
+class BodyLiveChatPage extends StatefulWidget {
   const BodyLiveChatPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          BodyMessage(isUserMessage: true, message: 'Hello , I need help'),
-          BodyMessage(
-            isUserMessage: false,
-            message: 'Hi, i’m ahmad I’m a manager that’s here to help',
-          ),
-          BodyMessage(
-            isUserMessage: true,
-            message: 'Looks good!,i want to sign upfor a viewing',
-          ),
-          BodyMessage(isUserMessage: false, message: 'This is a it has 3 bed'),
-          BodyMessage(isUserMessage: true, message: 'Hello , I need help'),
-          BodyMessage(
-            isUserMessage: false,
-            message: 'Hi, i’m ahmad I’m a manager that’s here to help',
-          ),
-          BodyMessage(
-            isUserMessage: true,
-            message: 'Looks good!,i want to sign upfor a viewing',
-          ),
-          BodyMessage(isUserMessage: false, message: 'This is a it has 3 bed'),
+  State<BodyLiveChatPage> createState() => _BodyLiveChatPageState();
+}
 
-          BodyMessage(isUserMessage: false, message: 'This is a it has 3 bed'),
-          BodyMessage(isUserMessage: true, message: 'Hello , I need help'),
-          BodyMessage(
-            isUserMessage: false,
-            message: 'Hi, i’m ahmad I’m a manager that’s here to help',
-          ),
-          BodyMessage(
-            isUserMessage: true,
-            message: 'Looks good!,i want to sign upfor a viewing',
-          ),
-          BodyMessage(isUserMessage: false, message: 'This is a it has 3 bed'),
-        ],
-      ),
+class _BodyLiveChatPageState extends State<BodyLiveChatPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      context.read<ChatProvider>().connect();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ChatProvider>(
+      builder: (context, provider, child) {
+        return ListView.builder(
+          itemCount: provider.messages.length,
+          itemBuilder: (context, index) {
+            final msg = provider.messages[index];
+
+            return BodyMessage(
+              isUserMessage: msg.senderId == provider.myId,
+              message: msg.message,
+            );
+          },
+        );
+      },
     );
   }
 }
