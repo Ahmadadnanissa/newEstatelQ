@@ -13,15 +13,25 @@ class GoogleOrFaceWidget extends StatefulWidget {
 class _GoogleOrFaceWidgetState extends State<GoogleOrFaceWidget> {
   final GoogleSignInUseCase useCase = GoogleSignInUseCase(AuthRepository());
 
+  bool isLoading = false;
+
   void _handleGoogleSignIn() async {
+    setState(() => isLoading = true);
+
     final idToken = await useCase.execute();
 
+    setState(() => isLoading = false);
+
     if (idToken != null) {
-      // ignore: avoid_print
-      print('Google ID Token: $idToken');
+      print('Success Success Success Success Success Success');
+      print(
+        'Success Success Success Success Success Success idToken : $idToken',
+      );
+
+      //   await context.read<AuthProvider>()
+      // .loginWithGoogle(idToken);
     } else {
-      // ignore: avoid_print
-      print('User cancelled or failed to sign in');
+      print(' Failed Failed Failed Failed Failed Failed');
     }
   }
 
@@ -50,7 +60,9 @@ class _GoogleOrFaceWidgetState extends State<GoogleOrFaceWidget> {
                 color: Color(0xffEDF6F9),
                 borderRadius: BorderRadius.circular(width * 0.07),
               ),
-              child: Image.asset('assets/images/Google.png'),
+              child: isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Image.asset('assets/images/Google.png'),
             ),
           ),
           Container(

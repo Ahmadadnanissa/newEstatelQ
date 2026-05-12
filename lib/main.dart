@@ -1,7 +1,11 @@
 import 'package:estatelqapp/core/services/socket_service.dart';
+import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
+import 'package:estatelqapp/features/auth_features/domain/repository/auth_repository_impl.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/google_login_with_use_case.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/signup_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/change_password_page.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/enter_your_email.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/otp_verifivcation_page_for_password.dart';
@@ -38,6 +42,11 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 void main() async {
+  final remoteA = AuthRemoteDataSource(http.Client());
+
+final repoA = AuthRepositoryImpl(remoteA);
+
+final useCaseA = GoogleLoginUseCase(repoA);
   final remote = NotificationRemoteDataSource(http.Client());
   final repo = NotificationRepositoryImpl(remote);
   final statusRemote = PropertyStatusRemoteDataSource();
@@ -49,6 +58,10 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
+
+ChangeNotifierProvider(
+  create: (_) => AuthProvider(useCaseA),
+),
 
         ChangeNotifierProvider(create: (_) => NotificationProvider(repo)),
 
