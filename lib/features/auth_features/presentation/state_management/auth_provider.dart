@@ -3,20 +3,23 @@ import 'package:estatelqapp/features/auth_features/data/models/login_response_mo
 import 'package:estatelqapp/features/auth_features/data/models/sign_up_response_model.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/google_login_with_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/login_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/send_otp_use_Case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/sign_up_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/verify_otp_use_case.dart';
 import 'package:flutter/material.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final LoginWithGoogleUseCase useCase;
+  // final LoginWithGoogleUseCase useCase;
   final SignupUseCase signupUseCase;
   final LoginUseCase loginUseCase;
   final VerifyOtpUseCase verifyOtpUseCase;
+  final SendOtpUseCase sendOtpUseCase;
   AuthProvider(
-    this.useCase,
+    // this.useCase,
     this.loginUseCase,
     this.signupUseCase,
     this.verifyOtpUseCase,
+    this.sendOtpUseCase,
   );
 
   bool isLoading = false;
@@ -111,20 +114,36 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> loginWithGoogle(String idToken) async {
+  Future<void> resendOtp(String email) async {
     error = null;
+
     try {
       isLoading = true;
-
       notifyListeners();
 
-      isSuccess = await useCase.execute(idToken);
+      await sendOtpUseCase.execute(email);
     } catch (e) {
       error = e.toString();
     } finally {
       isLoading = false;
-
       notifyListeners();
     }
   }
+
+  // Future<void> loginWithGoogle(String idToken) async {
+  //   error = null;
+  //   try {
+  //     isLoading = true;
+
+  //     notifyListeners();
+
+  //     isSuccess = await useCase.execute(idToken);
+  //   } catch (e) {
+  //     error = e.toString();
+  //   } finally {
+  //     isLoading = false;
+
+  //     notifyListeners();
+  //   }
+  // }
 }

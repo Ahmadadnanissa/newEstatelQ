@@ -9,19 +9,19 @@ class AuthRemoteDataSource {
 
   AuthRemoteDataSource(this.client);
 
-  Future<bool> sendGoogleToken(String idToken) async {
-    final response = await client.post(
-      Uri.parse('YOUR_API'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({"id_token": idToken}),
-    );
+  // Future<bool> sendGoogleToken(String idToken) async {
+  //   final response = await client.post(
+  //     Uri.parse('YOUR_API'),
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: jsonEncode({"id_token": idToken}),
+  //   );
 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception('Failed To Login');
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     return true;
+  //   } else {
+  //     throw Exception('Failed To Login');
+  //   }
+  // }
 
   Future<LoginResponseModel> login(String email, String password) async {
     final response = await client.post(
@@ -88,5 +88,17 @@ class AuthRemoteDataSource {
     }
 
     throw Exception("OTP verification failed");
+  }
+
+  Future<void> sendOtp(String email) async {
+    final response = await client.post(
+      Uri.parse("YOUR_URL/auth/sendOtp"),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({"email": email}),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception("Failed to resend OTP");
+    }
   }
 }

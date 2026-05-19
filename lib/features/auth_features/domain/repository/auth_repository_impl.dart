@@ -7,9 +7,9 @@ class AuthRepositoryImpl {
 
   AuthRepositoryImpl(this.remote);
 
-  Future<bool> loginWithGoogle(String idToken) async {
-    return await remote.sendGoogleToken(idToken);
-  }
+  // Future<bool> loginWithGoogle(String idToken) async {
+  //   return await remote.sendGoogleToken(idToken);
+  // }
 
   Future<LoginResponseModel> login(String email, String password) async {
     return await remote.login(email, password);
@@ -26,5 +26,9 @@ class AuthRepositoryImpl {
 
   Future<LoginResponseModel> verifyOtp(String email, String otp) async {
     return await remote.verifyOtp(email, otp);
+  }
+
+  Future<void> sendOtp(String email) async {
+    return await remote.sendOtp(email);
   }
 }

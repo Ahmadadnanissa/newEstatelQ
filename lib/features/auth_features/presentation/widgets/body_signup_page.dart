@@ -68,7 +68,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
               Consumer<AuthProvider>(
                 builder: (context, provider, _) {
                   return PrimaryButton(
-                    name: "Login",
+                    name: "SignUp",
 
                     isLoading: provider.isLoading,
 
@@ -89,9 +89,16 @@ class _BodySignupPageState extends State<BodySignupPage> {
                           password,
                           confirmPassword,
                         );
-                        SlideRight(
-                          page: OtpVerifivcationPageForPassword(email: email),
+                        Navigator.pushReplacement(
+                          context,
+                          SlideRight(
+                            page: OtpVerifivcationPageForPassword(
+                              email: email,
+                              toCreateAccount: true,
+                            ),
+                          ),
                         );
+
                         if (provider.signupData != null) {
                           CustomMessage.success(
                             context,
@@ -102,6 +109,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
                             SlideRight(
                               page: OtpVerifivcationPageForPassword(
                                 email: email,
+                                toCreateAccount: true,
                               ),
                             ),
                           );

@@ -2,8 +2,13 @@ import 'package:estatelqapp/features/forget_password_features/presentation/widge
 import 'package:flutter/material.dart';
 
 class OtpVerifivcationPageForPassword extends StatefulWidget {
-  const OtpVerifivcationPageForPassword({super.key, required this.email});
+  const OtpVerifivcationPageForPassword({
+    super.key,
+    required this.email,
+    required this.toCreateAccount,
+  });
   final String email;
+  final bool toCreateAccount;
   static String id = 'OtpVerifivcationPageForPassword';
 
   @override
@@ -17,7 +22,10 @@ class _OtpVerifivcationPageForPasswordState
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: BodyOtpVerifivcationPageForPassword(email: widget.email),
+        body: BodyOtpVerifivcationPageForPassword(
+          email: widget.email,
+          toCreateAccount: widget.toCreateAccount,
+        ),
       ),
     );
   }

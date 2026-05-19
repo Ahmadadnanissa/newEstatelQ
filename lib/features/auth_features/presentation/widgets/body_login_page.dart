@@ -94,8 +94,8 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
                   );
                 },
               ),
-              OrContinueWith(),
-              GoogleOrFaceWidget(),
+              // OrContinueWith(),
+              // GoogleOrFaceWidget(),
             ],
           ),
         ),

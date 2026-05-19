@@ -14,6 +14,7 @@ class BodyEnterYourEmailPage extends StatefulWidget {
 }
 
 class _BodyEnterYourEmailPageState extends State<BodyEnterYourEmailPage> {
+  final emailController = TextEditingController();
   GlobalKey<FormState> globalKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -25,17 +26,22 @@ class _BodyEnterYourEmailPageState extends State<BodyEnterYourEmailPage> {
           children: [
             EnterYourEmailImage(),
             EnterYourNameDescr(),
-            TextFormFieldForEmail(),
+            TextFormFieldForEmail(emailController: emailController),
             SizedBox(height: width * 0.9),
 
             PrimaryButton(
               name: 'Next',
               pushing: () async {
                 if (globalKey.currentState!.validate()) {
-                  // Navigator.push(
-                  //   context,
-                  //   // SlideRight(page: OtpVerifivcationPageForPassword(email: em,)),
-                  // );
+                  Navigator.push(
+                    context,
+                    SlideRight(
+                      page: OtpVerifivcationPageForPassword(
+                        email: emailController.text,
+                        toCreateAccount: false,
+                      ),
+                    ),
+                  );
                 }
               },
             ),

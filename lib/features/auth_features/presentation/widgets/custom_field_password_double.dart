@@ -33,7 +33,7 @@ class _CustomFieldPasswordDoubleState extends State<CustomFieldPasswordDouble> {
         return null;
       },
       validator2: (data) {
-        if (data!.trim() != password) {
+        if (data != widget.passwordController.text) {
           return 'not the same password';
         }
         return null;

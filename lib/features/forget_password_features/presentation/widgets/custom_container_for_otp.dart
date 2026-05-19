@@ -4,6 +4,7 @@ import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/core/widgets/custom_message.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
+import 'package:estatelqapp/features/forget_password_features/presentation/pages/change_password_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 
 import 'package:flutter/material.dart';
@@ -11,14 +12,21 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
 class CustomContainerForOtp extends StatefulWidget {
-  const CustomContainerForOtp({super.key, required this.email});
+  const CustomContainerForOtp({
+    super.key,
+    required this.email,
+    required this.toCreateAccount,
+  });
   final String email;
+  final bool toCreateAccount;
 
   @override
   State<CustomContainerForOtp> createState() => _CustomContainerForOtpState();
 }
 
 class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
+  bool canResend = true;
+  int cooldown = 10;
   String otpCode = "";
 
   @override
@@ -68,8 +76,8 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
 
               pinTheme: PinTheme(
                 shape: PinCodeFieldShape.circle,
-                fieldHeight: width * 0.14,
-                fieldWidth: width * 0.14,
+                fieldHeight: width * 0.12,
+                fieldWidth: width * 0.12,
                 activeFillColor: Color(0xff83C5BE),
                 inactiveFillColor: Color(0xff83C5BE),
                 selectedFillColor: Color(0xff83C5BE),
@@ -108,12 +116,17 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
 
                       "Account verified successfully",
                     );
-
-                    Navigator.pushReplacement(
-                      context,
-
-                      SlideRight(page: HomePage()),
-                    );
+                    if (widget.toCreateAccount) {
+                      Navigator.pushReplacement(
+                        context,
+                        SlideRight(page: HomePage()),
+                      );
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        SlideRight(page: ChangePasswordPage()),
+                      );
+                    }
                   }
 
                   if (authProvider.error != null) {
@@ -136,11 +149,33 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  // _resendOtp
+                onTap: () async {
+                  if (!canResend) return;
+
+                  final authProvider = context.read<AuthProvider>();
+
+                  setState(() {
+                    canResend = false;
+                  });
+
+                  await authProvider.resendOtp(widget.email);
+
+                  if (authProvider.error != null) {
+                    CustomMessage.error(context, authProvider.error!);
+                  } else {
+                    CustomMessage.success(context, "OTP sent again");
+                  }
+
+                  Future.delayed(Duration(seconds: cooldown), () {
+                    if (mounted) {
+                      setState(() {
+                        canResend = true;
+                      });
+                    }
+                  });
                 },
                 child: Text(
-                  "Click here ",
+                  canResend ? "Click here" : "Wait $cooldown sec",
                   style: TextStyle(
                     fontSize: width * 0.04,
                     color: secondaryColor,

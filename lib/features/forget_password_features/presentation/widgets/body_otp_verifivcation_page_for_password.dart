@@ -3,8 +3,13 @@ import 'package:estatelqapp/features/forget_password_features/presentation/widge
 import 'package:flutter/material.dart';
 
 class BodyOtpVerifivcationPageForPassword extends StatefulWidget {
-  const BodyOtpVerifivcationPageForPassword({super.key, required this.email});
+  const BodyOtpVerifivcationPageForPassword({
+    super.key,
+    required this.email,
+    required this.toCreateAccount,
+  });
   final String email;
+  final bool toCreateAccount;
 
   @override
   State<BodyOtpVerifivcationPageForPassword> createState() =>
@@ -21,7 +26,10 @@ class _BodyOtpVerifivcationPageForPasswordState
         children: [
           OtpImage(),
           SizedBox(height: width * 0.7),
-          CustomContainerForOtp(email: widget.email),
+          CustomContainerForOtp(
+            email: widget.email,
+            toCreateAccount: widget.toCreateAccount,
+          ),
         ],
       ),
     );

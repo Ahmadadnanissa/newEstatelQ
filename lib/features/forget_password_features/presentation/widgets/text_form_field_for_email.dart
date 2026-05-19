@@ -2,8 +2,8 @@ import 'package:estatelqapp/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class TextFormFieldForEmail extends StatefulWidget {
-  const TextFormFieldForEmail({super.key});
-
+  const TextFormFieldForEmail({super.key, required this.emailController});
+  final TextEditingController emailController;
   @override
   State<TextFormFieldForEmail> createState() => _TextFormFieldForEmailState();
 }
@@ -30,6 +30,7 @@ class _TextFormFieldForEmailState extends State<TextFormFieldForEmail> {
           ],
         ),
         child: TextFormField(
+          controller: widget.emailController,
           obscureText: false,
           validator: (data) {
             RegExp emailRegex = RegExp(
