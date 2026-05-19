@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class PrimaryButton extends StatefulWidget {
-  PrimaryButton({super.key, required this.name, required this.pushing});
+  PrimaryButton({
+    super.key,
+    required this.name,
+    required this.pushing,
+    this.isLoading = false,
+  });
   String name;
-  Function() pushing;
+  Future<void> Function() pushing;
+  final bool isLoading;
 
   @override
   State<PrimaryButton> createState() => _PrimaryButtonState();
@@ -32,7 +38,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
       });
       await Future.delayed(const Duration(milliseconds: 150));
 
-      widget.pushing();
+      await widget.pushing();
     }
 
     return GestureDetector(
@@ -80,20 +86,31 @@ class _PrimaryButtonState extends State<PrimaryButton> {
                 ),
               ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  widget.name,
-                  style: TextStyle(
-                    color: primaryColor,
-                    fontFamily: fontFamily,
-                    fontSize: width * 0.07,
+            child: widget.isLoading
+                ? Center(
+                    child: SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                        color: primaryColor,
+                      ),
+                    ),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.name,
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontFamily: fontFamily,
+                          fontSize: width * 0.07,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ),

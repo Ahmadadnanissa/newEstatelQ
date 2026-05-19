@@ -30,12 +30,12 @@ class _BodyEnterYourEmailPageState extends State<BodyEnterYourEmailPage> {
 
             PrimaryButton(
               name: 'Next',
-              pushing: () {
+              pushing: () async {
                 if (globalKey.currentState!.validate()) {
-                  Navigator.push(
-                    context,
-                    SlideRight(page: OtpVerifivcationPageForPassword()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   // SlideRight(page: OtpVerifivcationPageForPassword(email: em,)),
+                  // );
                 }
               },
             ),

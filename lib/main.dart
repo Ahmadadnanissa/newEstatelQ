@@ -2,6 +2,9 @@ import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
 import 'package:estatelqapp/features/auth_features/domain/repository/auth_repository_impl.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/google_login_with_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/login_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/sign_up_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/verify_otp_use_case.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/signup_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
@@ -38,15 +41,24 @@ import 'package:estatelqapp/firebase_options.dart';
 import 'package:estatelqapp/splash__page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
+  await Hive.openBox('authBox');
   final remoteA = AuthRemoteDataSource(http.Client());
 
-final repoA = AuthRepositoryImpl(remoteA);
+  final repoA = AuthRepositoryImpl(remoteA);
 
-final useCaseA = GoogleLoginUseCase(repoA);
+  final useCaseA = LoginWithGoogleUseCase(repoA);
+  final loginUseCase = LoginUseCase(repoA);
+  final signUpUseCase = SignupUseCase(repoA);
+  final verifyOtpUseCase = VerifyOtpUseCase(repoA);
   final remote = NotificationRemoteDataSource(http.Client());
   final repo = NotificationRepositoryImpl(remote);
   final statusRemote = PropertyStatusRemoteDataSource();
@@ -59,9 +71,14 @@ final useCaseA = GoogleLoginUseCase(repoA);
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
 
-ChangeNotifierProvider(
-  create: (_) => AuthProvider(useCaseA),
-),
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(
+            useCaseA,
+            loginUseCase,
+            signUpUseCase,
+            verifyOtpUseCase,
+          ),
+        ),
 
         ChangeNotifierProvider(create: (_) => NotificationProvider(repo)),
 
@@ -107,8 +124,8 @@ class MyApp extends StatelessWidget {
         EnterYourAdressWithMapPage.id: (context) =>
             EnterYourAdressWithMapPage(),
         HomePage.id: (context) => HomePage(),
-        OtpVerifivcationPageForPassword.id: (context) =>
-            OtpVerifivcationPageForPassword(),
+        // OtpVerifivcationPageForPassword.id: (context) =>
+        //     OtpVerifivcationPageForPassword(email: ''),
       },
       initialRoute: SplashPage.id,
       debugShowCheckedModeBanner: false,

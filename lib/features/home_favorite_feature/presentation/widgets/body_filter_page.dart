@@ -126,7 +126,7 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
           CustomSubTitleForFilterPage(title: 'Numbers of beds'),
           CheckNumberOfRoom(),
           SizedBox(height: width * 0.02),
-          PrimaryButton(name: 'Apply', pushing: () {}),
+          PrimaryButton(name: 'Apply', pushing: () async {}),
           SizedBox(height: width * 0.04),
         ],
       ),

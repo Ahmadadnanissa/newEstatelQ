@@ -46,7 +46,7 @@ class _Body2State extends State<Body2> {
               SizedBox(height: width + width * 0.08),
               PrimaryButton(
                 name: 'Next',
-                pushing: () {
+                pushing: () async {
                   String? location = locationController.text;
                   Navigator.push(
                     context,

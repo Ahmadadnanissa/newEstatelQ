@@ -18,7 +18,7 @@ class _GetStartButtonState extends State<GetStartButton> {
       padding: EdgeInsets.only(bottom: width * 0.04, top: width * 0.17),
       child: PrimaryButton(
         name: 'Get Start',
-        pushing: () {
+        pushing: () async {
           Navigator.push(context, SlideRight(page: GetinfoFromUser1()));
         },
       ),

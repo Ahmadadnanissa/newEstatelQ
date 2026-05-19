@@ -35,7 +35,7 @@ class BodyHelpAndSupportPahe extends StatelessWidget {
 
           SizedBox(height: width * 0.06),
 
-          PrimaryButton(name: 'Submit Request', pushing: () {}),
+          PrimaryButton(name: 'Submit Request', pushing: () async {}),
           SizedBox(height: width * 0.04),
         ],
       ),

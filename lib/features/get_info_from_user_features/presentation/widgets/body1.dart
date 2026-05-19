@@ -101,7 +101,7 @@ class _Body1State extends State<Body1> {
 
               PrimaryButton(
                 name: 'Next',
-                pushing: () {
+                pushing: () async {
                   Navigator.push(
                     context,
                     SlideRight(

@@ -21,7 +21,7 @@ class _BodyChangePasswordPageState extends State<BodyChangePasswordPage> {
           SizedBox(height: width * 0.06),
           CustomTextFieldForChangePassword(),
           SizedBox(height: width * 0.85),
-          PrimaryButton(name: 'Done', pushing: () {}),
+          PrimaryButton(name: 'Done', pushing: () async {}),
         ],
       ),
     );

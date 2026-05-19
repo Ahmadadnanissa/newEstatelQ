@@ -1,13 +1,18 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
+import 'package:estatelqapp/core/widgets/custom_message.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
-import 'package:estatelqapp/features/forget_password_features/presentation/pages/change_password_page.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
 class CustomContainerForOtp extends StatefulWidget {
-  const CustomContainerForOtp({super.key});
+  const CustomContainerForOtp({super.key, required this.email});
+  final String email;
 
   @override
   State<CustomContainerForOtp> createState() => _CustomContainerForOtpState();
@@ -47,7 +52,7 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
             child: PinCodeTextField(
               appContext: context,
 
-              length: 4,
+              length: 6,
 
               keyboardType: TextInputType.number,
 
@@ -79,10 +84,43 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
 
           SizedBox(height: width * 0.05),
 
-          PrimaryButton(
-            name: 'Submit',
-            pushing: () {
-              Navigator.push(context, SlideRight(page: ChangePasswordPage()));
+          Consumer<AuthProvider>(
+            builder: (context, provider, _) {
+              return PrimaryButton(
+                name: 'Submit',
+
+                isLoading: provider.isLoading,
+
+                pushing: () async {
+                  if (otpCode.length != 6) {
+                    CustomMessage.error(context, "Enter valid OTP");
+
+                    return;
+                  }
+
+                  final authProvider = context.read<AuthProvider>();
+
+                  await authProvider.verifyOtp(widget.email, otpCode);
+
+                  if (authProvider.otpData != null) {
+                    CustomMessage.success(
+                      context,
+
+                      "Account verified successfully",
+                    );
+
+                    Navigator.pushReplacement(
+                      context,
+
+                      SlideRight(page: HomePage()),
+                    );
+                  }
+
+                  if (authProvider.error != null) {
+                    CustomMessage.error(context, authProvider.error!);
+                  }
+                },
+              );
             },
           ),
           SizedBox(height: width * 0.04),

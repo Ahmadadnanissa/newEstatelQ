@@ -1,14 +1,19 @@
 import 'package:estatelqapp/core/widgets/button.dart';
+import 'package:estatelqapp/core/widgets/custom_message.dart';
+import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/custom_field_name_and_email.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/custom_field_password_double.dart';
-import 'package:estatelqapp/features/auth_features/presentation/widgets/custom_text_form_field_for_number.dart';
+// import 'package:estatelqapp/features/auth_features/presentation/widgets/custom_text_form_field_for_number.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/google_or_face_widget.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/login_and_signup_image.dart';
 import 'package:estatelqapp/core/widgets/name_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/or_continue_with.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/row_for_navigation_between_login_and_signup.dart';
+import 'package:estatelqapp/features/forget_password_features/presentation/pages/otp_verifivcation_page_for_password.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BodySignupPage extends StatefulWidget {
   const BodySignupPage({super.key});
@@ -23,7 +28,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final nameController = TextEditingController();
-  final phoneController = TextEditingController();
+  // final phoneController = TextEditingController();
 
   @override
   void dispose() {
@@ -53,40 +58,69 @@ class _BodySignupPageState extends State<BodySignupPage> {
                 emailController: emailController,
                 nameController: nameController,
               ),
-              CustomTextFormFieldForNumber(phoneController: phoneController),
+              //   CustomTextFormFieldForNumber(phoneController: phoneController),
               CustomFieldPasswordDouble(
                 passwordController: passwordController,
                 confirmPasswordController: confirmPasswordController,
               ),
               SizedBox(height: 30),
-              PrimaryButton(
-                name: 'Signup',
-                pushing: () {
-                  if (globalKey.currentState!.validate()) {
-                    final email = emailController.text.trim();
-                    final phone = phoneController.text.trim();
-                    final name = nameController.text.trim();
-                    final password = passwordController.text.trim();
-                    final confirmPassword = confirmPasswordController.text
-                        .trim();
-                    // ignore: avoid_print
-                    print(email);
-                    // ignore: avoid_print
-                    print(name);
-                    // ignore: avoid_print
-                    print(password);
-                    // ignore: avoid_print
-                    print(phone);
-                    // ignore: avoid_print
-                    print(confirmPassword);
-                    nameController.clear();
-                    phoneController.clear();
-                    emailController.clear();
-                    passwordController.clear();
-                    confirmPasswordController.clear();
-                  }
+
+              Consumer<AuthProvider>(
+                builder: (context, provider, _) {
+                  return PrimaryButton(
+                    name: "Login",
+
+                    isLoading: provider.isLoading,
+
+                    pushing: () async {
+                      if (globalKey.currentState!.validate()) {
+                        final email = emailController.text.trim();
+                        // final phone = phoneController.text.trim();
+                        final name = nameController.text.trim();
+                        final password = passwordController.text.trim();
+                        final confirmPassword = confirmPasswordController.text
+                            .trim();
+
+                        final provider = context.read<AuthProvider>();
+
+                        await provider.signup(
+                          name,
+                          email,
+                          password,
+                          confirmPassword,
+                        );
+                        SlideRight(
+                          page: OtpVerifivcationPageForPassword(email: email),
+                        );
+                        if (provider.signupData != null) {
+                          CustomMessage.success(
+                            context,
+                            "Account created. OTP sent to your email.",
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            SlideRight(
+                              page: OtpVerifivcationPageForPassword(
+                                email: email,
+                              ),
+                            ),
+                          );
+
+                          nameController.clear();
+                          emailController.clear();
+                          passwordController.clear();
+                          confirmPasswordController.clear();
+                        }
+
+                        if (provider.error != null) {
+                          CustomMessage.error(context, provider.error!);
+                        }
+                      }
+                    },
+                  );
                 },
               ),
+
               OrContinueWith(),
               GoogleOrFaceWidget(),
             ],

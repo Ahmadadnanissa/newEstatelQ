@@ -50,7 +50,7 @@ class _Body3State extends State<Body3> {
               SizedBox(height: width * 0.75),
               PrimaryButton(
                 name: 'Next',
-                pushing: () {
+                pushing: () async {
                   String min = minPriceController.text;
                   String max = maxPriceController.text;
                   Navigator.push(

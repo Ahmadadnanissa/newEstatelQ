@@ -1,5 +1,8 @@
 import 'package:estatelqapp/core/widgets/button.dart';
+import 'package:estatelqapp/core/widgets/custom_message.dart';
+import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/signup_page.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/final_double_text_for_login.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/forget_your_password.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/google_or_face_widget.dart';
@@ -7,7 +10,9 @@ import 'package:estatelqapp/features/auth_features/presentation/widgets/login_an
 import 'package:estatelqapp/core/widgets/name_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/or_continue_with.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/row_for_navigation_between_login_and_signup.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BodyLoginPage extends StatefulWidget {
   const BodyLoginPage({super.key});
@@ -51,20 +56,42 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
                 passwordController: passwordController,
               ),
               ForgetYourPassword(),
-              PrimaryButton(
-                name: 'Login',
-                pushing: () {
-                  if (globalKey.currentState!.validate()) {
-                    final email = emailController.text.trim();
-                    final password = passwordController.text.trim();
 
-                    // ignore: avoid_print
-                    print(email);
-                    // ignore: avoid_print
-                    print(password);
-                    emailController.clear();
-                    passwordController.clear();
-                  }
+              Consumer<AuthProvider>(
+                builder: (context, provider, _) {
+                  return PrimaryButton(
+                    name: "Login",
+
+                    isLoading: provider.isLoading,
+
+                    pushing: () async {
+                      if (globalKey.currentState!.validate()) {
+                        final email = emailController.text.trim();
+
+                        final password = passwordController.text.trim();
+
+                        final provider = context.read<AuthProvider>();
+
+                        await provider.login(email, password);
+
+                        if (provider.userData != null) {
+                          CustomMessage.success(context, "Welcome back!");
+
+                          emailController.clear();
+
+                          passwordController.clear();
+                          Navigator.pushReplacement(
+                            context,
+                            SlideRight(page: HomePage()),
+                          );
+                        }
+
+                        if (provider.error != null) {
+                          CustomMessage.error(context, provider.error!);
+                        }
+                      }
+                    },
+                  );
                 },
               ),
               OrContinueWith(),

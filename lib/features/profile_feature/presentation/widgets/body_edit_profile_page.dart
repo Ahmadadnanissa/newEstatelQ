@@ -72,7 +72,7 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
               ),
               SizedBox(height: width * 0.08),
 
-              PrimaryButton(name: 'Save', pushing: () {}),
+              PrimaryButton(name: 'Save', pushing: () async {}),
               SizedBox(height: width * 0.04),
             ],
           ),
