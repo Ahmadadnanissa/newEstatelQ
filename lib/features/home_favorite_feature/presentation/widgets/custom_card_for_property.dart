@@ -1,8 +1,10 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/app_image.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/favorite_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/list_of_more_details.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomCardForProperty extends StatefulWidget {
   const CustomCardForProperty({
@@ -15,6 +17,7 @@ class CustomCardForProperty extends StatefulWidget {
     required this.numberOfRooms,
     required this.numberOfPath,
     required this.sqft,
+    required this.id,
   });
   final String image;
   final String title;
@@ -24,81 +27,103 @@ class CustomCardForProperty extends StatefulWidget {
   final int numberOfRooms;
   final int numberOfPath;
   final int sqft;
+  final String id;
 
   @override
   State<CustomCardForProperty> createState() => _CustomCardForPropertyState();
 }
 
 class _CustomCardForPropertyState extends State<CustomCardForProperty> {
-  bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final favoriteProvider = context.watch<FavoriteProvider>();
+
+    bool isFavorite = favoriteProvider.isFavorite(widget.id);
+
     return Container(
       decoration: BoxDecoration(
         color: primaryColor,
 
         borderRadius: BorderRadius.circular(width * 0.05),
+
         boxShadow: [
           BoxShadow(
-            // ignore: deprecated_member_use
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withOpacity(.2),
+
             blurRadius: 10,
+
             spreadRadius: 1,
+
             offset: Offset(0, 5),
           ),
         ],
       ),
+
       child: Column(
         children: [
           Stack(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(width * 0.05),
+                  top: Radius.circular(width * .05),
                 ),
+
                 child: AppImage(
                   path: widget.image,
+
                   width: double.infinity,
-                  height: width * 0.38,
+
+                  height: width * .38,
+
                   fit: BoxFit.cover,
                 ),
               ),
 
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
+
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
-                      height: width * 0.08,
-                      width: width * 0.23,
+                      height: width * .08,
+
+                      width: width * .23,
+
                       decoration: BoxDecoration(
                         color: primaryColor,
-                        borderRadius: BorderRadius.circular(width * 0.03),
+
+                        borderRadius: BorderRadius.circular(width * .03),
                       ),
+
                       child: Center(
                         child: CustomFont(
                           name: widget.type,
+
                           fontColor: blackColor,
-                          fontSize: width * 0.035,
+
+                          fontSize: width * .035,
                         ),
                       ),
                     ),
+
                     Spacer(),
-                    Icon(Icons.share, size: width * 0.09),
+
+                    Icon(Icons.share, size: width * .09),
+
                     GestureDetector(
-                      onTap: () {
-                        isFavorite = !isFavorite;
-                        setState(() {});
+                      onTap: () async {
+                        await favoriteProvider.addToFavorite(widget.id);
                       },
-                      child: isFavorite
-                          ? Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                              size: width * 0.09,
-                            )
-                          : Icon(Icons.favorite, size: width * 0.09),
+
+                      child: Icon(
+                        Icons.favorite,
+
+                        color: isFavorite ? Colors.red : Colors.grey,
+
+                        size: width * .09,
+                      ),
                     ),
                   ],
                 ),
@@ -108,56 +133,75 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
 
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: width * 0.03,
-              vertical: width * 0.03,
+              horizontal: width * .03,
+
+              vertical: width * .03,
             ),
+
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+
                   children: [
                     CustomFont(
                       name: widget.title,
+
                       fontColor: blackColor,
-                      fontSize: width * 0.05,
+
+                      fontSize: width * .05,
+
                       fontWeight: FontWeight.bold,
                     ),
+
                     CustomFont(
                       name: widget.address,
+
                       fontColor: Color(0xff5F6264),
-                      fontSize: width * 0.035,
+
+                      fontSize: width * .035,
                     ),
                   ],
                 ),
 
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+
                   children: [
                     CustomFont(
                       name: widget.price,
+
                       fontColor: blackColor,
-                      fontSize: width * 0.05,
+
+                      fontSize: width * .05,
+
                       fontWeight: FontWeight.bold,
                     ),
+
                     CustomFont(
-                      name: 'For Sale',
-                      // widget.type
+                      name: "For Sale",
+
                       fontColor: Color(0xff5F6264),
-                      fontSize: width * 0.035,
+
+                      fontSize: width * .035,
                     ),
                   ],
                 ),
               ],
             ),
           ),
+
           ListOfMoreDetails(
             numberOfPath: widget.numberOfPath,
+
             numberOfRoom: widget.numberOfRooms,
+
             sqft: widget.sqft,
           ),
 
-          SizedBox(height: width * 0.03),
+          SizedBox(height: width * .03),
         ],
       ),
     );

@@ -90,6 +90,7 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
                 numberOfPath: property.bathrooms,
 
                 sqft: property.sqft.toInt(),
+                id: property.id,
               ),
             ),
           );

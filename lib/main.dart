@@ -16,12 +16,17 @@ import 'package:estatelqapp/features/get_info_from_user_features/presentation/pa
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user2.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user3.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user4.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/datasources/favorite_remote_data_source.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/datasources/property_card_data_source.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/repositories/favorite_repository.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/repositories/property_card_repository_impl.dart';
+import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/add_to_favorite_use_case.dart';
+import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/get_fovorite_properties_use_case.dart';
 import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/get_property_cards_use_case.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/favorite_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/filter_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/favorite_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/notification_remote.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/property_status_remote_data_source.dart';
@@ -75,6 +80,17 @@ void main() async {
   final repo = NotificationRepositoryImpl(remote);
   final statusRemote = PropertyStatusRemoteDataSource();
   final statusRepo = PropertyStatusRepositoryImpl(statusRemote);
+  // Favorite
+
+  final favoriteRemote = FavoriteRemoteDataSource(
+    // http.Client()
+  );
+
+  final favoriteRepo = FavoriteRepository(favoriteRemote);
+
+  final getFavoriteUseCase = GetFavoritePropertiesUseCase(favoriteRepo);
+
+  final addFavoriteUseCase = AddToFavoriteUseCase(favoriteRepo);
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -84,6 +100,11 @@ void main() async {
         // ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(
           create: (_) => HomeProvider(useCaseP)..getProperties(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) =>
+              FavoriteProvider(getFavoriteUseCase, addFavoriteUseCase)
+                ..getFavorites(),
         ),
 
         ChangeNotifierProvider(
