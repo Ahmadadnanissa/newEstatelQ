@@ -125,6 +125,19 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
             ),
           ),
           SizedBox(height: width * 0.02),
+          InkWell(
+            borderRadius: BorderRadius.circular(width * 0.03),
+            onTap: () {
+              selectedType = 'Store';
+              setState(() {});
+            },
+            child: ProperyTypeCheckInFilter(
+              image: 'assets/images/Building.png',
+              type: 'Store',
+              isSelected: selectedType == 'Store' ? true : false,
+            ),
+          ),
+          SizedBox(height: width * 0.02),
 
           CustomSubTitleForFilterPage(title: 'Price Range'),
           PriceRaange(

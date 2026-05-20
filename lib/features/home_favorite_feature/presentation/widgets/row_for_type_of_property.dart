@@ -72,7 +72,7 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
             TypeOfProperty(
               backgroundColor: Color(0xffD9D9D9),
 
-              image: 'assets/images/store.png',
+              image: 'assets/images/Home.png',
 
               type: 'Store',
 

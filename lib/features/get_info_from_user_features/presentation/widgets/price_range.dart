@@ -59,66 +59,67 @@ class _PriceRaangeState extends State<PriceRaange> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.03,
-                    vertical: width * 0.02,
-                  ),
+                  width: width * .28,
+                  padding: EdgeInsets.symmetric(vertical: width * .025),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: secondaryColor),
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Text(
-                    "\$${values.start.round()}",
-                    style: TextStyle(
-                      color: secondaryColor,
-                      fontSize: width * 0.035,
+                  child: Center(
+                    child: Text(
+                      "\$${values.start.round()}",
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontSize: width * .04,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
 
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.03,
-                    vertical: width * 0.02,
-                  ),
+                  width: width * .28,
+                  padding: EdgeInsets.symmetric(vertical: width * .025),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: secondaryColor),
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Text(
-                    "\$${values.end.round()}",
-                    style: TextStyle(
-                      color: secondaryColor,
-                      fontSize: width * 0.035,
+                  child: Center(
+                    child: Text(
+                      "\$${values.end.round()}",
+                      style: TextStyle(
+                        color: primaryColor,
+                        fontSize: width * .04,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
 
-            SizedBox(height: width * 0.02),
+            SizedBox(height: width * .03),
 
-            /// Range Slider
             RangeSlider(
               values: values,
+
               min: 5000,
+
               max: 50000,
+
               divisions: 45,
 
               activeColor: secondaryColor,
-              // ignore: deprecated_member_use
-              inactiveColor: secondaryColor.withOpacity(0.3),
 
-              labels: RangeLabels(
-                values.start.round().toString(),
-                values.end.round().toString(),
-              ),
+              inactiveColor: secondaryColor.withOpacity(.3),
 
               onChanged: (RangeValues newValues) {
                 setState(() {
                   values = newValues;
                 });
+
                 widget.minController?.text = newValues.start.round().toString();
+
                 widget.maxController?.text = newValues.end.round().toString();
               },
             ),
