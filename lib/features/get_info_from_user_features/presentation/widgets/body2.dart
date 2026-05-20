@@ -41,8 +41,8 @@ class _Body2State extends State<Body2> {
                 subTitle:
                     'you can enter cities,neighborhoods,zip codes,and more',
               ),
-              FormFieldForLocation(controller: locationController),
 
+              FormFieldForLocation(controller: locationController),
               SizedBox(height: width + width * 0.08),
               PrimaryButton(
                 name: 'Next',

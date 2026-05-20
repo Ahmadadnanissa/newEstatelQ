@@ -2,10 +2,12 @@ import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/core/widgets/form_field_for_location.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/check_number_of_room.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/price_range.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/buy_or_rent_custom_container.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/custom_sub_title_for_filter_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/propery_type_check_in_filter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BodyFilterPage extends StatefulWidget {
   const BodyFilterPage({super.key});
@@ -18,6 +20,13 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
   bool isSelectedBuy = true;
   bool isSelectedRent = false;
   String selectedType = 'Apartment';
+  final locationController = TextEditingController();
+
+  final roomController = TextEditingController();
+
+  final minController = TextEditingController();
+
+  final maxController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -118,15 +127,45 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
           SizedBox(height: width * 0.02),
 
           CustomSubTitleForFilterPage(title: 'Price Range'),
-          PriceRaange(),
+          PriceRaange(
+            minController: minController,
+
+            maxController: maxController,
+          ),
 
           CustomSubTitleForFilterPage(title: 'Location'),
-          FormFieldForLocation(),
 
+          FormFieldForLocation(controller: locationController),
           CustomSubTitleForFilterPage(title: 'Numbers of beds'),
-          CheckNumberOfRoom(),
+          CheckNumberOfRoom(controller: roomController),
           SizedBox(height: width * 0.02),
-          PrimaryButton(name: 'Apply', pushing: () async {}),
+          PrimaryButton(
+            name: 'Apply',
+
+            pushing: () async {
+              final provider = context.read<HomeProvider>();
+
+              provider.filter.location = locationController.text.isEmpty
+                  ? null
+                  : locationController.text;
+
+              provider.filter.type = selectedType;
+
+              provider.filter.purpose = isSelectedBuy ? "Buy" : "Rent";
+
+              provider.filter.rooms = roomController.text.isEmpty
+                  ? null
+                  : int.tryParse(roomController.text);
+
+              provider.filter.minPrice = double.tryParse(minController.text);
+
+              provider.filter.maxPrice = double.tryParse(maxController.text);
+
+              await provider.refresh();
+
+              Navigator.pop(context);
+            },
+          ),
           SizedBox(height: width * 0.04),
         ],
       ),

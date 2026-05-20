@@ -1,7 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
-import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class FormFieldForLocation extends StatelessWidget {
   final TextEditingController? controller;
@@ -49,12 +47,7 @@ class FormFieldForLocation extends StatelessWidget {
 
                   onChanged: (value) {
                     controller?.text = value;
-                    Provider.of<HomeProvider>(
-                      context,
-                      listen: false,
-                    ).setLocation(value);
                   },
-
                   decoration: InputDecoration(
                     fillColor: primaryColor,
                     filled: true,
@@ -68,13 +61,8 @@ class FormFieldForLocation extends StatelessWidget {
                 ),
               );
             },
-
-        onSelected: (String selection) {
+        onSelected: (selection) {
           controller?.text = selection;
-          Provider.of<HomeProvider>(
-            context,
-            listen: false,
-          ).setLocation(selection);
         },
       ),
     );

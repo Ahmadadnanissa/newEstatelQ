@@ -1,124 +1,74 @@
+import 'package:estatelqapp/features/home_favorite_feature/data/models/filter_property_model.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/models/property_card_model.dart';
+import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/get_property_cards_use_case.dart';
 import 'package:flutter/material.dart';
 
 class HomeProvider extends ChangeNotifier {
-  List<Map<String, dynamic>> properties = [];
+  final GetPropertiesCardUseCase useCase;
+
+  HomeProvider(this.useCase);
+  FilterPropertyModel filter = FilterPropertyModel();
+  List<PropertyCardModel> properties = [];
 
   bool isLoading = false;
-  String? errorMessage;
-  String? selectedType;
-  String? selectedLocation;
-  void loadProperties({String? type, String? location}) {
-    isLoading = true;
-    errorMessage = null;
-    notifyListeners();
 
+  String? error;
+
+  bool hasMore = true;
+
+  int page = 1;
+
+  final int limit = 5;
+
+  Future<void> getProperties() async {
+    if (isLoading || !hasMore) {
+      return;
+    }
+    error = null;
     try {
-      // 👇 بيانات محلية مؤقتة قبل الباك
-      List<Map<String, dynamic>> allProperties = [
-        {
-          "image": "assets/images/apartment.jpg",
-          "title": "Modern House",
-          "address": "New York",
-          "price": "\$1200",
-          "type": "Apartment",
-          "rooms": 3,
-          "bath": 2,
-          "sqft": 120,
-        },
-        {
-          "image": "assets/images/jesse-collins-LUitWpwc008-unsplash.jpg",
-          "title": "Luxury Villa",
-          "address": "California",
-          "price": "\$3500",
-          "type": "Villa",
-          "rooms": 5,
-          "bath": 4,
-          "sqft": 300,
-        },
-      ];
+      isLoading = true;
 
-      // 👇 الفلترة حسب النوع والموقع
-      properties = allProperties.where((property) {
-        final matchesType = type == null || type == 'All'
-            ? true
-            : property["type"] == type;
+      notifyListeners();
 
-        final matchesLocation = location == null || location.isEmpty
-            ? true
-            : property["address"].toString().toLowerCase().contains(
-                location.toLowerCase(),
-              );
+      final result = await useCase.execute(
+        page: page,
+        limit: limit,
+        filter: filter,
+      );
 
-        return matchesType && matchesLocation;
-      }).toList();
+      if (result.isEmpty) {
+        hasMore = false;
+      } else {
+        properties.addAll(result);
+
+        page++;
+      }
     } catch (e) {
-      errorMessage = "Something went wrong";
+      error = e.toString();
     }
 
     isLoading = false;
+
     notifyListeners();
   }
 
-  void setType(String type) {
-    selectedType = type;
-    loadProperties(type: selectedType, location: selectedLocation);
+  Future<void> refresh() async {
+    page = 1;
+
+    hasMore = true;
+    error = null;
+    properties.clear();
+
+    await getProperties();
+  }
+
+  void setType(String type) async {
+    filter.type = type == "All" ? null : type;
+
+    await refresh();
   }
 
   void setLocation(String location) {
-    selectedLocation = location;
-    loadProperties(type: selectedType, location: selectedLocation);
+    filter.location = location.isEmpty ? null : location;
   }
-  // =========================================================
-  // 🔥 2. API READY (خليه معلق للمستقبل)
-  // =========================================================
-
-  /*
-  Future<void> fetchPropertiesFromApi({
-    String? type,
-    String? location,
-  }) async {
-    isLoading = true;
-    errorMessage = null;
-    notifyListeners();
-
-    try {
-      // 🔥 مثال request (عدلو حسب الباك)
-      final response = await http.get(
-        Uri.parse(
-          "https://your-api.com/properties?"
-          "type=$type&location=$location",
-        ),
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        properties = List<Map<String, dynamic>>.from(data);
-      } else {
-        errorMessage = "Server error";
-      }
-    } catch (e) {
-      errorMessage = "Connection error";
-    }
-
-    isLoading = false;
-    notifyListeners();
-  }
-  */
-
-  // =========================================================
-  // 🔥 3. دوال مستقبلية (فلترة من الباك)
-  // =========================================================
-
-  /*
-  void applyFilter({
-    String? type,
-    String? location,
-  }) {
-    fetchPropertiesFromApi(
-      type: type,
-      location: location,
-    );
-  }
-  */
 }

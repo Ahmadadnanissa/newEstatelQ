@@ -12,11 +12,13 @@ import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_pa
 import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/change_password_page.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/enter_your_email.dart';
-import 'package:estatelqapp/features/forget_password_features/presentation/pages/otp_verifivcation_page_for_password.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user1.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user2.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user3.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user4.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/datasources/property_card_data_source.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/repositories/property_card_repository_impl.dart';
+import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/get_property_cards_use_case.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/favorite_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/filter_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
@@ -52,6 +54,14 @@ void main() async {
   await Hive.initFlutter();
 
   await Hive.openBox('authBox');
+  final remoteP = PropertyCardRemoteDataSource(
+    // http.Client()
+  );
+
+  final repoP = PropertyCardRepositoryImpl(remoteP);
+
+  final useCaseP = GetPropertiesCardUseCase(repoP);
+
   final remoteA = AuthRemoteDataSource(http.Client());
 
   final repoA = AuthRepositoryImpl(remoteA);
@@ -71,7 +81,10 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        // ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(
+          create: (_) => HomeProvider(useCaseP)..getProperties(),
+        ),
 
         ChangeNotifierProvider(
           create: (_) => AuthProvider(

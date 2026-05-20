@@ -30,11 +30,7 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'All';
                 });
-
-                Provider.of<HomeProvider>(
-                  context,
-                  listen: false,
-                ).setType(selectedType);
+                context.read<HomeProvider>().setType(selectedType);
               },
             ),
             TypeOfProperty(
@@ -46,10 +42,7 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'Apartment';
                 });
-                Provider.of<HomeProvider>(
-                  context,
-                  listen: false,
-                ).setType(selectedType);
+                context.read<HomeProvider>().setType(selectedType);
               },
             ),
             TypeOfProperty(
@@ -61,10 +54,7 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'Villa';
                 });
-                Provider.of<HomeProvider>(
-                  context,
-                  listen: false,
-                ).setType(selectedType);
+                context.read<HomeProvider>().setType(selectedType);
               },
             ),
             TypeOfProperty(
@@ -76,10 +66,24 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'House';
                 });
-                Provider.of<HomeProvider>(
-                  context,
-                  listen: false,
-                ).setType(selectedType);
+                context.read<HomeProvider>().setType(selectedType);
+              },
+            ),
+            TypeOfProperty(
+              backgroundColor: Color(0xffD9D9D9),
+
+              image: 'assets/images/store.png',
+
+              type: 'Store',
+
+              isSelected: selectedType == 'Store',
+
+              onTap: () {
+                setState(() {
+                  selectedType = 'Store';
+                });
+
+                context.read<HomeProvider>().setType(selectedType);
               },
             ),
             TypeOfProperty(
@@ -91,10 +95,7 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
                 setState(() {
                   selectedType = 'office';
                 });
-                Provider.of<HomeProvider>(
-                  context,
-                  listen: false,
-                ).setType(selectedType);
+                context.read<HomeProvider>().setType(selectedType);
               },
             ),
           ],
