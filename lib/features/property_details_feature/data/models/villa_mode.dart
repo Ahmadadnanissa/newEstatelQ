@@ -1,178 +1,136 @@
-// import 'property_model.dart';
-// import 'room_item_model.dart';
-// import 'outdoor_item_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/outdoor_detail_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/room_model.dart';
 
-// class VillaModel extends PropertyModel {
+import 'property_model.dart';
 
-//   final int? numOfFloors;
+class VillaModel extends PropertyModel {
+  final int? numOfFloors;
 
-//   final bool fireplace;
+  final bool fireplace;
 
-//   final bool hasBasement;
+  final bool hasBasement;
 
-//   final double? basementArea;
+  final double? basementArea;
 
-//   final double? internalGarageArea;
+  final double? internalGarageArea;
 
+  VillaModel({
+    required super.id,
+    required super.requestId,
+    required super.clientId,
+    required super.referenceCode,
+    required super.zipCode,
+    required super.type,
+    required super.listingType,
 
-//   VillaModel({
+    super.simpleDescription,
+    super.fullDescription,
 
-//     required super.id,
-//     required super.requestId,
-//     required super.clientId,
-//     required super.referenceCode,
-//     required super.zipCode,
-//     required super.type,
-//     required super.listingType,
+    required super.location,
+    required super.city,
 
-//     super.simpleDescription,
-//     super.fullDescription,
+    super.address,
+    super.latitude,
+    super.longitude,
 
-//     required super.location,
-//     required super.city,
+    super.rentalPeriod,
 
-//     super.address,
-//     super.latitude,
-//     super.longitude,
+    required super.listedPrice,
 
-//     super.rentalPeriod,
+    super.area,
 
-//     required super.listedPrice,
+    required super.heating,
 
-//     super.area,
+    required super.furnishing,
 
-//     required super.heating,
+    required super.primaryPhoto,
 
-//     required super.furnishing,
+    required super.galleryPhotos,
 
-//     required super.primaryPhoto,
+    required super.constructionYear,
 
-//     required super.galleryPhotos,
+    required super.status,
 
-//     required super.constructionYear,
+    required super.rooms,
 
-//     required super.status,
+    required super.outdoorItems,
 
-//     required super.rooms,
+    this.numOfFloors,
 
-//     required super.outdoorItems,
+    required this.fireplace,
 
-//     this.numOfFloors,
+    required this.hasBasement,
 
-//     required this.fireplace,
+    this.basementArea,
 
-//     required this.hasBasement,
+    this.internalGarageArea,
+  });
 
-//     this.basementArea,
+  factory VillaModel.fromJson(Map<String, dynamic> json) {
+    return VillaModel(
+      id: json["id"],
 
-//     this.internalGarageArea,
+      requestId: json["request_id"],
 
-//   });
+      clientId: json["client_id"],
 
+      referenceCode: json["reference_code"],
 
-//   factory VillaModel.fromJson(
-//       Map<String,dynamic> json){
+      zipCode: json["zip_code"],
 
-//     return VillaModel(
+      type: json["type"],
 
-//       id:json["id"],
+      listingType: json["listing_type"],
 
-//       requestId:json["request_id"],
+      simpleDescription: json["simple_description"],
 
-//       clientId:json["client_id"],
+      fullDescription: json["full_description"],
 
-//       referenceCode:json["reference_code"],
+      location: json["location"],
 
-//       zipCode:json["zip_code"],
+      city: json["city"],
 
-//       type:json["type"],
+      address: json["address"],
 
-//       listingType:json["listing_type"],
+      latitude: json["latitude"]?.toDouble(),
 
-//       simpleDescription:
-//       json["simple_description"],
+      longitude: json["longitude"]?.toDouble(),
 
-//       fullDescription:
-//       json["full_description"],
+      rentalPeriod: json["rental_period"],
 
-//       location:json["location"],
+      listedPrice: json["listed_price"].toDouble(),
 
-//       city:json["city"],
+      area: json["area"],
 
-//       address:json["address"],
+      heating: json["heating"],
 
-//       latitude:
-//       json["latitude"]?.toDouble(),
+      furnishing: json["furnishing"],
 
-//       longitude:
-//       json["longitude"]?.toDouble(),
+      primaryPhoto: json["primary_photo"],
 
-//       rentalPeriod:
-//       json["rental_period"],
+      galleryPhotos: List<String>.from(json["gallery_photo"] ?? []),
 
-//       listedPrice:
-//       json["listed_price"]
-//           .toDouble(),
+      constructionYear: json["construction_year"],
 
-//       area:json["area"],
+      status: json["status"],
 
-//       heating:
-//       json["heating"],
+      rooms: (json["roomItems"] ?? [])
+          .map<RoomItemModel>((e) => RoomItemModel.fromJson(e))
+          .toList(),
 
-//       furnishing:
-//       json["furnishing"],
+      outdoorItems: (json["outdoorItems"] ?? [])
+          .map<OutdoorItemModel>((e) => OutdoorItemModel.fromJson(e))
+          .toList(),
 
-//       primaryPhoto:
-//       json["primary_photo"],
+      numOfFloors: json["num_of_floors"],
 
-//       galleryPhotos:
-//       List<String>.from(
-//           json["gallery_photo"]??[]),
+      fireplace: json["fireplace"] ?? false,
 
-//       constructionYear:
-//       json["construction_year"],
+      hasBasement: json["hasBasement"] ?? false,
 
-//       status:
-//       json["status"],
+      basementArea: json["basement_area"]?.toDouble(),
 
-//       rooms:
-//       (json["roomItems"]??[])
-//           .map<RoomItemModel>(
-//               (e)=>
-//               RoomItemModel
-//                   .fromJson(e))
-//           .toList(),
-
-//       outdoorItems:
-//       (json["outdoorItems"]??[])
-//           .map<OutdoorItemModel>(
-//               (e)=>
-//               OutdoorItemModel
-//                   .fromJson(e))
-//           .toList(),
-
-//       numOfFloors:
-//       json["num_of_floors"],
-
-//       fireplace:
-//       json["fireplace"]
-//           ??false,
-
-//       hasBasement:
-//       json["hasBasement"]
-//           ??false,
-
-//       basementArea:
-//       json["basement_area"]
-//           ?.toDouble(),
-
-//       internalGarageArea:
-//       json[
-//       "internal_garage_area"]
-//           ?.toDouble(),
-
-//     );
-
-//   }
-
-// }
+      internalGarageArea: json["internal_garage_area"]?.toDouble(),
+    );
+  }
+}

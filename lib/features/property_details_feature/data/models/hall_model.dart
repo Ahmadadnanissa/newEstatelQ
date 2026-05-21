@@ -1,121 +1,124 @@
-// import 'property_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/outdoor_detail_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/room_model.dart';
 
-// class HallModel extends PropertyModel {
-//   final int? floorNumber;
+import 'property_model.dart';
 
-//   final bool elevator;
+class HallModel extends PropertyModel {
+  final int? floorNumber;
 
-//   final String parking;
+  final bool elevator;
 
-//   HallModel({
-//     required super.id,
-//     required super.requestId,
-//     required super.clientId,
-//     required super.referenceCode,
-//     required super.zipCode,
-//     required super.type,
-//     required super.listingType,
+  final String parking;
 
-//     super.simpleDescription,
-//     super.fullDescription,
+  HallModel({
+    required super.id,
+    required super.requestId,
+    required super.clientId,
+    required super.referenceCode,
+    required super.zipCode,
+    required super.type,
+    required super.listingType,
 
-//     required super.location,
-//     required super.city,
+    super.simpleDescription,
+    super.fullDescription,
 
-//     super.address,
-//     super.latitude,
-//     super.longitude,
+    required super.location,
+    required super.city,
 
-//     super.rentalPeriod,
+    super.address,
+    super.latitude,
+    super.longitude,
 
-//     required super.listedPrice,
+    super.rentalPeriod,
 
-//     super.area,
+    required super.listedPrice,
 
-//     required super.heating,
+    super.area,
 
-//     required super.furnishing,
+    required super.heating,
 
-//     required super.primaryPhoto,
+    required super.furnishing,
 
-//     required super.galleryPhotos,
+    required super.primaryPhoto,
 
-//     required super.constructionYear,
+    required super.galleryPhotos,
 
-//     required super.status,
+    required super.constructionYear,
 
-//     required super.rooms,
+    required super.status,
 
-//     required super.outdoorItems,
+    required super.rooms,
 
-//     this.floorNumber,
+    required super.outdoorItems,
 
-//     required this.elevator,
+    this.floorNumber,
 
-//     required this.parking,
-//   });
+    required this.elevator,
 
-//   factory HallModel.fromJson(Map<String, dynamic> json) {
-//     return HallModel(
-//       id: json["id"],
+    required this.parking,
+  });
 
-//       requestId: json["request_id"],
+  factory HallModel.fromJson(Map<String, dynamic> json) {
+    return HallModel(
+      id: json["id"],
 
-//       clientId: json["client_id"],
+      requestId: json["request_id"],
 
-//       referenceCode: json["reference_code"],
+      clientId: json["client_id"],
 
-//       zipCode: json["zip_code"],
+      referenceCode: json["reference_code"],
 
-//       type: json["type"],
+      zipCode: json["zip_code"],
 
-//       listingType: json["listing_type"],
+      type: json["type"],
 
-//       simpleDescription: json["simple_description"],
+      listingType: json["listing_type"],
 
-//       fullDescription: json["full_description"],
+      simpleDescription: json["simple_description"],
 
-//       location: json["location"],
+      fullDescription: json["full_description"],
 
-//       city: json["city"],
+      location: json["location"],
 
-//       address: json["address"],
+      city: json["city"],
 
-//       latitude: json["latitude"]?.toDouble(),
+      address: json["address"],
 
-//       longitude: json["longitude"]?.toDouble(),
+      latitude: json["latitude"]?.toDouble(),
 
-//       rentalPeriod: json["rental_period"],
+      longitude: json["longitude"]?.toDouble(),
 
-//       listedPrice: json["listed_price"].toDouble(),
+      rentalPeriod: json["rental_period"],
 
-//       area: json["area"],
+      listedPrice: json["listed_price"].toDouble(),
 
-//       heating: json["heating"],
+      area: json["area"],
 
-//       furnishing: json["furnishing"],
+      heating: json["heating"],
 
-//       primaryPhoto: json["primary_photo"],
+      furnishing: json["furnishing"],
 
-//       galleryPhotos: List<String>.from(json["gallery_photo"] ?? []),
+      primaryPhoto: json["primary_photo"],
 
-//       constructionYear: json["construction_year"],
+      galleryPhotos: List<String>.from(json["gallery_photo"] ?? []),
 
-//       status: json["status"],
+      constructionYear: json["construction_year"],
 
-//       rooms: (json["roomItems"] ?? [])
-//           .map<RoomItemModel>((e) => RoomItemModel.fromJson(e))
-//           .toList(),
+      status: json["status"],
 
-//       outdoorItems: (json["outdoorItems"] ?? [])
-//           .map<OutdoorItemModel>((e) => OutdoorItemModel.fromJson(e))
-//           .toList(),
+      rooms: (json["roomItems"] ?? [])
+          .map<RoomItemModel>((e) => RoomItemModel.fromJson(e))
+          .toList(),
 
-//       floorNumber: json["floor_number"],
+      outdoorItems: (json["outdoorItems"] ?? [])
+          .map<OutdoorItemModel>((e) => OutdoorItemModel.fromJson(e))
+          .toList(),
 
-//       elevator: json["elevator"] ?? false,
+      floorNumber: json["floor_number"],
 
-//       parking: json["parking"],
-//     );
-//   }
-// }
+      elevator: json["elevator"] ?? false,
+
+      parking: json["parking"],
+    );
+  }
+}

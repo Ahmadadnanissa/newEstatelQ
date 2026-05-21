@@ -1,0 +1,150 @@
+// final PropertyModel property = PropertyModel(
+  //   id: '1',
+  //   title: 'Mountain View Villa',
+  //   address: 'Al-Qadmous, Tartous, Syria',
+  //   type: 'Apartments',
+  //   rentOrSale: 'for sale',
+  //   price: 165000,
+
+  //   rating: 10.0,
+  //   reviewCount: 200,
+
+  //   description:
+  //       'A clean and comfortable apartment with good space and natural light. Close to shops and public transportation.',
+
+  //   primaryImage: 'assets/images/jesse-collins-LUitWpwc008-unsplash.jpg',
+
+  //   galleryImages: [
+  //     'assets/images/jesse-collins-LUitWpwc008-unsplash.jpg',
+  //     'assets/images/uday-vatti-8YC9T7W-lE4-unsplash.jpg',
+  //     'assets/images/tobias-wilden-4453DIQWtsQ-unsplash.jpg',
+  //     'assets/images/bogdan-vaskan-1taEJJwIv-0-unsplash.jpg',
+  //   ],
+
+  //   rooms: [
+  //     Room(
+  //       id: '1',
+  //       name: 'Bed Room',
+  //       type: 'bedroom',
+  //       description:
+  //           'The home features two rooms—one bedroom and one living room—both offering views of the city. The bedroom measures 20 square meters.',
+  //       images: [
+  //         'assets/images/ahmed-rangel-QAzk_ceFf-w-unsplash.jpg',
+  //         'assets/images/spacejoy-qGNgjHQjO2k-unsplash.jpg',
+  //         'assets/images/francesca-tosolini-hCU4fimRW-c-unsplash.jpg',
+  //         'assets/images/spacejoy-nEtpvJjnPVo-unsplash.jpg',
+  //       ],
+  //     ),
+
+  //     Room(
+  //       id: '2',
+  //       name: 'Living Room',
+  //       type: 'living',
+  //       description:
+  //           "The living room is large and spacious, with excellent lighting and new, elegant furnishings.",
+  //       images: [
+  //         'assets/images/fairuz-naufal-zaki-DzCGADQSDxM-unsplash.jpg',
+  //         'assets/images/spacejoy-KJUGhE9ojro-unsplash.jpg',
+  //         'assets/images/lotus-design-n-print-0sDzRgrN_pI-unsplash.jpg',
+  //         'assets/images/lotus-design-n-print-0sDzRgrN_pI-unsplash.jpg',
+  //       ],
+  //     ),
+
+  //     Room(
+  //       id: '3',
+  //       name: 'Bathroom 1',
+  //       type: 'bathroom',
+  //       description:
+  //           'We have two bathrooms that have been well-tiled and decorated, each featuring a bathtub.',
+  //       images: [
+  //         'assets/images/steven-ungermann-1AF5hP6F4tI-unsplash.jpg',
+  //         'assets/images/lotus-design-n-print-g51F6-WYzyU-unsplash.jpg',
+  //         'assets/images/backbone-L4iRkKL5dng-unsplash.jpg',
+  //         'assets/images/phil-hearing-U7PitHRnTNU-unsplash.jpg',
+  //       ],
+  //     ),
+
+  //     Room(
+  //       id: '4',
+  //       name: 'Kitchen',
+  //       type: 'kitchen',
+  //       description:
+  //           'We have a large kitchen with high-quality wooden storage and modern appliances.',
+  //       images: [
+  //         'assets/images/lotus-design-n-print-oCw5_evbWyI-unsplash.jpg',
+  //         'assets/images/jason-briscoe-GliaHAJ3_5A-unsplash.jpg',
+  //         'assets/images/naomi-hebert-MP0bgaS_d1c-unsplash.jpg',
+  //         'assets/images/collov-home-design--aDGbdTsBZg-unsplash.jpg',
+  //       ],
+  //     ),
+  //   ],
+
+  //   outdoorDetails: [
+  //     OutdoorDetail(
+  //       title: 'Parking',
+  //       description:
+  //           'We have a 20-meter covered parking space that can accommodate two cars.',
+  //       value: 'Available',
+  //       images: [
+  //         'assets/images/claudio-schwarz-fAmj2spOqxc-unsplash.jpg',
+  //         'assets/images/palo-kertys-aJGEVYOKE2Q-unsplash.jpg',
+  //         'assets/images/michael-fousert-CrU3lUW2jRk-unsplash.jpg',
+  //         'assets/images/egor-myznik-rCZQCbUAQvg-unsplash.jpg',
+  //       ],
+  //     ),
+  //     OutdoorDetail(
+  //       title: 'Garden',
+  //       description:
+  //           'We have a 20-meter covered parking space that can accommodate two cars.',
+  //       value: 'Yes(Garden,Terrace)',
+  //       images: [
+  //         'assets/images/claudio-schwarz-fAmj2spOqxc-unsplash.jpg',
+  //         'assets/images/palo-kertys-aJGEVYOKE2Q-unsplash.jpg',
+  //         'assets/images/michael-fousert-CrU3lUW2jRk-unsplash.jpg',
+  //         'assets/images/egor-myznik-rCZQCbUAQvg-unsplash.jpg',
+  //       ],
+  //     ),
+  //     OutdoorDetail(
+  //       title: 'swimming pool',
+  //       description:
+  //           'There is a small, covered swimming pool measuring 10 meters.',
+  //       value: 'Available',
+  //       images: [
+  //         'assets/images/roberto-nickson-h1_ILkb9tLo-unsplash.jpg',
+  //         'assets/images/thom-milkovic-vy_cVJCAVG0-unsplash.jpg',
+  //         'assets/images/jay-solomon-8lU54uEl8Ok-unsplash.jpg',
+  //         'assets/images/john-fornander-y3_AHHrxUBY-unsplash.jpg',
+  //       ],
+  //     ),
+  //   ],
+
+  //   latitude: 34.7306,
+  //   longitude: 36.7089,
+
+  //   nearbyPlaces: [
+  //     'University',
+  //     'School',
+  //     'Pharmacy',
+  //     'Restaurant',
+  //     'Supermarket',
+  //   ],
+
+  //   areaDetail: OutdoorDetail(
+  //     title: '2000 sqft',
+  //     description:
+  //         'The net area of ​​the property is 150 square meters, with an external garden measuring 50 square meters; thus, the total area of ​​the property—including the garden—is 200 square meters.',
+  //     value: 'More Info',
+  //     images: [
+  //       'assets/images/amsterdam-city-archives-IIyMRyOGyag-unsplash.jpg',
+  //       'assets/images/claudio-schwarz-9Egaj7L5cJM-unsplash.jpg',
+  //       'assets/images/amsterdam-city-archives--StEPF2CK2M-unsplash.jpg',
+  //       'assets/images/th-nh-l-u-S3cF3QeZ7Zs-unsplash.jpg',
+  //     ],
+  //   ),
+
+  //   extraDetails: [
+  //     'Year Built: 2015',
+  //     'Floor number is 3',
+  //     'There is an elevator',
+  //   ],
+  // );

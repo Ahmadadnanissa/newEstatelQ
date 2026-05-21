@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class CustomWidgetForOutdoorPlaces extends StatefulWidget {
   const CustomWidgetForOutdoorPlaces({super.key, required this.outDoor});
 
-  final OutdoorDetail outDoor;
+  final OutdoorItemModel outDoor;
   @override
   State<CustomWidgetForOutdoorPlaces> createState() =>
       _CustomWidgetForOutdoorPlacesState();
@@ -37,13 +37,13 @@ class _CustomWidgetForOutdoorPlacesState
             child: Row(
               children: [
                 CustomFont(
-                  name: widget.outDoor.title,
+                  name: widget.outDoor.type,
                   fontColor: blackColor,
                   fontSize: width * 0.045,
                 ),
                 Spacer(),
                 CustomFont(
-                  name: widget.outDoor.value,
+                  name: "Available",
                   fontColor: blackColor,
                   fontSize: width * 0.045,
                 ),
@@ -64,7 +64,7 @@ class _CustomWidgetForOutdoorPlacesState
                 ? [
                     SizedBox(height: width * 0.02),
                     Text(
-                      widget.outDoor.description,
+                      widget.outDoor.description ?? "",
 
                       style: TextStyle(
                         color: Color(0xff5F6264),
@@ -76,7 +76,7 @@ class _CustomWidgetForOutdoorPlacesState
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: widget.outDoor.images.map((img) {
+                        children: widget.outDoor.photos.map((img) {
                           return Padding(
                             padding: EdgeInsets.only(right: width * 0.02),
                             child: CustomImageForMoreDetails(image: img),

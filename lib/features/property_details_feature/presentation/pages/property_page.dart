@@ -3,10 +3,14 @@ import 'package:estatelqapp/features/property_details_feature/presentation/widge
 import 'package:flutter/material.dart';
 
 class PropertyPage extends StatelessWidget {
-  const PropertyPage({super.key});
+  const PropertyPage({super.key, required this.propertyId});
   static String id = 'PropertyPage';
+  final String propertyId;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: primaryColor, body: BodyPropertyPage());
+    return Scaffold(
+      backgroundColor: primaryColor,
+      body: BodyPropertyPage(propertyId: propertyId),
+    );
   }
 }

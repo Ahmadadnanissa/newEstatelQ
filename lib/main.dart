@@ -44,7 +44,11 @@ import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_pro
 import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
+import 'package:estatelqapp/features/property_details_feature/data/datasources/property_details_remote_data_source.dart';
+import 'package:estatelqapp/features/property_details_feature/data/repositories/property_details_repository_impl.dart';
+import 'package:estatelqapp/features/property_details_feature/domain/usecases/get_property_by_id_use_case.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
 import 'package:estatelqapp/firebase_options.dart';
 import 'package:estatelqapp/splash__page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -62,6 +66,11 @@ void main() async {
   final remoteP = PropertyCardRemoteDataSource(
     // http.Client()
   );
+  final remotepd = PropertyDetailsRemoteDataSource(
+    // http.Client()
+  );
+  final repoPd = PropertyDetailsRepositoryImpl(remotepd);
+  final getPropertByIdUseCase = GetPropertyByIdUseCase(repoPd);
 
   final repoP = PropertyCardRepositoryImpl(remoteP);
 
@@ -116,6 +125,10 @@ void main() async {
           ),
         ),
 
+        ChangeNotifierProvider(
+          create: (_) => PropertyDetailsProvider(getPropertByIdUseCase),
+        ),
+
         ChangeNotifierProvider(create: (_) => NotificationProvider(repo)),
 
         ChangeNotifierProvider(create: (_) => ChatProvider(SocketService())),
@@ -147,7 +160,7 @@ class MyApp extends StatelessWidget {
         ChangePasswordPage.id: (context) => ChangePasswordPage(),
         EnterYourEmail.id: (context) => EnterYourEmail(),
         FavoritePage.id: (context) => FavoritePage(),
-        PropertyPage.id: (context) => PropertyPage(),
+        PropertyPage.id: (context) => PropertyPage(propertyId: ""),
         ProfilePage.id: (context) => ProfilePage(),
         HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
         EditProfilePage.id: (context) => EditProfilePage(),

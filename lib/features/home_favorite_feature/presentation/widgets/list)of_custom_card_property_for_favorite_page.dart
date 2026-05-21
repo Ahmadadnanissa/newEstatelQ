@@ -51,7 +51,10 @@ class _ListOfCustomCardPropertyForFavoritePageState
 
         return GestureDetector(
           onTap: () {
-            Navigator.push(context, SlideRight(page: PropertyPage()));
+            Navigator.push(
+              context,
+              SlideRight(page: PropertyPage(propertyId: property.id)),
+            );
           },
 
           child: Padding(
