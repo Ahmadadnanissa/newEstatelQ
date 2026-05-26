@@ -31,4 +31,8 @@ class AuthRepositoryImpl {
   Future<void> sendOtp(String email) async {
     return await remote.sendOtp(email);
   }
+
+  Future<void> logout(String id) {
+    return remote.logout(id);
+  }
 }

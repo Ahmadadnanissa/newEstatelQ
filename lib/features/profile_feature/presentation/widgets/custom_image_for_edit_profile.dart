@@ -2,8 +2,8 @@ import 'package:estatelqapp/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomImageForEditProfile extends StatelessWidget {
-  const CustomImageForEditProfile({super.key});
-
+  const CustomImageForEditProfile({super.key, required this.image});
+  final String image;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -18,7 +18,7 @@ class CustomImageForEditProfile extends StatelessWidget {
             borderRadius: BorderRadius.circular(width * 0.3),
             border: Border.all(color: secondaryColor, width: 0.5),
           ),
-          child: Center(child: Image.asset('assets/images/person.png')),
+          child: Center(child: Image.asset(image)),
         ),
       ],
     );

@@ -2,6 +2,7 @@ import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
 import 'package:estatelqapp/features/auth_features/domain/repository/auth_repository_impl.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/google_login_with_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/log_out_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/login_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/send_otp_use_Case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/sign_up_use_case.dart';
@@ -43,6 +44,8 @@ import 'package:estatelqapp/features/menu_feature/presentation/provider_state_ma
 import 'package:estatelqapp/features/profile_feature/data/datasources/client_remote_data_source.dart';
 import 'package:estatelqapp/features/profile_feature/data/repositories/client_repository.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/get_client_use_case.dart';
+import 'package:estatelqapp/features/profile_feature/domain/usecases/update_address_use_case.dart';
+import 'package:estatelqapp/features/profile_feature/domain/usecases/update_profile_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
@@ -75,17 +78,13 @@ void main() async {
   );
   final repoPd = PropertyDetailsRepositoryImpl(remotepd);
   final getPropertByIdUseCase = GetPropertyByIdUseCase(repoPd);
-
   final repoP = PropertyCardRepositoryImpl(remoteP);
-
   final useCaseP = GetPropertiesCardUseCase(repoP);
-
   final remoteA = AuthRemoteDataSource(http.Client());
-
   final repoA = AuthRepositoryImpl(remoteA);
-
   // final useCaseA = LoginWithGoogleUseCase(repoA);
   final loginUseCase = LoginUseCase(repoA);
+  final logoutUseCase = LogoutUseCase(repoA);
   final signUpUseCase = SignupUseCase(repoA);
   final verifyOtpUseCase = VerifyOtpUseCase(repoA);
   final sendOtpUseCase = SendOtpUseCase(repoA);
@@ -107,9 +106,9 @@ void main() async {
 
   final clientRemote = ClientRemoteDataSource(http.Client());
   final clientRepo = ClientRepository(clientRemote);
-
   final getClientUseCase = GetClientUseCase(clientRepo);
-
+  final updateUdressUseCase = UpdateAddressUseCase(clientRepo);
+  final updateProfileUseCase = UpdateProfileUseCase(clientRepo);
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -125,7 +124,13 @@ void main() async {
               FavoriteProvider(getFavoriteUseCase, addFavoriteUseCase)
                 ..getFavorites(),
         ),
-        ChangeNotifierProvider(create: (_) => ClientProvider(getClientUseCase)),
+        ChangeNotifierProvider(
+          create: (_) => ClientProvider(
+            getClientUseCase,
+            updateUdressUseCase,
+            updateProfileUseCase,
+          ),
+        ),
 
         ChangeNotifierProvider(
           create: (_) => AuthProvider(
@@ -133,6 +138,7 @@ void main() async {
             signUpUseCase,
             verifyOtpUseCase,
             sendOtpUseCase,
+            logoutUseCase,
           ),
         ),
 
@@ -174,7 +180,13 @@ class MyApp extends StatelessWidget {
         PropertyPage.id: (context) => PropertyPage(propertyId: ""),
         ProfilePage.id: (context) => ProfilePage(),
         HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
-        EditProfilePage.id: (context) => EditProfilePage(),
+        EditProfilePage.id: (context) => EditProfilePage(
+          name: '',
+          email: '',
+          phone: '',
+          image: '',
+          location: '',
+        ),
         FilterPage.id: (context) => FilterPage(),
         LiveChatPage.id: (context) => LiveChatPage(),
         NotificationPage.id: (context) => NotificationPage(),

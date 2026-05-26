@@ -1,29 +1,125 @@
+import 'package:estatelqapp/core/services/local_storage_service.dart';
+import 'package:estatelqapp/core/widgets/custom_message.dart';
 import 'package:estatelqapp/features/profile_feature/data/models/client_model..dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/get_client_use_case.dart';
+import 'package:estatelqapp/features/profile_feature/domain/usecases/update_address_use_case.dart';
+import 'package:estatelqapp/features/profile_feature/domain/usecases/update_profile_use_case.dart';
 import 'package:flutter/material.dart';
 
 class ClientProvider extends ChangeNotifier {
   final GetClientUseCase getClientUseCase;
-
-  ClientProvider(this.getClientUseCase);
+  final UpdateAddressUseCase updateAddressUseCase;
+  final UpdateProfileUseCase updateProfileUseCase;
+  ClientProvider(
+    this.getClientUseCase,
+    this.updateAddressUseCase,
+    this.updateProfileUseCase,
+  );
 
   ClientModel? client;
 
   bool isLoading = false;
   String? error;
 
-  Future<void> getClient(String id, String userType) async {
+  Future<void> getClient(String id, BuildContext context) async {
+    final userType = LocalStorageService.getUserType();
+
+    if (userType == null || userType == "guest") {
+      CustomMessage.error(context, "Please create an account first");
+      client = null;
+      notifyListeners();
+      return;
+    }
+
     try {
       isLoading = true;
       error = null;
       notifyListeners();
 
-      client = await getClientUseCase.execute(id, userType);
+      client = await getClientUseCase.execute(id);
     } catch (e) {
       error = e.toString();
     }
 
     isLoading = false;
     notifyListeners();
+  }
+
+  Future<void> updateAddress({
+    required double latitude,
+    required double longitude,
+    required BuildContext context,
+  }) async {
+    final userType = LocalStorageService.getUserType();
+
+    if (userType == null || userType == "guest") {
+      CustomMessage.error(context, "Please create an account first");
+      return;
+    }
+
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final id = LocalStorageService.getId().toString();
+      final token = LocalStorageService.getToken() ?? "";
+
+      await updateAddressUseCase.execute(
+        id: id,
+        token: token,
+        latitude: latitude,
+        longitude: longitude,
+      );
+
+      CustomMessage.success(context, "Address updated successfully");
+    } catch (e) {
+      error = e.toString();
+      CustomMessage.error(context, error!);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateProfile({
+    required String name,
+    required String email,
+    required String phone,
+    required String image,
+    required String location,
+    required BuildContext context,
+  }) async {
+    final userType = LocalStorageService.getUserType();
+
+    if (userType == null || userType == "guest") {
+      CustomMessage.error(context, "Please create an account first");
+      return;
+    }
+
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final id = LocalStorageService.getId().toString();
+      final token = LocalStorageService.getToken() ?? "";
+
+      await updateProfileUseCase.execute(
+        id: id,
+        token: token,
+        name: name,
+        email: email,
+        phone: phone,
+        image: image,
+        location: location,
+      );
+
+      CustomMessage.success(context, "Profile updated successfully");
+    } catch (e) {
+      error = e.toString();
+      CustomMessage.error(context, error!);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }

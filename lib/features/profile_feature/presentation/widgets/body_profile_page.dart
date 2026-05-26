@@ -27,10 +27,9 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
       final provider = context.read<ClientProvider>();
 
       final id = LocalStorageService.getId();
-      final type = LocalStorageService.getUserType() ?? "guest";
 
       if (id != null) {
-        provider.getClient(id.toString(), type);
+        provider.getClient(id.toString(), context);
       }
     });
   }
@@ -47,7 +46,7 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
           // 👇 fallback values للـ guest
           final userName = client?.name ?? "Full Name";
           final email = client?.email ?? "Your Email";
-          final address = client?.location ?? "Your Location";
+          final location = client?.location ?? "Your Location";
           final phone = client?.phone ?? "Your Phone";
 
           return SingleChildScrollView(
@@ -56,7 +55,7 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
                 DetailsAboutUserContainer(
                   userName: userName,
                   email: email,
-                  adress: address,
+                  adress: location,
                   phoneNumber: phone,
                   imageProfile: client?.image ?? 'assets/images/person.png',
                 ),
@@ -68,7 +67,15 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      SlideRight(page: EditProfilePage()),
+                      SlideRight(
+                        page: EditProfilePage(
+                          name: userName,
+                          email: email,
+                          phone: phone,
+                          image: client?.image ?? 'assets/images/person.png',
+                          location: location,
+                        ),
+                      ),
                     );
                   },
                   icon: Icon(

@@ -7,7 +7,41 @@ class ClientRepository {
 
   ClientRepository(this.remote);
 
-  Future<ClientModel> getClient(String id, String userType) {
-    return remote.getClient(id, userType);
+  Future<ClientModel> getClient(String id) {
+    return remote.getClient(id);
+  }
+
+  Future<void> updateAddress({
+    required String id,
+    required String token,
+    required double latitude,
+    required double longitude,
+  }) {
+    return remote.updateAddress(
+      id: id,
+      token: token,
+      latitude: latitude,
+      longitude: longitude,
+    );
+  }
+
+  Future<void> updateProfile({
+    required String id,
+    required String token,
+    required String name,
+    required String email,
+    required String phone,
+    required String image,
+    required String location,
+  }) {
+    return remote.updateProfile(
+      id: id,
+      token: token,
+      name: name,
+      email: email,
+      phone: phone,
+      image: image,
+      location: location,
+    );
   }
 }

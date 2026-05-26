@@ -1,6 +1,9 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
+import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
@@ -18,7 +21,14 @@ class LogoutButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              context.read<AuthProvider>().logout(context);
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                WelcomePage.id,
+                (route) => false,
+              );
+            },
             child: Container(
               height: width * 0.14,
               width: width * 0.35,

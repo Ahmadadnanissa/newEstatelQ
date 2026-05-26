@@ -6,15 +6,12 @@ class ClientModel {
   final String? phone;
   final String? image;
 
-  // الدولة + المدينة كنص واحد
   final String? location;
 
-  // الإحداثيات
   final double? latitude;
   final double? longitude;
 
   final String userType;
-  // "guest" | "registered"
 
   ClientModel({
     this.id,

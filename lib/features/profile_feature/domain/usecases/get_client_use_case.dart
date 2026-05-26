@@ -6,7 +6,7 @@ class GetClientUseCase {
 
   GetClientUseCase(this.repository);
 
-  Future<ClientModel> execute(String id, String userType) {
-    return repository.getClient(id, userType);
+  Future<ClientModel> execute(String id) {
+    return repository.getClient(id);
   }
 }

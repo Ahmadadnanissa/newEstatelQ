@@ -101,4 +101,16 @@ class AuthRemoteDataSource {
       throw Exception("Failed to resend OTP");
     }
   }
+
+  Future<void> logout(String id) async {
+    final response = await client.post(
+      Uri.parse("YOUR_URL/logout"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"id": id}),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception("Logout failed");
+    }
+  }
 }

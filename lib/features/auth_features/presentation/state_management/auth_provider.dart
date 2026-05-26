@@ -1,7 +1,9 @@
 import 'package:estatelqapp/core/services/local_storage_service.dart';
+import 'package:estatelqapp/core/widgets/custom_message.dart';
 import 'package:estatelqapp/features/auth_features/data/models/login_response_model.dart';
 import 'package:estatelqapp/features/auth_features/data/models/sign_up_response_model.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/google_login_with_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/log_out_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/login_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/send_otp_use_Case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/sign_up_use_case.dart';
@@ -14,12 +16,14 @@ class AuthProvider extends ChangeNotifier {
   final LoginUseCase loginUseCase;
   final VerifyOtpUseCase verifyOtpUseCase;
   final SendOtpUseCase sendOtpUseCase;
+  final LogoutUseCase logoutUseCase;
   AuthProvider(
     // this.useCase,
     this.loginUseCase,
     this.signupUseCase,
     this.verifyOtpUseCase,
     this.sendOtpUseCase,
+    this.logoutUseCase,
   );
 
   bool isLoading = false;
@@ -148,4 +152,38 @@ class AuthProvider extends ChangeNotifier {
   //     notifyListeners();
   //   }
   // }
+
+  Future<void> logout(BuildContext context) async {
+    final userType = LocalStorageService.getUserType();
+
+    // 🔥 1. check guest
+    if (userType == null || userType == "guest") {
+      CustomMessage.error(context, "Please create an account first");
+      return;
+    }
+
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final id = LocalStorageService.getId();
+
+      if (id == null) {
+        CustomMessage.error(context, "User not found");
+        return;
+      }
+
+      await logoutUseCase.execute(id.toString());
+
+      // 🔥 2. clear local storage
+      await LocalStorageService.logout();
+
+      CustomMessage.success(context, "Logged out successfully");
+    } catch (e) {
+      CustomMessage.error(context, e.toString());
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 }
