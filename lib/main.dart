@@ -42,8 +42,11 @@ import 'package:estatelqapp/features/menu_feature/presentation/provider_state_ma
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
 import 'package:estatelqapp/features/profile_feature/data/datasources/client_remote_data_source.dart';
+import 'package:estatelqapp/features/profile_feature/data/datasources/support_remote_data_source.dart';
 import 'package:estatelqapp/features/profile_feature/data/repositories/client_repository.dart';
+import 'package:estatelqapp/features/profile_feature/data/repositories/support_repository.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/get_client_use_case.dart';
+import 'package:estatelqapp/features/profile_feature/domain/usecases/submit_complaint_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/update_address_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/update_profile_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
@@ -51,6 +54,7 @@ import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_yo
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/providers/client_provider.dart';
+import 'package:estatelqapp/features/profile_feature/presentation/providers/support_provider.dart';
 import 'package:estatelqapp/features/property_details_feature/data/datasources/property_details_remote_data_source.dart';
 import 'package:estatelqapp/features/property_details_feature/data/repositories/property_details_repository_impl.dart';
 import 'package:estatelqapp/features/property_details_feature/domain/usecases/get_property_by_id_use_case.dart';
@@ -110,6 +114,10 @@ void main() async {
   final updateUdressUseCase = UpdateAddressUseCase(clientRepo);
   final updateProfileUseCase = UpdateProfileUseCase(clientRepo);
   WidgetsFlutterBinding.ensureInitialized();
+  final supportRemote = SupportRemoteDataSource(http.Client());
+  final supportRepo = SupportRepository(supportRemote);
+
+  final submitComplaintUseCase = SubmitComplaintUseCase(supportRepo);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
@@ -130,6 +138,10 @@ void main() async {
             updateUdressUseCase,
             updateProfileUseCase,
           ),
+        ),
+
+        ChangeNotifierProvider(
+          create: (_) => SupportProvider(submitComplaintUseCase),
         ),
 
         ChangeNotifierProvider(

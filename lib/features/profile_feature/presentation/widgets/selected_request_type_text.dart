@@ -14,9 +14,10 @@ class SelectedRequestTypeText extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CustomFont(
-            name: 'Select Request Type',
+            name:
+                'What\'s your problem? You\'ll receive a response in the chat.',
             fontColor: blackColor,
-            fontSize: width * 0.04,
+            fontSize: width * 0.03,
           ),
         ],
       ),
