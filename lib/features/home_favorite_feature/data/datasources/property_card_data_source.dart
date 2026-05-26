@@ -109,7 +109,7 @@ class PropertyCardRemoteDataSource {
       ),
 
       PropertyCardModel(
-        id: "5",
+        id: "500",
         title: "Big Villa",
         images: ["assets/images/apartment.jpg"],
         location: "Homs",
@@ -133,7 +133,7 @@ class PropertyCardRemoteDataSource {
       ),
 
       PropertyCardModel(
-        id: "7",
+        id: "5",
         title: "Clothes Store",
         images: ["assets/images/apartment.jpg"],
         location: "Homs",

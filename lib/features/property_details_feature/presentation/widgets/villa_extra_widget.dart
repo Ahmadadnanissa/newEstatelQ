@@ -1,22 +1,32 @@
-import 'package:estatelqapp/core/app_theme.dart';
-import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/models/appartment_model.dart';
+import '../../data/models/villa_mode.dart';
+import '../../../../core/app_theme.dart';
+import '../../../../core/widgets/custom_font.dart';
+
 import 'custom_nearby_widget.dart';
 
-class ApartmentExtraWidget extends StatelessWidget {
-  final ApartmentModel property;
+class VillaExtraWidget extends StatelessWidget {
+  final VillaModel property;
 
-  const ApartmentExtraWidget({super.key, required this.property});
+  const VillaExtraWidget({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     List<String> details = [];
 
-    if (property.floorNumber != null) {
-      details.add("Floor : ${property.floorNumber}");
+    if (property.numOfFloors != null) {
+      details.add("Floors : ${property.numOfFloors}");
+    }
+
+    if (property.fireplace) {
+      details.add("Fireplace");
+    }
+
+    if (property.basementArea != null) {
+      details.add("Basement : ${property.basementArea} m²");
     }
 
     details.add("Heater : ${property.heating}");
@@ -27,8 +37,8 @@ class ApartmentExtraWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: width * 0.02,
-        horizontal: width * 0.03,
+        vertical: width * .02,
+        horizontal: width * .03,
       ),
 
       child: Column(
@@ -36,20 +46,24 @@ class ApartmentExtraWidget extends StatelessWidget {
 
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CustomFont(
                 name: 'More Details',
+
                 fontColor: blackColor,
-                fontSize: width * 0.05,
+
+                fontSize: width * .05,
+
                 fontWeight: FontWeight.bold,
               ),
             ],
           ),
+
           SizedBox(height: 15),
 
           Wrap(
             spacing: 10,
+
             runSpacing: 10,
 
             children: details.map((e) {

@@ -24,10 +24,10 @@ class PropertyDetailsProvider extends ChangeNotifier {
       property = await useCase.execute(id);
     } catch (e) {
       error = e.toString();
+    } finally {
+      isLoading = false;
+
+      notifyListeners();
     }
-
-    isLoading = false;
-
-    notifyListeners();
   }
 }

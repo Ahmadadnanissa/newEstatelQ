@@ -1,5 +1,5 @@
 import 'package:estatelqapp/features/property_details_feature/data/models/property_model.dart';
-import 'package:estatelqapp/features/property_details_feature/presentation/widgets/bed_and_bath_and_sqft.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/room_details_widget.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/details_of_description.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/property_image.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/sum_details_for_property_like_title.dart';
@@ -50,18 +50,14 @@ class BasePropertyDetailsWidget extends StatelessWidget {
 
         DetailsOfDescription(
           fullDescr: property.fullDescription ?? "",
-
-          image1: getGalleryImage(0),
-          image2: getGalleryImage(1),
-          image3: getGalleryImage(2),
-          image4: getGalleryImage(3),
+          images: property.galleryPhotos,
         ),
 
         SizedBox(height: width * .04),
 
         Divider(),
 
-        BedAndBathAndSqft(rooms: property.rooms),
+        RoomDetailsWidget(rooms: property.rooms),
 
         Divider(),
 

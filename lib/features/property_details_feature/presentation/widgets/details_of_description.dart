@@ -7,16 +7,18 @@ class DetailsOfDescription extends StatelessWidget {
   const DetailsOfDescription({
     super.key,
     required this.fullDescr,
-    required this.image1,
-    required this.image2,
-    required this.image3,
-    required this.image4,
+    required this.images,
+    // required this.image1,
+    // required this.image2,
+    // required this.image3,
+    // required this.image4,
   });
   final String fullDescr;
-  final String image1;
-  final String image2;
-  final String image3;
-  final String image4;
+  // final String image1;
+  // final String image2;
+  // final String image3;
+  // final String image4;
+  final List<String> images;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -45,15 +47,13 @@ class DetailsOfDescription extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: [
-                CustomImageForDescription(image: image1),
-                SizedBox(width: width * 0.02),
-                CustomImageForDescription(image: image2),
-                SizedBox(width: width * 0.02),
-                CustomImageForDescription(image: image3),
-                SizedBox(width: width * 0.02),
-                CustomImageForDescription(image: image4),
-              ],
+              children: images.map((e) {
+                return Padding(
+                  padding: EdgeInsets.only(right: 8),
+
+                  child: CustomImageForDescription(image: e),
+                );
+              }).toList(),
             ),
           ),
         ],

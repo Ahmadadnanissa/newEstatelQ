@@ -1,7 +1,15 @@
 import 'package:estatelqapp/features/property_details_feature/data/models/appartment_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/hall_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/house_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/store_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/villa_mode.dart';
 
 import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/apartment_details_widget.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/hall_details_widget.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/house_details_widget.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/store_details_widget.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/villa_details_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,21 +58,21 @@ class _BodyPropertyPageState extends State<BodyPropertyPage> {
           return ApartmentDetailsWidget(property: property);
         }
 
-        // if (property is VillaModel) {
-        //   return VillaDetailsWidget(property: property);
-        // }
+        if (property is VillaModel) {
+          return VillaDetailsWidget(property: property);
+        }
 
-        // if (property is HouseModel) {
-        //   return HouseDetailsWidget(property: property);
-        // }
+        if (property is HouseModel) {
+          return HouseDetailsWidget(property: property);
+        }
 
-        // if (property is HallModel) {
-        //   return HallDetailsWidget(property: property);
-        // }
+        if (property is HallModel) {
+          return HallDetailsWidget(property: property);
+        }
 
-        // if (property is StoreModel) {
-        //   return StoreDetailsWidget(property: property);
-        // }
+        if (property is StoreModel) {
+          return StoreDetailsWidget(property: property);
+        }
 
         return SizedBox();
       },

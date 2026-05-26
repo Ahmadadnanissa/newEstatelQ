@@ -4,16 +4,16 @@ import 'package:estatelqapp/features/property_details_feature/data/models/room_m
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/details_about_beds.dart';
 import 'package:flutter/material.dart';
 
-class BedAndBathAndSqft extends StatefulWidget {
+class RoomDetailsWidget extends StatefulWidget {
   final List<RoomItemModel> rooms;
 
-  const BedAndBathAndSqft({super.key, required this.rooms});
+  const RoomDetailsWidget({super.key, required this.rooms});
 
   @override
-  State<BedAndBathAndSqft> createState() => _BedAndBathAndSqftState();
+  State<RoomDetailsWidget> createState() => _RoomDetailsWidgetState();
 }
 
-class _BedAndBathAndSqftState extends State<BedAndBathAndSqft> {
+class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
   String? selectedRoomId;
 
   @override

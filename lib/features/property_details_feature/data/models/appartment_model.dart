@@ -12,16 +12,16 @@ class ApartmentModel extends PropertyModel {
 
   ApartmentModel({
     required super.id,
-    required super.requestId,
-    required super.clientId,
-    required super.referenceCode,
-    required super.zipCode,
+    // required super.requestId,
+    // required super.clientId,
+    // required super.referenceCode,
+    // required super.zipCode,
     required super.type,
     required super.listingType,
     super.simpleDescription,
     super.fullDescription,
     required super.location,
-    required super.city,
+    // required super.city,
     super.address,
     super.latitude,
     super.longitude,
@@ -33,7 +33,7 @@ class ApartmentModel extends PropertyModel {
     required super.primaryPhoto,
     required super.galleryPhotos,
     required super.constructionYear,
-    required super.status,
+    // required super.status,
     required super.rooms,
     required super.outdoorItems,
 
@@ -46,14 +46,13 @@ class ApartmentModel extends PropertyModel {
     return ApartmentModel(
       id: json["id"],
 
-      requestId: json["request_id"],
+      // requestId: json["request_id"],
 
-      clientId: json["client_id"],
+      // clientId: json["client_id"],
 
-      referenceCode: json["reference_code"],
+      // referenceCode: json["reference_code"],
 
-      zipCode: json["zip_code"],
-
+      // zipCode: json["zip_code"],
       type: json["type"],
 
       listingType: json["listing_type"],
@@ -64,8 +63,7 @@ class ApartmentModel extends PropertyModel {
 
       location: json["location"],
 
-      city: json["city"],
-
+      // city: json["city"],
       address: json["address"],
 
       latitude: json["latitude"]?.toDouble(),
@@ -88,8 +86,7 @@ class ApartmentModel extends PropertyModel {
 
       constructionYear: json["construction_year"],
 
-      status: json["status"],
-
+      // status: json["status"],
       rooms: (json["roomItems"] ?? [])
           .map<RoomItemModel>((e) => RoomItemModel.fromJson(e))
           .toList(),

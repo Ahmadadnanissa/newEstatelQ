@@ -1,22 +1,31 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/house_model.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_nearby_widget.dart';
+
 import 'package:flutter/material.dart';
 
-import '../../data/models/appartment_model.dart';
-import 'custom_nearby_widget.dart';
+class HouseExtraWidget extends StatelessWidget {
+  final HouseModel property;
 
-class ApartmentExtraWidget extends StatelessWidget {
-  final ApartmentModel property;
-
-  const ApartmentExtraWidget({super.key, required this.property});
+  const HouseExtraWidget({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     List<String> details = [];
 
-    if (property.floorNumber != null) {
-      details.add("Floor : ${property.floorNumber}");
+    if (property.numOfFloors != null) {
+      details.add("Floors : ${property.numOfFloors}");
+    }
+
+    if (property.fireplace) {
+      details.add("Fireplace");
+    }
+
+    if (property.basementArea != null) {
+      details.add("Basement : ${property.basementArea} m²");
     }
 
     details.add("Heater : ${property.heating}");
@@ -27,8 +36,8 @@ class ApartmentExtraWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: width * 0.02,
-        horizontal: width * 0.03,
+        vertical: width * .02,
+        horizontal: width * .03,
       ),
 
       child: Column(
@@ -36,16 +45,19 @@ class ApartmentExtraWidget extends StatelessWidget {
 
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CustomFont(
                 name: 'More Details',
+
                 fontColor: blackColor,
-                fontSize: width * 0.05,
+
+                fontSize: width * .05,
+
                 fontWeight: FontWeight.bold,
               ),
             ],
           ),
+
           SizedBox(height: 15),
 
           Wrap(
