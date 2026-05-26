@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/services/socket_service.dart';
+import 'package:estatelqapp/core/widgets/notification_overlay.dart';
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
 import 'package:estatelqapp/features/auth_features/domain/repository/auth_repository_impl.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/google_login_with_use_case.dart';
@@ -31,8 +32,9 @@ import 'package:estatelqapp/features/home_favorite_feature/presentation/provider
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/notification_remote.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/property_status_remote_data_source.dart';
-import 'package:estatelqapp/features/menu_feature/data/repositories/notification_impl.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/property_status_reomte_data_source_impl.dart';
+import 'package:estatelqapp/features/menu_feature/domain/repository/notification.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_usecase.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/map_page_for_request_page.dart';
@@ -93,7 +95,7 @@ void main() async {
   final verifyOtpUseCase = VerifyOtpUseCase(repoA);
   final sendOtpUseCase = SendOtpUseCase(repoA);
   final remote = NotificationRemoteDataSource(http.Client());
-  final repo = NotificationRepositoryImpl(remote);
+  final repo = NotificationRepository(remote);
   final statusRemote = PropertyStatusRemoteDataSource();
   final statusRepo = PropertyStatusRepositoryImpl(statusRemote);
   // Favorite
@@ -118,6 +120,7 @@ void main() async {
   final supportRepo = SupportRepository(supportRemote);
 
   final submitComplaintUseCase = SubmitComplaintUseCase(supportRepo);
+  final socketService = SocketService();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
@@ -158,7 +161,13 @@ void main() async {
           create: (_) => PropertyDetailsProvider(getPropertByIdUseCase),
         ),
 
-        ChangeNotifierProvider(create: (_) => NotificationProvider(repo)),
+        ChangeNotifierProvider(
+          create: (_) => NotificationProvider(
+            repo,
+            socketService,
+            MarkAsReadUseCase(repo),
+          ),
+        ),
 
         ChangeNotifierProvider(create: (_) => ChatProvider(SocketService())),
 
@@ -177,6 +186,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: NotificationOverlay.key,
       routes: {
         WelcomePage.id: (context) => WelcomePage(),
         SplashPage.id: (context) => SplashPage(),

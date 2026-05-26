@@ -1,90 +1,53 @@
-import 'package:estatelqapp/features/menu_feature/data/models/notification_model.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../models/notification_model.dart';
 
 class NotificationRemoteDataSource {
   final http.Client client;
 
   NotificationRemoteDataSource(this.client);
 
+  final String baseUrl = "YOUR_API_URL";
+
   Future<List<AppNotification>> getAllNotifications() async {
-    return [
-      AppNotification(
-        id: '0',
-        title: 'Mock Notification',
-        body: 'Backend not connected yet',
-        createdAt: DateTime.now(),
-        isRead: false,
-        type: 'general',
-        image: 'assets/images/clay-banks-79yk4XalXCM-unsplash.jpg',
-      ),
-    ];
-    // try {
-    //   final response = await client
-    //       .get(Uri.parse('API_URL'))
-    //       .timeout(const Duration(seconds: 10));
+    final response = await client.get(
+      Uri.parse("$baseUrl/notifications"),
+      headers: {"Content-Type": "application/json"},
+    );
 
-    //   if (response.statusCode == 200) {
-    //     final decoded = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
 
-    //     if (decoded is List) {
-    //       return decoded
-    //           .map<AppNotification>((e) => AppNotification.fromJson(e))
-    //           .toList();
-    //     } else {
-    //       throw Exception('Invalid data format (not a list)');
-    //     }
-    //   } else {
-    //     throw Exception('Server error: ${response.statusCode}');
-    //   }
-    // } on SocketException {
-    //   throw Exception('No Internet connection');
-    // } on FormatException {
-    //   throw Exception('Invalid JSON format');
-    // } on HttpException {
-    //   throw Exception('HTTP error occurred');
-    // } on Exception catch (e) {
-    //   throw Exception('Unexpected error: $e');
-    // }
+      return (data as List).map((e) => AppNotification.fromJson(e)).toList();
+    } else {
+      throw Exception("Failed to load notifications");
+    }
   }
 
   Future<List<AppNotification>> getUnreadNotifications() async {
-    return [
-      AppNotification(
-        id: '0',
-        title: 'Mock Notification',
-        body: 'Backend not connected yet',
-        createdAt: DateTime.now(),
-        isRead: false,
-        type: 'general',
-        image: 'assets/images/clay-banks-79yk4XalXCM-unsplash.jpg',
-      ),
-    ];
-    // try {
-    //   final response = await client
-    //       .get(Uri.parse('API_URL/unread'))
-    //       .timeout(const Duration(seconds: 10));
+    final response = await client.get(
+      Uri.parse("$baseUrl/notifications/unread"),
+      headers: {"Content-Type": "application/json"},
+    );
 
-    //   if (response.statusCode == 200) {
-    //     final decoded = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
 
-    //     if (decoded is List) {
-    //       return decoded
-    //           .map<AppNotification>((e) => AppNotification.fromJson(e))
-    //           .toList();
-    //     } else {
-    //       throw Exception('Invalid data format (not a list)');
-    //     }
-    //   } else {
-    //     throw Exception('Server error: ${response.statusCode}');
-    //   }
-    // } on SocketException {
-    //   throw Exception('No Internet connection');
-    // } on FormatException {
-    //   throw Exception('Invalid JSON format');
-    // } on HttpException {
-    //   throw Exception('HTTP error occurred');
-    // } on Exception catch (e) {
-    //   throw Exception('Unexpected error: $e');
-    // }
+      return (data as List).map((e) => AppNotification.fromJson(e)).toList();
+    } else {
+      throw Exception("Failed to load unread notifications");
+    }
+  }
+
+  Future<void> markAsRead(List<String> ids) async {
+    final response = await client.post(
+      Uri.parse("$baseUrl/notifications/read"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"notificationIds": ids}),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception("Failed to mark notifications as read");
+    }
   }
 }

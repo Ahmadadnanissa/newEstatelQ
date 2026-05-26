@@ -1,6 +1,9 @@
+import 'package:estatelqapp/core/widgets/navigation_route.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/property_status_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/body_of_notification.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_botton_for_notification_page.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,12 +18,6 @@ class _BodyNotificationPageState extends State<BodyNotificationPage> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final provider = context.read<NotificationProvider>();
-      provider.loadAll();
-      provider.connectSocket();
-    });
   }
 
   @override
@@ -68,7 +65,30 @@ class _BodyNotificationPageState extends State<BodyNotificationPage> {
                       itemBuilder: (context, index) {
                         final notification = provider.notifications[index];
 
-                        return BodyOfNotification(notification: notification);
+                        return GestureDetector(
+                          onTap: () async {
+                            await context
+                                .read<NotificationProvider>()
+                                .markAsRead(notification.id);
+
+                            if (notification.entityId == null) {
+                              Navigator.push(
+                                context,
+                                SlideRight(page: PropertyStatusPage()),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                SlideRight(
+                                  page: PropertyPage(
+                                    propertyId: notification.entityId!,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          child: BodyOfNotification(notification: notification),
+                        );
                       },
                     ),
             ),
