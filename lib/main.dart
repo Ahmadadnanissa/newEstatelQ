@@ -40,10 +40,14 @@ import 'package:estatelqapp/features/menu_feature/presentation/pages/notificatio
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
+import 'package:estatelqapp/features/profile_feature/data/datasources/client_remote_data_source.dart';
+import 'package:estatelqapp/features/profile_feature/data/repositories/client_repository.dart';
+import 'package:estatelqapp/features/profile_feature/domain/usecases/get_client_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
+import 'package:estatelqapp/features/profile_feature/presentation/providers/client_provider.dart';
 import 'package:estatelqapp/features/property_details_feature/data/datasources/property_details_remote_data_source.dart';
 import 'package:estatelqapp/features/property_details_feature/data/repositories/property_details_repository_impl.dart';
 import 'package:estatelqapp/features/property_details_feature/domain/usecases/get_property_by_id_use_case.dart';
@@ -100,6 +104,12 @@ void main() async {
   final getFavoriteUseCase = GetFavoritePropertiesUseCase(favoriteRepo);
 
   final addFavoriteUseCase = AddToFavoriteUseCase(favoriteRepo);
+
+  final clientRemote = ClientRemoteDataSource(http.Client());
+  final clientRepo = ClientRepository(clientRemote);
+
+  final getClientUseCase = GetClientUseCase(clientRepo);
+
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -115,6 +125,7 @@ void main() async {
               FavoriteProvider(getFavoriteUseCase, addFavoriteUseCase)
                 ..getFavorites(),
         ),
+        ChangeNotifierProvider(create: (_) => ClientProvider(getClientUseCase)),
 
         ChangeNotifierProvider(
           create: (_) => AuthProvider(

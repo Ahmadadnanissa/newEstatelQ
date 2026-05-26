@@ -9,16 +9,16 @@ class LocalStorageService {
 
   static Future<void> saveUser({
     required int id,
-
     required String name,
-
     required String email,
   }) async {
     await box.put('id', id);
-
     await box.put('name', name);
-
     await box.put('email', email);
+  }
+
+  static Future<void> saveUserType(String type) async {
+    await box.put('userType', type); // "guest" | "client"
   }
 
   static String? getToken() {
@@ -27,6 +27,14 @@ class LocalStorageService {
 
   static String? getEmail() {
     return box.get('email');
+  }
+
+  static int? getId() {
+    return box.get('id');
+  }
+
+  static String? getUserType() {
+    return box.get('userType');
   }
 
   static Future<void> logout() async {

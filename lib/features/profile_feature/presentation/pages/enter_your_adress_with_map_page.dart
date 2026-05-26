@@ -7,8 +7,16 @@ import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 
 class EnterYourAdressWithMapPage extends StatefulWidget {
-  const EnterYourAdressWithMapPage({super.key});
+  const EnterYourAdressWithMapPage({
+    super.key,
+    this.initialLat,
+    this.initialLng,
+  });
+
   static String id = 'EnterYourAdressWithMapPage';
+
+  final double? initialLat;
+  final double? initialLng;
 
   @override
   State<EnterYourAdressWithMapPage> createState() =>
@@ -23,9 +31,17 @@ class _EnterYourAdressWithMapPageState
   LatLng? _selectedPoint;
   bool _isMapReady = false;
 
+  late LatLng _defaultLocation;
+
   @override
   void initState() {
     super.initState();
+
+    _defaultLocation = LatLng(
+      widget.initialLat ?? 34.730610,
+      widget.initialLng ?? 36.708964,
+    );
+
     _getUserLocation();
   }
 
@@ -61,6 +77,9 @@ class _EnterYourAdressWithMapPageState
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
+    // 🔥 المركز النهائي للخريطة
+    final LatLng mapCenter = _currentLocation ?? _defaultLocation;
+
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBarForProfile(title: 'Address'),
@@ -69,8 +88,7 @@ class _EnterYourAdressWithMapPageState
             FlutterMap(
               mapController: _mapController,
               options: MapOptions(
-                initialCenter:
-                    _currentLocation ?? const LatLng(34.730610, 36.708964),
+                initialCenter: mapCenter,
                 initialZoom: 15.5,
                 onMapReady: () {
                   _isMapReady = true;
@@ -123,9 +141,9 @@ class _EnterYourAdressWithMapPageState
                 mini: true,
                 backgroundColor: Colors.white,
                 onPressed: () {
-                  if (_currentLocation != null) {
-                    _mapController.move(_currentLocation!, 15.5);
-                  }
+                  final target = _currentLocation ?? _defaultLocation;
+
+                  _mapController.move(target, 15.5);
                 },
                 child: const Icon(Icons.my_location, color: Colors.blue),
               ),
@@ -145,6 +163,7 @@ class _EnterYourAdressWithMapPageState
                 ),
                 onPressed: () {
                   if (_selectedPoint != null) {
+                    // جاهزة للربط مع الـ provider / local storage
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Please select a location")),

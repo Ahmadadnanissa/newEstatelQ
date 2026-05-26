@@ -49,6 +49,7 @@ class AuthProvider extends ChangeNotifier {
 
         email: userData!.user.email,
       );
+      await LocalStorageService.saveUserType("client");
     } catch (e) {
       error = e.toString();
     } finally {
@@ -105,6 +106,7 @@ class AuthProvider extends ChangeNotifier {
 
         email: otpData!.user.email,
       );
+      await LocalStorageService.saveUserType("client");
     } catch (e) {
       error = e.toString();
     } finally {
