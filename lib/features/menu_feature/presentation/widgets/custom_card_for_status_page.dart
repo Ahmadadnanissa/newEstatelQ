@@ -51,7 +51,7 @@ class CustomCardForStatusPage extends StatelessWidget {
               Icon(
                 checkIcon(activity),
                 color: checkColor(activity),
-                size: width * 0.07,
+                size: width * 0.06,
               ),
               Container(
                 height: width * 0.2,
@@ -72,13 +72,13 @@ class CustomCardForStatusPage extends StatelessWidget {
                       CustomFont(
                         name: activity.title,
                         fontColor: blackColor,
-                        fontSize: width * 0.05,
+                        fontSize: width * 0.04,
                       ),
                       Spacer(),
                       CustomFont(
                         name: activity.date.toString(),
                         fontColor: blackColor,
-                        fontSize: width * 0.03,
+                        fontSize: width * 0.025,
                       ),
                     ],
                   ),
@@ -88,7 +88,7 @@ class CustomCardForStatusPage extends StatelessWidget {
                     style: TextStyle(
                       color: greenColor,
                       fontFamily: fontFamily,
-                      fontSize: width * 0.04,
+                      fontSize: width * 0.03,
                     ),
                   ),
                   // CustomFont(

@@ -32,9 +32,14 @@ import 'package:estatelqapp/features/home_favorite_feature/presentation/provider
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/notification_remote.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/property_status_remote_data_source.dart';
+import 'package:estatelqapp/features/menu_feature/data/datasources/request_remote_data_source.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/property_status_reomte_data_source_impl.dart';
+import 'package:estatelqapp/features/menu_feature/data/repositories/request_repository.dart';
 import 'package:estatelqapp/features/menu_feature/domain/repository/notification.dart';
+import 'package:estatelqapp/features/menu_feature/domain/repository/property_status_repository.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/get_property_activities.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_usecase.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/send_request_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/map_page_for_request_page.dart';
@@ -43,6 +48,7 @@ import 'package:estatelqapp/features/menu_feature/presentation/pages/notificatio
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/request_provider.dart';
 import 'package:estatelqapp/features/profile_feature/data/datasources/client_remote_data_source.dart';
 import 'package:estatelqapp/features/profile_feature/data/datasources/support_remote_data_source.dart';
 import 'package:estatelqapp/features/profile_feature/data/repositories/client_repository.dart';
@@ -96,13 +102,20 @@ void main() async {
   final sendOtpUseCase = SendOtpUseCase(repoA);
   final remote = NotificationRemoteDataSource(http.Client());
   final repo = NotificationRepository(remote);
-  final statusRemote = PropertyStatusRemoteDataSource();
+  final statusRemote = PropertyStatusRemoteDataSource(http.Client());
   final statusRepo = PropertyStatusRepositoryImpl(statusRemote);
+  final getPropertyActivities = GetPropertyActivities(statusRepo);
   // Favorite
 
   final favoriteRemote = FavoriteRemoteDataSource(
     // http.Client()
   );
+
+  final requestRemote = RequestRemoteDataSource(http.Client());
+
+  final requestRepo = RequestRepository(requestRemote);
+
+  final sendRequestUseCase = SendRequestUseCase(requestRepo);
 
   final favoriteRepo = FavoriteRepository(favoriteRemote);
 
@@ -126,6 +139,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => RequestProvider(sendRequestUseCase),
+        ),
         // ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(
           create: (_) => HomeProvider(useCaseP)..getProperties(),
@@ -172,7 +188,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ChatProvider(SocketService())),
 
         ChangeNotifierProvider(
-          create: (_) => PropertyStatusProvider(statusRepo),
+          create: (_) => PropertyStatusProvider(getPropertyActivities),
         ),
       ],
       child: const MyApp(),

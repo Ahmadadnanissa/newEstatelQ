@@ -1,22 +1,39 @@
-import 'package:estatelqapp/features/menu_feature/data/repositories/property_status_reomte_data_source_impl.dart';
+import 'package:estatelqapp/core/services/local_storage_service.dart';
+
 import 'package:estatelqapp/features/menu_feature/domain/entity/property_activity.dart';
+
+import 'package:estatelqapp/features/menu_feature/domain/usecases/get_property_activities.dart';
+
 import 'package:flutter/material.dart';
 
 class PropertyStatusProvider extends ChangeNotifier {
-  final PropertyStatusRepositoryImpl repo;
+  final GetPropertyActivities getPropertyActivities;
 
-  PropertyStatusProvider(this.repo);
+  PropertyStatusProvider(this.getPropertyActivities);
 
   List<PropertyActivity> activities = [];
+
   bool isLoading = false;
 
+  String? error;
+
   Future<void> getActivities(String propertyId) async {
-    isLoading = true;
-    notifyListeners();
+    try {
+      isLoading = true;
 
-    activities = await repo.getActivities(propertyId);
+      error = null;
 
-    isLoading = false;
-    notifyListeners();
+      notifyListeners();
+
+      final token = LocalStorageService.getToken() ?? "";
+
+      activities = await getPropertyActivities(propertyId, token);
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+
+      notifyListeners();
+    }
   }
 }

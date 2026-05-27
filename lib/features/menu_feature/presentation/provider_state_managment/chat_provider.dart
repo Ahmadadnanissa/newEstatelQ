@@ -10,10 +10,9 @@ class ChatProvider extends ChangeNotifier {
   List<ChatMessage> messages = [];
   final TextEditingController controller = TextEditingController();
 
-  String myId = "user_1"; // مؤقت (بعدين من اليوزر الحقيقي)
+  String myId = "user_1";
   String chatId = "chat_123";
 
-  // 🔌 connect socket
   void connect() {
     socketService.connect();
     socketService.emit('join_room', chatId);

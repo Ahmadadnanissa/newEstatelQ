@@ -4,13 +4,11 @@ import 'package:estatelqapp/features/menu_feature/presentation/provider_state_ma
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_card_for_status_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/row_for_see_activity_in_property_status.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/title_and_type_for_property_status.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BodyPropertyStatusPage extends StatefulWidget {
   const BodyPropertyStatusPage({super.key});
-
   @override
   State<BodyPropertyStatusPage> createState() => _BodyPropertyStatusPageState();
 }
@@ -27,41 +25,85 @@ class _BodyPropertyStatusPageState extends State<BodyPropertyStatusPage> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<PropertyStatusProvider>();
+
     double width = MediaQuery.of(context).size.width;
+
     double height = MediaQuery.of(context).size.height;
+
     return ListView(
       children: [
         AppImage(
           path: 'assets/images/jesse-collins-LUitWpwc008-unsplash.jpg',
+
           width: width,
+
           height: height * 0.55,
+
           fit: BoxFit.cover,
         ),
 
         TitleAndTypeForPropertyStatus(
           title: 'Mountain View Villa',
+
           type: 'Villa',
+
           price: '120.00',
+
           forWhat: 'For Sale',
         ),
 
         ListOfMoreDetails(numberOfPath: 4, numberOfRoom: 5, sqft: 300),
+
         SizedBox(height: width * 0.05),
+
         RowForSeeActivityInPropertyStatus(
           onTapRecentActivities: () {},
+
           onTapViewAll: () {},
         ),
+
         SizedBox(height: width * 0.08),
 
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: provider.activities.length,
-          itemBuilder: (context, index) {
-            final activity = provider.activities[index];
+        if (provider.isLoading)
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.all(30),
 
-            return CustomCardForStatusPage(activity: activity);
-          },
-        ),
+              child: CircularProgressIndicator(),
+            ),
+          )
+        else if (provider.error != null)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+
+              child: Text(provider.error!),
+            ),
+          )
+        else if (provider.activities.isEmpty)
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+
+              child: Text("No activities found"),
+            ),
+          )
+        else
+          ListView.builder(
+            shrinkWrap: true,
+
+            physics: const NeverScrollableScrollPhysics(),
+
+            itemCount: provider.activities.length,
+
+            itemBuilder: (context, index) {
+              final activity = provider.activities[index];
+
+              return CustomCardForStatusPage(activity: activity);
+            },
+          ),
+
+        SizedBox(height: width * 0.05),
       ],
     );
   }
