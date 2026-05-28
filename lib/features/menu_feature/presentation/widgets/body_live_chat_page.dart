@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BodyLiveChatPage extends StatefulWidget {
-  const BodyLiveChatPage({super.key});
+  const BodyLiveChatPage({super.key, required this.dealId});
+  final String dealId;
 
   @override
   State<BodyLiveChatPage> createState() => _BodyLiveChatPageState();

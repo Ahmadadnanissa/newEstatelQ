@@ -2,9 +2,9 @@ import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
-import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/property_status_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/rooms_live_chat_page.dart';
 import 'package:flutter/material.dart';
 
 class CheckPageToNavigate extends StatelessWidget {
@@ -25,7 +25,7 @@ class CheckPageToNavigate extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                SlideLeft(0, page: LiveChatPage()),
+                SlideLeft(0, page: RoomsLiveChatPage()),
               );
             },
             child: Row(

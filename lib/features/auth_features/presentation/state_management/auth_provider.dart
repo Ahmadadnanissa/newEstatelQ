@@ -2,12 +2,16 @@ import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:estatelqapp/core/widgets/custom_message.dart';
 import 'package:estatelqapp/features/auth_features/data/models/login_response_model.dart';
 import 'package:estatelqapp/features/auth_features/data/models/sign_up_response_model.dart';
-import 'package:estatelqapp/features/auth_features/domain/usecases/google_login_with_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/forgot_password_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/log_out_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/login_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/reset_password_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/send_otp_use_Case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/sign_up_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/verify_forgot_password_otp_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/verify_otp_use_case.dart';
+import 'package:estatelqapp/features/forget_password_features/data/models/forget_passowrd_response_model.dart';
+import 'package:estatelqapp/features/forget_password_features/data/models/verify_for_go_to_passowrd_otp_veriffy_response.dart';
 import 'package:flutter/material.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -17,6 +21,9 @@ class AuthProvider extends ChangeNotifier {
   final VerifyOtpUseCase verifyOtpUseCase;
   final SendOtpUseCase sendOtpUseCase;
   final LogoutUseCase logoutUseCase;
+  final ForgotPasswordUseCase forgotPasswordUseCase;
+  final VerifyForgotPasswordOtpUseCase verifyForgotPasswordOtpUseCase;
+  final ResetPasswordUseCase resetPasswordUseCase;
   AuthProvider(
     // this.useCase,
     this.loginUseCase,
@@ -24,17 +31,18 @@ class AuthProvider extends ChangeNotifier {
     this.verifyOtpUseCase,
     this.sendOtpUseCase,
     this.logoutUseCase,
+    this.forgotPasswordUseCase,
+    this.verifyForgotPasswordOtpUseCase,
+    this.resetPasswordUseCase,
   );
-
   bool isLoading = false;
-
   bool isSuccess = false;
-
   String? error;
-
   LoginResponseModel? userData;
   SignupResponseModel? signupData;
   LoginResponseModel? otpData;
+  ForgotPasswordResponseModel? forgotPasswordData;
+  VerifyForgotPasswordOtpModel? verifyForgotPasswordOtpData;
 
   Future<void> login(String email, String password) async {
     error = null;
@@ -183,6 +191,73 @@ class AuthProvider extends ChangeNotifier {
       CustomMessage.error(context, e.toString());
     } finally {
       isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> forgotPassword(String email) async {
+    error = null;
+
+    try {
+      isLoading = true;
+
+      notifyListeners();
+
+      forgotPasswordData = await forgotPasswordUseCase.execute(email);
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> verifyForgotPasswordOtp(String email, String otp) async {
+    error = null;
+
+    try {
+      isLoading = true;
+
+      notifyListeners();
+
+      verifyForgotPasswordOtpData = await verifyForgotPasswordOtpUseCase
+          .execute(email, otp);
+
+      await LocalStorageService.saveResetToken(
+        verifyForgotPasswordOtpData!.resetToken,
+      );
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> resetPassword(String password, String passwordConfirm) async {
+    error = null;
+
+    try {
+      isLoading = true;
+
+      notifyListeners();
+
+      final token = LocalStorageService.getResetToken();
+
+      if (token == null) {
+        throw Exception("Reset token not found");
+      }
+
+      await resetPasswordUseCase.execute(password, passwordConfirm, token);
+
+      await LocalStorageService.removeResetToken();
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      isLoading = false;
+
       notifyListeners();
     }
   }

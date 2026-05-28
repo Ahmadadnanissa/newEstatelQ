@@ -5,7 +5,8 @@ import 'package:estatelqapp/features/menu_feature/presentation/widgets/bottom_na
 import 'package:flutter/material.dart';
 
 class LiveChatPage extends StatelessWidget {
-  const LiveChatPage({super.key});
+  const LiveChatPage({super.key, required this.dealId});
+  final String dealId;
   static String id = 'LiveChatPage';
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class LiveChatPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        body: BodyLiveChatPage(),
+        body: BodyLiveChatPage(dealId: dealId),
         bottomNavigationBar: BottomNavigationBarForLiveChatPage(),
       ),
     );

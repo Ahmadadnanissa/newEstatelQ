@@ -40,4 +40,16 @@ class LocalStorageService {
   static Future<void> logout() async {
     await box.clear();
   }
+
+  static Future<void> saveResetToken(String token) async {
+    await box.put('resetToken', token);
+  }
+
+  static String? getResetToken() {
+    return box.get('resetToken');
+  }
+
+  static Future<void> removeResetToken() async {
+    await box.delete('resetToken');
+  }
 }

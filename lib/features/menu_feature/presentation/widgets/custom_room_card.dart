@@ -1,11 +1,12 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
-import 'package:estatelqapp/features/menu_feature/data/models/notification_model.dart';
+import 'package:estatelqapp/features/menu_feature/data/models/room_chat_model.dart';
 import 'package:flutter/material.dart';
 
-class BodyOfNotification extends StatelessWidget {
-  const BodyOfNotification({super.key, required this.notification});
-  final AppNotification notification;
+class CustomRoomCard extends StatelessWidget {
+  const CustomRoomCard({super.key, required this.room});
+  final RoomChatModel room;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -32,7 +33,7 @@ class BodyOfNotification extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   child: CircleAvatar(
                     radius: width * 0.09,
-                    backgroundImage: AssetImage(notification.image!),
+                    backgroundImage: AssetImage(room.image!),
                   ),
                 ),
                 Padding(
@@ -42,7 +43,7 @@ class BodyOfNotification extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CustomFont(
-                        name: notification.title,
+                        name: room.title,
                         fontColor: blackColor,
                         fontSize: width * 0.04,
                         fontWeight: FontWeight.w600,
@@ -51,7 +52,7 @@ class BodyOfNotification extends StatelessWidget {
                         width: width * 0.7,
 
                         child: Text(
-                          notification.body,
+                          room.body,
                           textAlign: TextAlign.start,
                           softWrap: true,
 
@@ -66,19 +67,6 @@ class BodyOfNotification extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomFont(
-                    name: notification.createdAt.toString(),
-                    fontColor: secondaryColor,
-                    fontSize: width * 0.02,
-                  ),
-                ],
-              ),
             ),
           ],
         ),

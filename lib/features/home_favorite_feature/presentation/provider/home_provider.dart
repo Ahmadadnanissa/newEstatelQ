@@ -68,7 +68,8 @@ class HomeProvider extends ChangeNotifier {
     await refresh();
   }
 
-  void setLocation(String location) {
+  void setLocation(String location) async {
     filter.location = location.isEmpty ? null : location;
+    await refresh();
   }
 }

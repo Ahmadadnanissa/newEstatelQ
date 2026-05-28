@@ -6,7 +6,10 @@ class SendRequestUseCase {
 
   SendRequestUseCase(this.repository);
 
-  Future<void> execute({required RequestModel request, required String token}) {
+  Future<String> execute({
+    required RequestModel request,
+    required String? token,
+  }) {
     return repository.sendRequest(request: request, token: token);
   }
 }

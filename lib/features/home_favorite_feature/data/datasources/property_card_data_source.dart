@@ -44,7 +44,11 @@
 //           .toList();
 //     }
 
-//     throw Exception("Failed To Load Properties");
+//final data = jsonDecode(response.body);
+
+//throw Exception(
+//data["message"] ?? "Failed To Load Properties",
+//);
 //   }
 // }
 

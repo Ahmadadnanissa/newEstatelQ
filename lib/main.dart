@@ -2,11 +2,13 @@ import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/widgets/notification_overlay.dart';
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
 import 'package:estatelqapp/features/auth_features/domain/repository/auth_repository_impl.dart';
-import 'package:estatelqapp/features/auth_features/domain/usecases/google_login_with_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/forgot_password_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/log_out_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/login_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/reset_password_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/send_otp_use_Case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/sign_up_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/verify_forgot_password_otp_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/verify_otp_use_case.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/signup_page.dart';
@@ -36,7 +38,6 @@ import 'package:estatelqapp/features/menu_feature/data/datasources/request_remot
 import 'package:estatelqapp/features/menu_feature/data/repositories/property_status_reomte_data_source_impl.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/request_repository.dart';
 import 'package:estatelqapp/features/menu_feature/domain/repository/notification.dart';
-import 'package:estatelqapp/features/menu_feature/domain/repository/property_status_repository.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/get_property_activities.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_usecase.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/send_request_use_case.dart';
@@ -45,6 +46,7 @@ import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_p
 import 'package:estatelqapp/features/menu_feature/presentation/pages/map_page_for_request_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/menu_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/rooms_live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
@@ -97,6 +99,10 @@ void main() async {
   // final useCaseA = LoginWithGoogleUseCase(repoA);
   final loginUseCase = LoginUseCase(repoA);
   final logoutUseCase = LogoutUseCase(repoA);
+  final forgotPasswordUseCase = ForgotPasswordUseCase(repoA);
+  final verifyForgotPasswordOtpUseCase = VerifyForgotPasswordOtpUseCase(repoA);
+
+  final resetPasswordUseCase = ResetPasswordUseCase(repoA);
   final signUpUseCase = SignupUseCase(repoA);
   final verifyOtpUseCase = VerifyOtpUseCase(repoA);
   final sendOtpUseCase = SendOtpUseCase(repoA);
@@ -170,6 +176,9 @@ void main() async {
             verifyOtpUseCase,
             sendOtpUseCase,
             logoutUseCase,
+            forgotPasswordUseCase,
+            verifyForgotPasswordOtpUseCase,
+            resetPasswordUseCase,
           ),
         ),
 
@@ -215,6 +224,7 @@ class MyApp extends StatelessWidget {
         ChangePasswordPage.id: (context) => ChangePasswordPage(),
         EnterYourEmail.id: (context) => EnterYourEmail(),
         FavoritePage.id: (context) => FavoritePage(),
+        RoomsLiveChatPage.id: (context) => RoomsLiveChatPage(),
         PropertyPage.id: (context) => PropertyPage(propertyId: ""),
         ProfilePage.id: (context) => ProfilePage(),
         HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
@@ -226,7 +236,7 @@ class MyApp extends StatelessWidget {
           location: '',
         ),
         FilterPage.id: (context) => FilterPage(),
-        LiveChatPage.id: (context) => LiveChatPage(),
+        LiveChatPage.id: (context) => LiveChatPage(dealId: ''),
         NotificationPage.id: (context) => NotificationPage(),
         ListYourPropertyPage.id: (context) => ListYourPropertyPage(),
         MenuPage.id: (context) => MenuPage(),
