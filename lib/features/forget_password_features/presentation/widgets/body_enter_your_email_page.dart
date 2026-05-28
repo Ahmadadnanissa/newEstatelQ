@@ -38,7 +38,10 @@ class _BodyEnterYourEmailPageState extends State<BodyEnterYourEmailPage> {
                 if (globalKey.currentState!.validate()) {
                   final provider = context.read<AuthProvider>();
 
-                  await provider.forgotPassword(emailController.text.trim());
+                  await provider.forgotPassword(
+                    context,
+                    emailController.text.trim(),
+                  );
 
                   if (provider.error != null) {
                     CustomMessage.error(context, provider.error!);

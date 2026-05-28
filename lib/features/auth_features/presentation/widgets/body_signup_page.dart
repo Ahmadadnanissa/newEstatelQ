@@ -23,17 +23,28 @@ class BodySignupPage extends StatefulWidget {
 }
 
 class _BodySignupPageState extends State<BodySignupPage> {
-  GlobalKey<FormState> globalKey = GlobalKey();
+  final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
+
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   final confirmPasswordController = TextEditingController();
+
   final nameController = TextEditingController();
+
   // final phoneController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
+
     passwordController.dispose();
+
+    confirmPasswordController.dispose();
+
+    nameController.dispose();
+
     super.dispose();
   }
 
@@ -42,27 +53,39 @@ class _BodySignupPageState extends State<BodySignupPage> {
     return SafeArea(
       child: Form(
         key: globalKey,
+
         child: SingleChildScrollView(
           child: Column(
             children: [
               LoginAndSignupImage(),
+
               NamePage(name: 'Signup'),
+
               RowForNavigationBetweenLoginAndSignup(
                 subTitle: 'Already Have An Acount? ',
+
                 name: 'Login',
+
                 onTap: () {
                   Navigator.pushReplacementNamed(context, LoginPage.id);
                 },
               ),
+
               CustomFieldNameAndEmail(
                 emailController: emailController,
+
                 nameController: nameController,
               ),
-              //   CustomTextFormFieldForNumber(phoneController: phoneController),
+
+              // CustomTextFormFieldForNumber(
+              //   phoneController: phoneController,
+              // ),
               CustomFieldPasswordDouble(
                 passwordController: passwordController,
+
                 confirmPasswordController: confirmPasswordController,
               ),
+
               SizedBox(height: 30),
 
               Consumer<AuthProvider>(
@@ -73,22 +96,51 @@ class _BodySignupPageState extends State<BodySignupPage> {
                     isLoading: provider.isLoading,
 
                     pushing: () async {
-                      if (globalKey.currentState!.validate()) {
-                        final email = emailController.text.trim();
-                        // final phone = phoneController.text.trim();
-                        final name = nameController.text.trim();
-                        final password = passwordController.text.trim();
-                        final confirmPassword = confirmPasswordController.text
-                            .trim();
+                      FocusScope.of(context).unfocus();
 
-                        final provider = context.read<AuthProvider>();
+                      if (!globalKey.currentState!.validate()) {
+                        return;
+                      }
 
-                        await provider.signup(
-                          name,
-                          email,
-                          password,
-                          confirmPassword,
+                      final email = emailController.text.trim();
+
+                      final name = nameController.text.trim();
+
+                      final password = passwordController.text.trim();
+
+                      final confirmPassword = confirmPasswordController.text
+                          .trim();
+
+                      final authProvider = context.read<AuthProvider>();
+
+                      await authProvider.signup(
+                        name,
+                        email,
+                        password,
+                        confirmPassword,
+                      );
+
+                      if (authProvider.error != null) {
+                        CustomMessage.error(context, authProvider.error!);
+
+                        return;
+                      }
+
+                      if (authProvider.signupData != null) {
+                        CustomMessage.success(
+                          context,
+                          authProvider.signupData?.message ??
+                              "Account created successfully",
                         );
+
+                        nameController.clear();
+
+                        emailController.clear();
+
+                        passwordController.clear();
+
+                        confirmPasswordController.clear();
+
                         Navigator.pushReplacement(
                           context,
                           SlideRight(
@@ -98,31 +150,6 @@ class _BodySignupPageState extends State<BodySignupPage> {
                             ),
                           ),
                         );
-
-                        if (provider.signupData != null) {
-                          CustomMessage.success(
-                            context,
-                            "Account created. OTP sent to your email.",
-                          );
-                          Navigator.pushReplacement(
-                            context,
-                            SlideRight(
-                              page: OtpVerifivcationPageForPassword(
-                                email: email,
-                                toCreateAccount: true,
-                              ),
-                            ),
-                          );
-
-                          nameController.clear();
-                          emailController.clear();
-                          passwordController.clear();
-                          confirmPasswordController.clear();
-                        }
-
-                        if (provider.error != null) {
-                          CustomMessage.error(context, provider.error!);
-                        }
                       }
                     },
                   );
@@ -130,6 +157,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
               ),
 
               OrContinueWith(),
+
               GoogleOrFaceWidget(),
             ],
           ),

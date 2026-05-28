@@ -5,7 +5,7 @@ class SendOtpUseCase {
 
   SendOtpUseCase(this.repository);
 
-  Future<void> execute(String email) async {
+  Future<String> execute(String email) async {
     return repository.sendOtp(email);
   }
 }

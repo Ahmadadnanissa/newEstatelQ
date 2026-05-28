@@ -5,13 +5,17 @@ class LoginResponseModel {
 
   final UserModel user;
 
-  LoginResponseModel({required this.token, required this.user});
+  final String? message;
+
+  LoginResponseModel({required this.token, required this.user, this.message});
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
       token: json["token"],
 
       user: UserModel.fromJson(json["data"]),
+
+      message: json["message"],
     );
   }
 }

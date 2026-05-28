@@ -9,10 +9,6 @@ class AuthRepositoryImpl {
 
   AuthRepositoryImpl(this.remote);
 
-  // Future<bool> loginWithGoogle(String idToken) async {
-  //   return await remote.sendGoogleToken(idToken);
-  // }
-
   Future<LoginResponseModel> login(String email, String password) async {
     return await remote.login(email, password);
   }
@@ -30,12 +26,12 @@ class AuthRepositoryImpl {
     return await remote.verifyOtp(email, otp);
   }
 
-  Future<void> sendOtp(String email) async {
+  Future<String> sendOtp(String email) async {
     return await remote.sendOtp(email);
   }
 
-  Future<void> logout(String id) {
-    return remote.logout(id);
+  Future<String> logout(String id, String token) {
+    return remote.logout(id, token);
   }
 
   Future<ForgotPasswordResponseModel> forgotPassword(String email) async {
@@ -49,7 +45,7 @@ class AuthRepositoryImpl {
     return await remote.verifyForgotPasswordOtp(email, otp);
   }
 
-  Future<void> resetPassword(
+  Future<String> resetPassword(
     String password,
     String passwordConfirm,
     String resetToken,

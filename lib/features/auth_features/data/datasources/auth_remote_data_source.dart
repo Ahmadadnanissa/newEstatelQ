@@ -11,20 +11,6 @@ class AuthRemoteDataSource {
 
   AuthRemoteDataSource(this.client);
 
-  // Future<bool> sendGoogleToken(String idToken) async {
-  //   final response = await client.post(
-  //     Uri.parse('YOUR_API'),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode({"id_token": idToken}),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     return true;
-  //   } else {
-  //     throw Exception('Failed To Login');
-  //   }
-  // }
-
   Future<LoginResponseModel> login(String email, String password) async {
     final response = await client.post(
       Uri.parse("YOUR_URL/auth/login"),
@@ -34,13 +20,13 @@ class AuthRemoteDataSource {
       body: jsonEncode({"email": email, "password": password}),
     );
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+    final data = jsonDecode(response.body);
 
+    if (response.statusCode == 200) {
       return LoginResponseModel.fromJson(data);
     }
 
-    throw Exception("Login failed");
+    throw Exception(data["message"] ?? "Login failed");
   }
 
   Future<SignupResponseModel> signup(
@@ -56,22 +42,19 @@ class AuthRemoteDataSource {
 
       body: jsonEncode({
         "name": name,
-
         "email": email,
-
         "password": password,
-
         "passwordConfirm": passwordConfirm,
       }),
     );
 
-    if (response.statusCode == 201) {
-      final data = jsonDecode(response.body);
+    final data = jsonDecode(response.body);
 
+    if (response.statusCode == 201) {
       return SignupResponseModel.fromJson(data);
     }
 
-    throw Exception("Signup failed");
+    throw Exception(data["message"] ?? "Signup failed");
   }
 
   Future<LoginResponseModel> verifyOtp(String email, String otp) async {
@@ -83,37 +66,52 @@ class AuthRemoteDataSource {
       body: jsonEncode({"email": email, "otp": otp}),
     );
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+    final data = jsonDecode(response.body);
 
+    if (response.statusCode == 200) {
       return LoginResponseModel.fromJson(data);
     }
 
-    throw Exception("OTP verification failed");
+    throw Exception(data["message"] ?? "OTP verification failed");
   }
 
-  Future<void> sendOtp(String email) async {
+  Future<String> sendOtp(String email) async {
     final response = await client.post(
       Uri.parse("YOUR_URL/auth/sendOtp"),
+
       headers: {'Content-Type': 'application/json'},
+
       body: jsonEncode({"email": email}),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception("Failed to resend OTP");
+    final data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return data["message"] ?? "OTP sent successfully";
     }
+
+    throw Exception(data["message"] ?? "Failed to resend OTP");
   }
 
-  Future<void> logout(String id) async {
+  Future<String> logout(String id, String token) async {
     final response = await client.post(
       Uri.parse("YOUR_URL/logout"),
-      headers: {"Content-Type": "application/json"},
+
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+
       body: jsonEncode({"id": id}),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception("Logout failed");
+    final data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return data["message"] ?? "Logged out successfully";
     }
+
+    throw Exception(data["message"] ?? "Logout failed");
   }
 
   Future<ForgotPasswordResponseModel> forgotPassword(String email) async {
@@ -155,7 +153,7 @@ class AuthRemoteDataSource {
     throw Exception(data["message"] ?? "OTP verification failed");
   }
 
-  Future<void> resetPassword(
+  Future<String> resetPassword(
     String password,
     String passwordConfirm,
     String resetToken,
@@ -165,7 +163,6 @@ class AuthRemoteDataSource {
 
       headers: {
         'Content-Type': 'application/json',
-
         "Authorization": "Bearer $resetToken",
       },
 
@@ -177,8 +174,10 @@ class AuthRemoteDataSource {
 
     final data = jsonDecode(response.body);
 
-    if (response.statusCode != 200) {
-      throw Exception(data["message"] ?? "Reset password failed");
+    if (response.statusCode == 200) {
+      return data["message"] ?? "Password changed successfully";
     }
+
+    throw Exception(data["message"] ?? "Reset password failed");
   }
 }

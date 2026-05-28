@@ -15,7 +15,6 @@ import 'package:estatelqapp/features/forget_password_features/data/models/verify
 import 'package:flutter/material.dart';
 
 class AuthProvider extends ChangeNotifier {
-  // final LoginWithGoogleUseCase useCase;
   final SignupUseCase signupUseCase;
   final LoginUseCase loginUseCase;
   final VerifyOtpUseCase verifyOtpUseCase;
@@ -24,8 +23,8 @@ class AuthProvider extends ChangeNotifier {
   final ForgotPasswordUseCase forgotPasswordUseCase;
   final VerifyForgotPasswordOtpUseCase verifyForgotPasswordOtpUseCase;
   final ResetPasswordUseCase resetPasswordUseCase;
+
   AuthProvider(
-    // this.useCase,
     this.loginUseCase,
     this.signupUseCase,
     this.verifyOtpUseCase,
@@ -35,35 +34,44 @@ class AuthProvider extends ChangeNotifier {
     this.verifyForgotPasswordOtpUseCase,
     this.resetPasswordUseCase,
   );
+
   bool isLoading = false;
+
   bool isSuccess = false;
+
   String? error;
+
   LoginResponseModel? userData;
+
   SignupResponseModel? signupData;
+
   LoginResponseModel? otpData;
+
   ForgotPasswordResponseModel? forgotPasswordData;
+
   VerifyForgotPasswordOtpModel? verifyForgotPasswordOtpData;
 
   Future<void> login(String email, String password) async {
     error = null;
+
     try {
       isLoading = true;
 
       notifyListeners();
 
       userData = await loginUseCase.execute(email, password);
+
       await LocalStorageService.saveToken(userData!.token);
 
       await LocalStorageService.saveUser(
         id: userData!.user.id,
-
         name: userData!.user.name,
-
         email: userData!.user.email,
       );
+
       await LocalStorageService.saveUserType("client");
     } catch (e) {
-      error = e.toString();
+      error = e.toString().replaceFirst("Exception: ", "");
     } finally {
       isLoading = false;
 
@@ -91,7 +99,7 @@ class AuthProvider extends ChangeNotifier {
         passwordConfirm,
       );
     } catch (e) {
-      error = e.toString();
+      error = e.toString().replaceFirst("Exception: ", "");
     } finally {
       isLoading = false;
 
@@ -113,14 +121,13 @@ class AuthProvider extends ChangeNotifier {
 
       await LocalStorageService.saveUser(
         id: otpData!.user.id,
-
         name: otpData!.user.name,
-
         email: otpData!.user.email,
       );
+
       await LocalStorageService.saveUserType("client");
     } catch (e) {
-      error = e.toString();
+      error = e.toString().replaceFirst("Exception: ", "");
     } finally {
       isLoading = false;
 
@@ -128,74 +135,69 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> resendOtp(String email) async {
+  Future<void> resendOtp(BuildContext context, String email) async {
     error = null;
 
     try {
       isLoading = true;
+
       notifyListeners();
 
-      await sendOtpUseCase.execute(email);
+      final message = await sendOtpUseCase.execute(email);
+
+      CustomMessage.success(context, message);
     } catch (e) {
-      error = e.toString();
+      error = e.toString().replaceFirst("Exception: ", "");
+
+      CustomMessage.error(context, error!);
     } finally {
       isLoading = false;
+
       notifyListeners();
     }
   }
 
-  // Future<void> loginWithGoogle(String idToken) async {
-  //   error = null;
-  //   try {
-  //     isLoading = true;
-
-  //     notifyListeners();
-
-  //     isSuccess = await useCase.execute(idToken);
-  //   } catch (e) {
-  //     error = e.toString();
-  //   } finally {
-  //     isLoading = false;
-
-  //     notifyListeners();
-  //   }
-  // }
-
   Future<void> logout(BuildContext context) async {
     final userType = LocalStorageService.getUserType();
 
-    // 🔥 1. check guest
     if (userType == null || userType == "guest") {
       CustomMessage.error(context, "Please create an account first");
+
       return;
     }
 
     try {
       isLoading = true;
+
       notifyListeners();
 
       final id = LocalStorageService.getId();
 
-      if (id == null) {
-        CustomMessage.error(context, "User not found");
+      final token = LocalStorageService.getToken();
+
+      if (id == null || token == null) {
+        CustomMessage.error(context, "User data not found");
+
         return;
       }
 
-      await logoutUseCase.execute(id.toString());
+      final message = await logoutUseCase.execute(id.toString(), token);
 
-      // 🔥 2. clear local storage
       await LocalStorageService.logout();
 
-      CustomMessage.success(context, "Logged out successfully");
+      CustomMessage.success(context, message);
     } catch (e) {
-      CustomMessage.error(context, e.toString());
+      error = e.toString().replaceFirst("Exception: ", "");
+
+      CustomMessage.error(context, error!);
     } finally {
       isLoading = false;
+
       notifyListeners();
     }
   }
 
-  Future<void> forgotPassword(String email) async {
+  Future<void> forgotPassword(BuildContext context, String email) async {
     error = null;
 
     try {
@@ -204,8 +206,15 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
 
       forgotPasswordData = await forgotPasswordUseCase.execute(email);
+
+      CustomMessage.success(
+        context,
+        forgotPasswordData?.message ?? "OTP sent successfully",
+      );
     } catch (e) {
-      error = e.toString();
+      error = e.toString().replaceFirst("Exception: ", "");
+
+      CustomMessage.error(context, error!);
     } finally {
       isLoading = false;
 
@@ -228,7 +237,7 @@ class AuthProvider extends ChangeNotifier {
         verifyForgotPasswordOtpData!.resetToken,
       );
     } catch (e) {
-      error = e.toString();
+      error = e.toString().replaceFirst("Exception: ", "");
     } finally {
       isLoading = false;
 
@@ -236,7 +245,7 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> resetPassword(String password, String passwordConfirm) async {
+  Future<String?> resetPassword(String password, String passwordConfirm) async {
     error = null;
 
     try {
@@ -250,11 +259,19 @@ class AuthProvider extends ChangeNotifier {
         throw Exception("Reset token not found");
       }
 
-      await resetPasswordUseCase.execute(password, passwordConfirm, token);
+      final message = await resetPasswordUseCase.execute(
+        password,
+        passwordConfirm,
+        token,
+      );
 
       await LocalStorageService.removeResetToken();
+
+      return message;
     } catch (e) {
-      error = e.toString();
+      error = e.toString().replaceFirst("Exception: ", "");
+
+      return null;
     } finally {
       isLoading = false;
 

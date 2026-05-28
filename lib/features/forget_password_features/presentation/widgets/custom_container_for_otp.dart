@@ -19,8 +19,6 @@ class CustomContainerForOtp extends StatefulWidget {
 
   final String email;
 
-  /// true => signup otp
-  /// false => forget password otp
   final bool toCreateAccount;
 
   @override
@@ -142,7 +140,6 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
                 pushing: () async {
                   FocusScope.of(context).unfocus();
 
-                  /// validate otp
                   if (otpCode.trim().length != 6) {
                     CustomMessage.error(
                       context,
@@ -154,9 +151,6 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
 
                   final authProvider = context.read<AuthProvider>();
 
-                  /// ==============================
-                  /// SIGNUP OTP
-                  /// ==============================
                   if (widget.toCreateAccount) {
                     await authProvider.verifyOtp(widget.email, otpCode.trim());
 
@@ -169,7 +163,8 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
                     if (authProvider.otpData != null) {
                       CustomMessage.success(
                         context,
-                        "Account verified successfully",
+                        authProvider.otpData?.message ??
+                            "Account verified successfully",
                       );
 
                       Navigator.pushReplacement(
@@ -177,11 +172,7 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
                         SlideRight(page: HomePage()),
                       );
                     }
-                  }
-                  /// ==============================
-                  /// FORGET PASSWORD OTP
-                  /// ==============================
-                  else {
+                  } else {
                     await authProvider.verifyForgotPasswordOtp(
                       widget.email,
                       otpCode.trim(),
@@ -196,7 +187,8 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
                     if (authProvider.verifyForgotPasswordOtpData != null) {
                       CustomMessage.success(
                         context,
-                        "OTP verified successfully",
+                        authProvider.verifyForgotPasswordOtpData?.message ??
+                            "OTP verified successfully",
                       );
 
                       Navigator.pushReplacement(
@@ -236,26 +228,10 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
                     canResend = false;
                   });
 
-                  /// =========================
-                  /// resend signup otp
-                  /// =========================
                   if (widget.toCreateAccount) {
-                    await authProvider.resendOtp(widget.email);
-                  }
-                  /// =========================
-                  /// resend forget password otp
-                  /// =========================
-                  else {
-                    await authProvider.forgotPassword(widget.email);
-                  }
-
-                  if (authProvider.error != null) {
-                    CustomMessage.error(context, authProvider.error!);
+                    await authProvider.resendOtp(context, widget.email);
                   } else {
-                    CustomMessage.success(
-                      context,
-                      "OTP sent again successfully",
-                    );
+                    await authProvider.forgotPassword(context, widget.email);
                   }
 
                   Future.delayed(Duration(seconds: cooldown), () {

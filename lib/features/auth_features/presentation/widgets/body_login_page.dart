@@ -23,38 +23,49 @@ class BodyLoginPage extends StatefulWidget {
 
 class _BodyLoginPageState extends State<BodyLoginPage> {
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+
+  final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     emailController.dispose();
+
     passwordController.dispose();
+
     super.dispose();
   }
-
-  GlobalKey<FormState> globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Form(
         key: globalKey,
+
         child: SingleChildScrollView(
           child: Column(
             children: [
               LoginAndSignupImage(),
+
               NamePage(name: 'Login'),
+
               RowForNavigationBetweenLoginAndSignup(
                 subTitle: 'Don’t Have An Account?',
+
                 name: 'Signup',
+
                 onTap: () {
                   Navigator.pushReplacementNamed(context, SignupPage.id);
                 },
               ),
+
               FinalDoubleTextForLogin(
                 emailController: emailController,
+
                 passwordController: passwordController,
               ),
+
               ForgetYourPassword(),
 
               Consumer<AuthProvider>(
@@ -65,35 +76,46 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
                     isLoading: provider.isLoading,
 
                     pushing: () async {
-                      if (globalKey.currentState!.validate()) {
-                        final email = emailController.text.trim();
+                      FocusScope.of(context).unfocus();
 
-                        final password = passwordController.text.trim();
+                      if (!globalKey.currentState!.validate()) {
+                        return;
+                      }
 
-                        final provider = context.read<AuthProvider>();
+                      final email = emailController.text.trim();
 
-                        await provider.login(email, password);
+                      final password = passwordController.text.trim();
 
-                        if (provider.userData != null) {
-                          CustomMessage.success(context, "Welcome back!");
+                      final authProvider = context.read<AuthProvider>();
 
-                          emailController.clear();
+                      await authProvider.login(email, password);
 
-                          passwordController.clear();
-                          Navigator.pushReplacement(
-                            context,
-                            SlideRight(page: HomePage()),
-                          );
-                        }
+                      if (authProvider.error != null) {
+                        CustomMessage.error(context, authProvider.error!);
 
-                        if (provider.error != null) {
-                          CustomMessage.error(context, provider.error!);
-                        }
+                        return;
+                      }
+
+                      if (authProvider.userData != null) {
+                        CustomMessage.success(
+                          context,
+                          authProvider.userData?.message ?? "Welcome back!",
+                        );
+
+                        emailController.clear();
+
+                        passwordController.clear();
+
+                        Navigator.pushReplacement(
+                          context,
+                          SlideRight(page: HomePage()),
+                        );
                       }
                     },
                   );
                 },
               ),
+
               // OrContinueWith(),
               // GoogleOrFaceWidget(),
             ],

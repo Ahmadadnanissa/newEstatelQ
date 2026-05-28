@@ -63,32 +63,27 @@ class _BodyChangePasswordPageState extends State<BodyChangePasswordPage> {
                   pushing: () async {
                     FocusScope.of(context).unfocus();
 
-                    /// validate form
                     if (!globalKey.currentState!.validate()) {
                       return;
                     }
 
-                    /// call api
-                    await provider.resetPassword(
+                    final message = await provider.resetPassword(
                       passwordController.text.trim(),
 
                       confirmPasswordController.text.trim(),
                     );
 
-                    /// error
                     if (provider.error != null) {
                       CustomMessage.error(context, provider.error!);
 
                       return;
                     }
 
-                    /// success
                     CustomMessage.success(
                       context,
-                      "Password changed successfully",
+                      message ?? "Password changed successfully",
                     );
 
-                    /// navigate to login
                     Navigator.pushAndRemoveUntil(
                       context,
 
