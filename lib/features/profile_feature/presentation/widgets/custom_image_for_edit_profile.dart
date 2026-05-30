@@ -14,7 +14,7 @@ class CustomImageForEditProfile extends StatelessWidget {
           width: width * 0.3,
           height: width * 0.3,
           decoration: BoxDecoration(
-            color: primaryColor,
+            color: secondaryColor,
             borderRadius: BorderRadius.circular(width * 0.3),
             border: Border.all(color: secondaryColor, width: 0.5),
           ),

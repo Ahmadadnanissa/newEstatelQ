@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
@@ -33,11 +32,13 @@ class LogoutButton extends StatelessWidget {
               height: width * 0.14,
               width: width * 0.35,
               decoration: BoxDecoration(
-                color: primaryColor,
-                border: Border.all(color: greenColor, width: 1),
+                color: Theme.of(context).cardColor,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.secondary,
+                  width: 1,
+                ),
                 borderRadius: BorderRadius.circular(width * 0.01),
               ),
-
               child: Row(
                 children: [
                   Icon(
@@ -48,7 +49,7 @@ class LogoutButton extends StatelessWidget {
                   SizedBox(width: width * 0.04),
                   CustomFont(
                     name: 'Log Out',
-                    fontColor: Color(0xff5F6264),
+                    fontColor: Theme.of(context).colorScheme.onSurface,
                     fontSize: width * 0.045,
                   ),
                 ],

@@ -20,21 +20,21 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
   bool isSelectedBuy = true;
   bool isSelectedRent = false;
   String selectedType = 'Apartment';
+
   final locationController = TextEditingController();
-
   final roomController = TextEditingController();
-
   final minController = TextEditingController();
-
   final maxController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     return SingleChildScrollView(
       child: Column(
         children: [
           CustomSubTitleForFilterPage(title: 'Purpose'),
+
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.04),
             child: Row(
@@ -48,7 +48,7 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
                     setState(() {});
                   },
                   child: BuyOrRentCustomContainer(
-                    image: 'assets/images/buy.png',
+                    icon: Icons.shopping_cart_outlined,
                     forWhat: 'For Buy',
                     isSelected: isSelectedBuy,
                   ),
@@ -62,7 +62,7 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
                     setState(() {});
                   },
                   child: BuyOrRentCustomContainer(
-                    image: 'assets/images/rent.png',
+                    icon: Icons.key_outlined,
                     forWhat: 'For Rent',
                     isSelected: isSelectedRent,
                   ),
@@ -80,12 +80,14 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
-              image: 'assets/images/Building.png',
+              icon: Icons.apartment,
               type: 'Apartment',
-              isSelected: selectedType == 'Apartment' ? true : false,
+              isSelected: selectedType == 'Apartment',
             ),
           ),
+
           SizedBox(height: width * 0.02),
+
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
@@ -93,12 +95,14 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
-              image: 'assets/images/House With a Garden.png',
+              icon: Icons.villa,
               type: 'Villa',
-              isSelected: selectedType == 'Villa' ? true : false,
+              isSelected: selectedType == 'Villa',
             ),
           ),
+
           SizedBox(height: width * 0.02),
+
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
@@ -106,12 +110,14 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
-              image: 'assets/images/Home.png',
+              icon: Icons.home_outlined,
               type: 'House',
-              isSelected: selectedType == 'House' ? true : false,
+              isSelected: selectedType == 'House',
             ),
           ),
+
           SizedBox(height: width * 0.02),
+
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
@@ -119,12 +125,14 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
-              image: 'assets/images/Office.png',
-              type: 'office',
-              isSelected: selectedType == 'office' ? true : false,
+              icon: Icons.business_center_outlined,
+              type: 'Office',
+              isSelected: selectedType == 'office',
             ),
           ),
+
           SizedBox(height: width * 0.02),
+
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
@@ -132,29 +140,33 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
-              image: 'assets/images/Building.png',
+              icon: Icons.storefront_outlined,
               type: 'Store',
-              isSelected: selectedType == 'Store' ? true : false,
+              isSelected: selectedType == 'Store',
             ),
           ),
+
           SizedBox(height: width * 0.02),
 
           CustomSubTitleForFilterPage(title: 'Price Range'),
+
           PriceRaange(
             minController: minController,
-
             maxController: maxController,
           ),
 
           CustomSubTitleForFilterPage(title: 'Location'),
 
           FormFieldForLocation(controller: locationController),
+
           CustomSubTitleForFilterPage(title: 'Numbers of beds'),
+
           CheckNumberOfRoom(controller: roomController),
+
           SizedBox(height: width * 0.02),
+
           PrimaryButton(
             name: 'Apply',
-
             pushing: () async {
               final provider = context.read<HomeProvider>();
 
@@ -163,7 +175,6 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
                   : locationController.text;
 
               provider.filter.type = selectedType;
-
               provider.filter.purpose = isSelectedBuy ? "Buy" : "Rent";
 
               provider.filter.rooms = roomController.text.isEmpty
@@ -171,14 +182,13 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
                   : int.tryParse(roomController.text);
 
               provider.filter.minPrice = double.tryParse(minController.text);
-
               provider.filter.maxPrice = double.tryParse(maxController.text);
 
               await provider.refresh();
-
               Navigator.pop(context);
             },
           ),
+
           SizedBox(height: width * 0.04),
         ],
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:estatelqapp/core/app_theme.dart';
 
 class SelectRequestType extends StatelessWidget {
   const SelectRequestType({
@@ -18,6 +17,7 @@ class SelectRequestType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: width * 0.02),
@@ -25,26 +25,45 @@ class SelectRequestType extends StatelessWidget {
         initialSelection: selectedValue,
         hintText: hintText,
         width: width * 0.45,
-        textStyle: TextStyle(fontSize: width * 0.035),
+
+        textStyle: TextStyle(
+          fontSize: width * 0.035,
+          color: colorScheme.onSurface,
+        ),
 
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: primaryColor,
+          fillColor: colorScheme.surface,
+
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: blackColor, width: 0.5),
+            borderSide: BorderSide(
+              color: colorScheme.outline.withValues(alpha: 0.3),
+            ),
+          ),
+
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(
+              color: colorScheme.outline.withValues(alpha: 0.3),
+            ),
+          ),
+
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: colorScheme.primary, width: 1.2),
           ),
         ),
+
+        dropdownMenuEntries: requestTypes.map((type) {
+          return DropdownMenuEntry(value: type, label: type);
+        }).toList(),
 
         onSelected: (value) {
           if (value != null) {
             onChanged(value);
           }
         },
-
-        dropdownMenuEntries: requestTypes.map((type) {
-          return DropdownMenuEntry(value: type, label: type);
-        }).toList(),
       ),
     );
   }

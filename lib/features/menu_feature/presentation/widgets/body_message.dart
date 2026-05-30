@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class BodyMessage extends StatelessWidget {
@@ -7,11 +6,14 @@ class BodyMessage extends StatelessWidget {
     required this.isUserMessage,
     required this.message,
   });
+
   final bool isUserMessage;
   final String message;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: width * 0.01,
@@ -25,7 +27,10 @@ class BodyMessage extends StatelessWidget {
           Container(
             constraints: BoxConstraints(maxWidth: width * 0.7),
             decoration: BoxDecoration(
-              color: isUserMessage ? Color(0xffEDF6F9) : secondaryColor,
+              color: isUserMessage
+                  ? Theme.of(context).colorScheme.surface
+                  : Theme.of(context).colorScheme.primary,
+
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(width * 0.06),
                 topRight: Radius.circular(width * 0.06),
@@ -42,11 +47,11 @@ class BodyMessage extends StatelessWidget {
               child: Text(
                 message,
                 textAlign: TextAlign.start,
-
                 style: TextStyle(
-                  color: blackColor,
+                  color: isUserMessage
+                      ? Theme.of(context).colorScheme.onSurface
+                      : Colors.white,
                   fontSize: width * 0.04,
-                  fontFamily: fontFamily,
                 ),
               ),
             ),

@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/type_of_property.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RowForTypeOfProperty extends StatefulWidget {
@@ -13,90 +13,68 @@ class RowForTypeOfProperty extends StatefulWidget {
 
 class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
   String selectedType = 'All';
+
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    Widget item({
+      required String type,
+      required IconData icon,
+      required Color bg,
+    }) {
+      return TypeOfProperty(
+        icon: icon,
+        type: type,
+        backgroundColor: bg,
+        isSelected: selectedType == type,
+        onTap: () {
+          setState(() => selectedType = type);
+          context.read<HomeProvider>().setType(type);
+        },
+      );
+    }
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           children: [
-            TypeOfProperty(
-              backgroundColor: secondaryColor,
+            item(
               type: 'All',
-              image: 'assets/images/Earth Planet.png',
-              isSelected: selectedType == 'All',
-              onTap: () {
-                setState(() {
-                  selectedType = 'All';
-                });
-                context.read<HomeProvider>().setType(selectedType);
-              },
+              icon: Icons.public_rounded,
+              bg: colorScheme.surface,
             ),
-            TypeOfProperty(
-              backgroundColor: Color(0xffEDF6F9),
-              image: 'assets/images/Building.png',
+
+            item(
               type: 'Apartment',
-              isSelected: selectedType == 'Apartment',
-              onTap: () {
-                setState(() {
-                  selectedType = 'Apartment';
-                });
-                context.read<HomeProvider>().setType(selectedType);
-              },
+              icon: Icons.apartment_rounded,
+              bg: colorScheme.surface,
             ),
-            TypeOfProperty(
-              backgroundColor: Color(0xffFFDDD2),
-              image: 'assets/images/House With a Garden.png',
+
+            item(
               type: 'Villa',
-              isSelected: selectedType == 'Villa',
-              onTap: () {
-                setState(() {
-                  selectedType = 'Villa';
-                });
-                context.read<HomeProvider>().setType(selectedType);
-              },
+              icon: Icons.villa_rounded,
+              bg: colorScheme.surface,
             ),
-            TypeOfProperty(
-              backgroundColor: greenColor,
-              image: 'assets/images/Home.png',
+
+            item(
               type: 'House',
-              isSelected: selectedType == 'House',
-              onTap: () {
-                setState(() {
-                  selectedType = 'House';
-                });
-                context.read<HomeProvider>().setType(selectedType);
-              },
+              icon: Icons.home_rounded,
+              bg: colorScheme.surface,
             ),
-            TypeOfProperty(
-              backgroundColor: Color(0xffD9D9D9),
 
-              image: 'assets/images/Home.png',
-
+            item(
               type: 'Store',
-
-              isSelected: selectedType == 'Store',
-
-              onTap: () {
-                setState(() {
-                  selectedType = 'Store';
-                });
-
-                context.read<HomeProvider>().setType(selectedType);
-              },
+              icon: Icons.storefront_rounded,
+              bg: colorScheme.surface,
             ),
-            TypeOfProperty(
-              backgroundColor: Color(0xffE29578),
-              image: 'assets/images/Office.png',
+
+            item(
               type: 'office',
-              isSelected: selectedType == 'office',
-              onTap: () {
-                setState(() {
-                  selectedType = 'office';
-                });
-                context.read<HomeProvider>().setType(selectedType);
-              },
+              icon: Icons.business_rounded,
+              bg: colorScheme.surface,
             ),
           ],
         ),

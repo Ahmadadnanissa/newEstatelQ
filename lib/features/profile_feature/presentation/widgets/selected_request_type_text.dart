@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,7 @@ class SelectedRequestTypeText extends StatelessWidget {
           CustomFont(
             name:
                 'What\'s your problem? You\'ll receive a response in the chat.',
-            fontColor: blackColor,
+            fontColor: Theme.of(context).colorScheme.onSurface,
             fontSize: width * 0.03,
           ),
         ],

@@ -13,16 +13,18 @@ class RequestProvider extends ChangeNotifier {
 
   Future<void> sendRequest({
     required RequestModel request,
+    required String type,
     required BuildContext context,
   }) async {
     try {
       isLoading = true;
       notifyListeners();
 
-      final token = LocalStorageService.getToken();
+      final token = LocalStorageService.getToken(); // ممكن يكون null
 
       final message = await sendRequestUseCase.execute(
         request: request,
+        type: type,
         token: token,
       );
 

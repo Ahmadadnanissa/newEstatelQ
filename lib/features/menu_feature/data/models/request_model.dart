@@ -7,8 +7,6 @@ class RequestModel {
   final String location;
   final String type;
 
-  final String status; // 👈 رجعناه
-
   final bool parking;
   final bool swimmingPool;
   final bool furnished;
@@ -27,7 +25,6 @@ class RequestModel {
     required this.bathrooms,
     required this.location,
     required this.type,
-    required this.status, // 👈
     required this.parking,
     required this.swimmingPool,
     required this.furnished,
@@ -46,7 +43,6 @@ class RequestModel {
       "bathrooms": bathrooms,
       "location": location,
       "type": type,
-      "status": status, // 👈 مهم
       "parking": parking,
       "swimming_pool": swimmingPool,
       "furnished": furnished,

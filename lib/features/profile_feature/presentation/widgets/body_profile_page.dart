@@ -8,6 +8,7 @@ import 'package:estatelqapp/features/profile_feature/presentation/providers/clie
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/custom_button_in_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/details_about_user_container.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/logout_button.dart';
+import 'package:estatelqapp/features/profile_feature/presentation/widgets/theme_toggle_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +44,6 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
         builder: (context, provider, child) {
           final client = provider.client;
 
-          // 👇 fallback values للـ guest
           final userName = client?.name ?? "Full Name";
           final email = client?.email ?? "Your Email";
           final location = client?.location ?? "Your Location";
@@ -81,7 +81,7 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
                   icon: Icon(
                     Icons.person_outline,
                     size: width * 0.09,
-                    color: greenColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
 
@@ -96,7 +96,7 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
                   icon: Icon(
                     Icons.location_on_sharp,
                     size: width * 0.09,
-                    color: greenColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
 
@@ -108,11 +108,17 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
                       SlideRight(page: HelpAndSupportPage()),
                     );
                   },
-                  icon: Icon(Icons.help, size: width * 0.09, color: greenColor),
+                  icon: Icon(
+                    Icons.help,
+                    size: width * 0.09,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
                 ),
 
                 LogoutButton(),
 
+                SizedBox(height: width * 0.2),
+                ThemeToggleTile(),
                 SizedBox(height: width * 0.2),
               ],
             ),

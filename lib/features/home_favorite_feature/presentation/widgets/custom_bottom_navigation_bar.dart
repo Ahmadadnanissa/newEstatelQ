@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -14,25 +13,49 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: EdgeInsetsGeometry.only(left: width * 0.26, right: width * 0.18),
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 0.2,
+        // vertical: width * 0.02,
+      ),
       child: Container(
-        height: width * 0.16,
+        width: width * 0.6,
+        height: width * 0.12, // 🔥 أصغر
         decoration: BoxDecoration(
-          color: secondaryColor,
-          borderRadius: BorderRadius.circular(40),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+          color: colorScheme.primary,
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.12),
+              blurRadius: 15,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
 
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            buildItem(icon: Icons.favorite_border, index: 1, width: width),
-
-            buildItem(icon: Icons.home_outlined, index: 0, width: width),
-
-            buildItem(icon: Icons.person_outline, index: 2, width: width),
+            buildItem(
+              icon: Icons.favorite_border,
+              index: 1,
+              width: width,
+              colorScheme: colorScheme,
+            ),
+            buildItem(
+              icon: Icons.home_outlined,
+              index: 0,
+              width: width,
+              colorScheme: colorScheme,
+            ),
+            buildItem(
+              icon: Icons.person_outline,
+              index: 2,
+              width: width,
+              colorScheme: colorScheme,
+            ),
           ],
         ),
       ),
@@ -43,26 +66,31 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required IconData icon,
     required int index,
     required double width,
+    required ColorScheme colorScheme,
   }) {
     bool isSelected = currentIndex == index;
 
     return GestureDetector(
-      onTap: () {
-        onTap(index);
-      },
+      onTap: () => onTap(index),
 
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 250),
+        duration: const Duration(milliseconds: 250),
         curve: Curves.easeInOut,
 
-        padding: EdgeInsets.all(width * 0.01),
+        padding: EdgeInsets.all(width * 0.015),
 
         decoration: BoxDecoration(
-          color: isSelected ? Color(0xffFFDDD2) : primaryColor,
+          color: isSelected ? colorScheme.secondary : Colors.transparent,
           shape: BoxShape.circle,
         ),
 
-        child: Icon(icon, size: width * 0.12),
+        child: Icon(
+          icon,
+          size: width * 0.09, // 🔥 أصغر بكثير
+          color: isSelected
+              ? colorScheme.onSecondary
+              : colorScheme.onPrimary.withValues(alpha: 0.7),
+        ),
       ),
     );
   }

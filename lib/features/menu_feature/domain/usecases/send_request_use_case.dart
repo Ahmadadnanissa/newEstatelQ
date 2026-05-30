@@ -8,8 +8,9 @@ class SendRequestUseCase {
 
   Future<String> execute({
     required RequestModel request,
+    required String type,
     required String? token,
   }) {
-    return repository.sendRequest(request: request, token: token);
+    return repository.sendRequest(request: request, type: type, token: token);
   }
 }

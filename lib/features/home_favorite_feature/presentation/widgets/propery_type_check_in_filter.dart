@@ -1,21 +1,22 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 
 class ProperyTypeCheckInFilter extends StatelessWidget {
   const ProperyTypeCheckInFilter({
     super.key,
-    required this.image,
+    required this.icon,
     required this.type,
     required this.isSelected,
   });
-  final String image;
+
+  final IconData icon;
   final String type;
   final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     return Container(
       width: width * 0.9,
       height: width * 0.13,
@@ -23,21 +24,36 @@ class ProperyTypeCheckInFilter extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.2),
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
             blurRadius: 10,
           ),
         ],
-        color: isSelected ? greenColor : Color(0xffEDF6F9),
+        color: isSelected
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(width * 0.03),
       ),
+
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(image, width: width * 0.1, height: width * 0.1),
-          SizedBox(width: width * 0.02),
+          SizedBox(width: width * 0.03),
+
+          Icon(
+            icon,
+            size: width * 0.08,
+            color: isSelected
+                ? Colors.white
+                : Theme.of(context).colorScheme.primary,
+          ),
+
+          SizedBox(width: width * 0.03),
+
           CustomFont(
             name: type,
-            fontColor: blackColor,
+            fontColor: isSelected
+                ? Colors.white
+                : Theme.of(context).colorScheme.onSurface,
             fontSize: width * 0.045,
             fontWeight: FontWeight.w600,
           ),

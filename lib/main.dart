@@ -1,5 +1,6 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/services/socket_service.dart';
+import 'package:estatelqapp/core/them_provider.dart';
 import 'package:estatelqapp/core/widgets/notification_overlay.dart';
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
 import 'package:estatelqapp/features/auth_features/domain/repository/auth_repository_impl.dart';
@@ -186,6 +187,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => PropertyDetailsProvider(getPropertByIdUseCase),
         ),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
 
         ChangeNotifierProvider(
           create: (_) => NotificationProvider(
@@ -211,49 +213,53 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scaffoldMessengerKey: NotificationOverlay.key,
-      routes: {
-        WelcomePage.id: (context) => WelcomePage(),
-        SplashPage.id: (context) => SplashPage(),
-        LoginPage.id: (context) => LoginPage(),
-        SignupPage.id: (context) => SignupPage(),
-        GetinfoFromUser1.id: (context) => GetinfoFromUser1(),
-        GetinfoFromUser2.id: (context) => GetinfoFromUser2(),
-        GetinfoFromUser3.id: (context) => GetinfoFromUser3(),
-        GetinfoFromUser4.id: (context) => GetinfoFromUser4(),
-        ChangePasswordPage.id: (context) => ChangePasswordPage(),
-        EnterYourEmail.id: (context) => EnterYourEmail(),
-        FavoritePage.id: (context) => FavoritePage(),
-        RoomsLiveChatPage.id: (context) => RoomsLiveChatPage(),
-        PropertyPage.id: (context) => PropertyPage(propertyId: ""),
-        ProfilePage.id: (context) => ProfilePage(),
-        HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
-        EditProfilePage.id: (context) => EditProfilePage(
-          name: '',
-          email: '',
-          phone: '',
-          image: '',
-          location: '',
-        ),
-        FilterPage.id: (context) => FilterPage(),
-        LiveChatPage.id: (context) => LiveChatPage(dealId: ''),
-        NotificationPage.id: (context) => NotificationPage(),
-        ListYourPropertyPage.id: (context) => ListYourPropertyPage(),
-        MenuPage.id: (context) => MenuPage(),
-        MapPageForRequestPage.id: (context) => MapPageForRequestPage(),
-        EnterYourAdressWithMapPage.id: (context) =>
-            EnterYourAdressWithMapPage(),
-        HomePage.id: (context) => HomePage(),
-        // OtpVerifivcationPageForPassword.id: (context) =>
-        //     OtpVerifivcationPageForPassword(email: ''),
-      },
-      initialRoute: SplashPage.id,
-      debugShowCheckedModeBanner: false,
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          scaffoldMessengerKey: NotificationOverlay.key,
+          routes: {
+            WelcomePage.id: (context) => WelcomePage(),
+            SplashPage.id: (context) => SplashPage(),
+            LoginPage.id: (context) => LoginPage(),
+            SignupPage.id: (context) => SignupPage(),
+            GetinfoFromUser1.id: (context) => GetinfoFromUser1(),
+            GetinfoFromUser2.id: (context) => GetinfoFromUser2(),
+            GetinfoFromUser3.id: (context) => GetinfoFromUser3(),
+            GetinfoFromUser4.id: (context) => GetinfoFromUser4(),
+            ChangePasswordPage.id: (context) => ChangePasswordPage(),
+            EnterYourEmail.id: (context) => EnterYourEmail(),
+            FavoritePage.id: (context) => FavoritePage(),
+            RoomsLiveChatPage.id: (context) => RoomsLiveChatPage(),
+            PropertyPage.id: (context) => PropertyPage(propertyId: ""),
+            ProfilePage.id: (context) => ProfilePage(),
+            HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
+            EditProfilePage.id: (context) => EditProfilePage(
+              name: '',
+              email: '',
+              phone: '',
+              image: '',
+              location: '',
+            ),
+            FilterPage.id: (context) => FilterPage(),
+            LiveChatPage.id: (context) => LiveChatPage(dealId: ''),
+            NotificationPage.id: (context) => NotificationPage(),
+            ListYourPropertyPage.id: (context) => ListYourPropertyPage(),
+            MenuPage.id: (context) => MenuPage(),
+            MapPageForRequestPage.id: (context) => MapPageForRequestPage(),
+            EnterYourAdressWithMapPage.id: (context) =>
+                EnterYourAdressWithMapPage(),
+            HomePage.id: (context) => HomePage(),
+            // OtpVerifivcationPageForPassword.id: (context) =>
+            //     OtpVerifivcationPageForPassword(email: ''),
+          },
+          initialRoute: SplashPage.id,
+          debugShowCheckedModeBanner: false,
 
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeProvider.themeMode,
+        );
+      },
     );
   }
 }

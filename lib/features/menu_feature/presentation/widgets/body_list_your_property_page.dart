@@ -1,19 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:estatelqapp/core/app_theme.dart';
-import 'package:estatelqapp/core/widgets/button.dart';
-import 'package:estatelqapp/core/widgets/custom_font.dart';
-import 'package:estatelqapp/core/widgets/select_request_type.dart';
-import 'package:estatelqapp/core/widgets/custom_message.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
 import 'package:estatelqapp/features/menu_feature/data/models/request_model.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/map_page_for_request_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/request_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_text_form_field_for_string.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_text_in_list_your_property.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
+import 'package:estatelqapp/core/widgets/button.dart';
+import 'package:estatelqapp/core/widgets/custom_message.dart';
+import 'package:estatelqapp/core/widgets/select_request_type.dart';
 
 class BodyListYourPropertyPage extends StatefulWidget {
   const BodyListYourPropertyPage({super.key});
@@ -71,7 +70,6 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
 
   Future<RequestModel> buildRequest() async {
     return RequestModel(
-      status: propertyStatus == "For Sale" ? "SALE" : "RENT",
       title: propertyTitle,
       price: price,
       area: totalArea,
@@ -89,10 +87,16 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
     );
   }
 
+  String getRequestType() {
+    return propertyStatus == "For Sale" ? "SALE" : "RENT";
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     final provider = context.watch<RequestProvider>();
+
+    final colorScheme = Theme.of(context).colorScheme;
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -107,7 +111,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                 SizedBox(height: width * 0.02),
 
                 CustomTextFormFieldForString(
-                  icon: Icon(Icons.home, color: secondaryColor),
+                  icon: Icon(Icons.home_outlined, color: colorScheme.primary),
                   hintText: 'Property Title',
                   onChanged: (data) => propertyTitle = data.trim(),
                   validator: (data) =>
@@ -126,11 +130,11 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                           requestTypes: [
                             "Apartment",
                             "Villa",
-                            "office",
+                            "Office",
                             "House",
                             "Hall",
                           ],
-                          hintText: 'Appartment',
+                          hintText: 'Apartment',
                           selectedValue: propertyType,
                           onChanged: (value) {
                             setState(() => propertyType = value);
@@ -138,7 +142,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -148,9 +152,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                           hintText: 'For Sale',
                           selectedValue: propertyStatus,
                           onChanged: (value) {
-                            setState(() {
-                              propertyStatus = value;
-                            });
+                            setState(() => propertyStatus = value);
                           },
                         ),
                       ],
@@ -167,7 +169,10 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                       children: [
                         CustomTextInListYourProperty(name: 'Price'),
                         CustomTextFormFieldForString(
-                          icon: Icon(Icons.price_check, color: secondaryColor),
+                          icon: Icon(
+                            Icons.attach_money,
+                            color: colorScheme.primary,
+                          ),
                           hintText: 'Enter Price',
                           onChanged: (data) =>
                               price = double.tryParse(data) ?? 0,
@@ -176,15 +181,15 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomTextInListYourProperty(name: 'Area(m*m)'),
+                        CustomTextInListYourProperty(name: 'Area'),
                         CustomTextFormFieldForString(
                           icon: Icon(
-                            Icons.area_chart_outlined,
-                            color: secondaryColor,
+                            Icons.square_foot_outlined,
+                            color: colorScheme.primary,
                           ),
                           hintText: 'Enter Total Area',
                           onChanged: (data) =>
@@ -206,8 +211,11 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                       children: [
                         CustomTextInListYourProperty(name: 'Rooms'),
                         CustomTextFormFieldForString(
-                          icon: Icon(Icons.bed, color: secondaryColor),
-                          hintText: 'Number of rooms',
+                          icon: Icon(
+                            Icons.bed_outlined,
+                            color: colorScheme.primary,
+                          ),
+                          hintText: 'Rooms',
                           onChanged: (data) =>
                               numberOfRooms = int.tryParse(data) ?? 0,
                           validator: (data) =>
@@ -215,14 +223,17 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextInListYourProperty(name: 'Bathrooms'),
                         CustomTextFormFieldForString(
-                          icon: Icon(Icons.bathroom, color: secondaryColor),
-                          hintText: 'Number of bathrooms',
+                          icon: Icon(
+                            Icons.bathroom_outlined,
+                            color: colorScheme.primary,
+                          ),
+                          hintText: 'Bathrooms',
                           onChanged: (data) =>
                               numberOfBathrooms = int.tryParse(data) ?? 0,
                           validator: (data) =>
@@ -239,14 +250,13 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                   onTap: pickImages,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: primaryColor,
+                      color: colorScheme.surface,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    padding: const EdgeInsets.all(8),
-                    child: CustomFont(
-                      name: '+ Upload Images (upto 5)',
-                      fontColor: blackColor,
-                      fontSize: width * 0.04,
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      '+ Upload Images (max 5)',
+                      style: TextStyle(color: colorScheme.onSurface),
                     ),
                   ),
                 ),
@@ -265,11 +275,9 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                       .toList(),
                 ),
 
-                Divider(height: 2, color: grayColor),
+                Divider(color: colorScheme.outline),
 
-                CustomTextInListYourProperty(
-                  name: 'Enter your property location',
-                ),
+                CustomTextInListYourProperty(name: 'Select Location'),
 
                 GestureDetector(
                   onTap: () async {
@@ -286,9 +294,13 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                       });
                     }
                   },
-                  child: Image.asset('assets/images/map_Image.png'),
+                  child: Image.asset(
+                    'assets/images/map_Image.png',
+                    width: width * 0.35,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-
+                SizedBox(height: width * 0.05),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -318,6 +330,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
 
                         await provider.sendRequest(
                           request: request,
+                          type: getRequestType(),
                           context: context,
                         );
                       },

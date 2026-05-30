@@ -1,17 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
-import 'package:flutter/material.dart';
 
 class TypeOfProperty extends StatelessWidget {
   const TypeOfProperty({
     super.key,
-    required this.image,
+    required this.icon,
     required this.type,
     required this.backgroundColor,
     required this.isSelected,
     required this.onTap,
   });
-  final String image;
+
+  final IconData icon;
   final String type;
   final Color backgroundColor;
   final VoidCallback onTap;
@@ -20,32 +21,49 @@ class TypeOfProperty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.01),
       child: InkWell(
         borderRadius: BorderRadius.circular(width * 0.03),
         onTap: onTap,
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 250),
           curve: Curves.easeInOut,
-          // height: width * 0.07,
           decoration: BoxDecoration(
-            color: isSelected ? blackColor : backgroundColor,
+            color: isSelected ? colorScheme.primary : colorScheme.surface,
             borderRadius: BorderRadius.circular(width * 0.03),
+            border: Border.all(
+              color: isSelected
+                  ? colorScheme.primary
+                  : colorScheme.outline.withValues(alpha: 0.2),
+              width: 1,
+            ),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.03,
-              vertical: width * 0.01,
+              vertical: width * 0.012,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(image, width: width * 0.07, height: width * 0.07),
+                Icon(
+                  icon,
+                  size: width * 0.06,
+                  color: isSelected
+                      ? colorScheme.onPrimary
+                      : colorScheme.primary,
+                ),
+
+                SizedBox(width: width * 0.015),
+
                 CustomFont(
                   name: type,
-                  fontColor: isSelected ? primaryColor : blackColor,
+                  fontColor: isSelected
+                      ? colorScheme.onPrimary
+                      : colorScheme.onSurface,
                   fontSize: width * 0.04,
                 ),
               ],

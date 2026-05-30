@@ -1,5 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
-import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottonForNotificationPage extends StatelessWidget {
@@ -8,78 +6,64 @@ class CustomBottonForNotificationPage extends StatelessWidget {
     required this.name,
     this.number,
   });
+
   final String name;
   final int? number;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return name == 'All'
-        ? Container(
-            decoration: BoxDecoration(
-              color: secondaryColor,
-              borderRadius: BorderRadius.circular(width * 0.04),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-              child: CustomFont(
-                name: name,
-                fontColor: Colors.white,
-                fontSize: width * 0.042,
-              ),
-            ),
-          )
-        : number == 0
-        ? Container(
-            decoration: BoxDecoration(
-              color: secondaryColor,
-              borderRadius: BorderRadius.circular(width * 0.04),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-              child: CustomFont(
-                name: name,
-                fontColor: Colors.white,
-                fontSize: width * 0.042,
-              ),
-            ),
-          )
-        : Container(
-            decoration: BoxDecoration(
-              color: secondaryColor,
-              borderRadius: BorderRadius.circular(width * 0.04),
-            ),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-                  child: CustomFont(
-                    name: name,
-                    fontColor: Colors.white,
-                    fontSize: width * 0.042,
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
 
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: CustomFont(
-                        name: number.toString(),
-                        fontColor: blackColor,
-                        fontSize: width * 0.03,
-                      ),
-                    ),
+    final bool isActive = name == 'All' || (number == 0);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: isActive
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.surface,
+
+        borderRadius: BorderRadius.circular(width * 0.04),
+      ),
+
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+            child: Text(
+              name,
+              style: TextStyle(
+                color: isActive
+                    ? Colors.white
+                    : Theme.of(context).colorScheme.onSurface,
+                fontSize: width * 0.042,
+              ),
+            ),
+          ),
+
+          // Badge
+          if (number != null && number! > 0)
+            Positioned(
+              right: -6,
+              top: -6,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.error,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  number.toString(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
+              ),
             ),
-          );
+        ],
+      ),
+    );
   }
 }

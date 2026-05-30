@@ -8,8 +8,9 @@ class RequestRepository {
 
   Future<String> sendRequest({
     required RequestModel request,
+    required String type,
     required String? token,
   }) {
-    return remote.sendRequest(request: request, token: token);
+    return remote.sendRequest(request: request, type: type, token: token);
   }
 }

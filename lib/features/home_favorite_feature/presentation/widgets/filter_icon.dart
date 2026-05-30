@@ -1,17 +1,13 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class FilterIcon extends StatefulWidget {
+class FilterIcon extends StatelessWidget {
   const FilterIcon({super.key});
 
   @override
-  State<FilterIcon> createState() => _FilterIconState();
-}
-
-class _FilterIconState extends State<FilterIcon> {
-  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: EdgeInsets.only(
         right: width * 0.04,
@@ -21,15 +17,20 @@ class _FilterIconState extends State<FilterIcon> {
       child: Container(
         width: width * 0.12,
         height: width * 0.11,
-
         decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: secondaryColor, width: 0.5),
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.08),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Icon(
-          Icons.filter_list,
-          color: secondaryColor,
+          Icons.tune_rounded,
+          color: colorScheme.primary,
           size: width * 0.09,
         ),
       ),

@@ -2,9 +2,17 @@ import 'package:hive/hive.dart';
 
 class LocalStorageService {
   static final box = Hive.box('authBox');
-
+  static const String _themeKey = "isDarkMode";
   static Future<void> saveToken(String token) async {
     await box.put('token', token);
+  }
+
+  static Future<void> saveThemeMode(bool isDark) async {
+    await box.put(_themeKey, isDark);
+  }
+
+  static bool getThemeMode() {
+    return box.get(_themeKey, defaultValue: false);
   }
 
   static Future<void> saveUser({

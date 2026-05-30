@@ -9,16 +9,17 @@ class RequestRemoteDataSource {
 
   Future<String> sendRequest({
     required RequestModel request,
+    required String type, // 🔥 NEW (SALE / RENT)
     required String? token,
   }) async {
     final response = await client.post(
-      Uri.parse("YOUR_URL/property-request"),
+      Uri.parse("YOUR_BASE_URL/api/v1/requests"),
       headers: {
         "Content-Type": "application/json",
         if (token != null && token.isNotEmpty) "Authorization": "Bearer $token",
       },
       body: jsonEncode({
-        "type": request.status,
+        "type": type,
         "message": "يرجى التواصل لترتيب موعد معاينة العقار في أقرب وقت.",
         "sellData": request.toJson(),
       }),
