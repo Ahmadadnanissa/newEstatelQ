@@ -7,15 +7,24 @@ class SubtitleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.02),
       child: Text(
-        'from exploring to customizing,your home journey starts here',
+        'from exploring to customizing, your home journey starts here',
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: Color(0xff457B9D),
-          fontSize: width * 0.05,
+          // نص ثانوي ناعم
+          color: isDark ? darkSubtitleColor : greenColor,
+
+          fontSize: width * 0.047,
+
+          height: 1.4,
+
           fontFamily: fontFamily,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );

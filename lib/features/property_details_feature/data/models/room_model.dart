@@ -36,19 +36,12 @@
 
 class RoomItemModel {
   final String id;
-
   final String type;
-
   final double? size;
-
   final Map<String, dynamic>? data;
-
   final List<String>? photos;
-
   final String? description;
-
   final String? paintDescription;
-
   final bool hasBalcony;
 
   final Map<String, dynamic>? balconyData;

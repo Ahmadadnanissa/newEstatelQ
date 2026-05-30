@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/app_bar_for_favorite_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/body_favorite_page.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarForFavoritePage(),
       body: BodyFavoriteBage(),
     );

@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/body_welcom_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +12,9 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: primaryColor, body: BodyWelcomPage());
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: BodyWelcomPage(),
+    );
   }
 }

@@ -11,7 +11,7 @@ class HelpAndSupportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: CustomAppBarForProfile(title: 'Help&Support'),
         body: BodyHelpAndSupportPahe(),
       ),

@@ -28,31 +28,27 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
   IconData getIcon(String type) {
     switch (type.toUpperCase()) {
       case "BEDROOM":
-        return Icons.bed;
-
       case "MASTER_BEDROOM":
-        return Icons.bed;
+        return Icons.bed_rounded;
 
       case "BATHROOM":
-        return Icons.bathroom;
-
       case "ENSUITE_BATHROOM":
-        return Icons.bathroom;
+        return Icons.bathtub_rounded;
 
       case "KITCHEN":
-        return Icons.kitchen;
+        return Icons.kitchen_rounded;
 
       case "LIVING_ROOM":
-        return Icons.weekend;
+        return Icons.weekend_rounded;
 
       case "DINING_ROOM":
-        return Icons.table_restaurant;
+        return Icons.table_restaurant_rounded;
 
       case "FAMILY_ROOM":
-        return Icons.chair;
+        return Icons.chair_rounded;
 
       default:
-        return Icons.home;
+        return Icons.home_rounded;
     }
   }
 
@@ -67,6 +63,11 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color activeColor = secondaryColor;
+    final Color inactiveColor = isDark ? darkSubtitleColor : Colors.grey;
 
     if (widget.rooms.isEmpty) {
       return const SizedBox();
@@ -85,12 +86,10 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
 
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-
             itemCount: widget.rooms.length,
 
             itemBuilder: (context, index) {
               final room = widget.rooms[index];
-
               final isSelected = room.id == selectedRoomId;
 
               return Padding(
@@ -111,9 +110,7 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
                         children: [
                           Icon(
                             getIcon(room.type),
-
-                            color: isSelected ? secondaryColor : greenColor,
-
+                            color: isSelected ? activeColor : inactiveColor,
                             size: width * .08,
                           ),
 
@@ -121,10 +118,11 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
 
                           CustomFont(
                             name: room.type.replaceAll("_", " "),
-
-                            fontColor: isSelected ? secondaryColor : blackColor,
-
+                            fontColor: isSelected ? activeColor : inactiveColor,
                             fontSize: width * .04,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.normal,
                           ),
                         ],
                       ),
@@ -134,10 +132,10 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
 
                     Container(
                       width: width * .18,
-
                       height: 2,
-
-                      color: isSelected ? secondaryColor : greenColor,
+                      color: isSelected
+                          ? activeColor
+                          : inactiveColor.withValues(alpha: 0.4),
                     ),
                   ],
                 ),
@@ -154,14 +152,11 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
           transitionBuilder: (child, animation) {
             return FadeTransition(
               opacity: animation,
-
               child: SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0, .2),
-
                   end: Offset.zero,
                 ).animate(animation),
-
                 child: child,
               ),
             );
@@ -169,15 +164,10 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
 
           child: DetailsAboutBeds(
             key: ValueKey(selectedRoom.id),
-
             descr: selectedRoom.description ?? "",
-
             image1: getImage(selectedRoom.photos, 0),
-
             image2: getImage(selectedRoom.photos, 1),
-
             image3: getImage(selectedRoom.photos, 2),
-
             image4: getImage(selectedRoom.photos, 3),
           ),
         ),
@@ -187,12 +177,9 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
         if (selectedRoom.size != null)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width * .03),
-
             child: CustomFont(
               name: "Room Size : ${selectedRoom.size} m²",
-
-              fontColor: secondaryColor,
-
+              fontColor: activeColor,
               fontSize: width * .04,
             ),
           ),
@@ -200,12 +187,9 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
         if (selectedRoom.hasBalcony)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width * .03),
-
             child: CustomFont(
               name: "Has Balcony",
-
-              fontColor: greenColor,
-
+              fontColor: isDark ? Colors.lightGreenAccent : greenColor,
               fontSize: width * .04,
             ),
           ),

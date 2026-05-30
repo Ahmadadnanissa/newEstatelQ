@@ -19,6 +19,9 @@ class SumDetailsForPropertyLikeTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: width * 0.03,
@@ -26,39 +29,57 @@ class SumDetailsForPropertyLikeTitle extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomFont(
-                name: subDescription,
-                fontColor: blackColor,
-                fontSize: width * 0.05,
-                fontWeight: FontWeight.bold,
-              ),
-              CustomFont(
-                name: address,
 
-                fontColor: Color(0xff5F6264),
-                fontSize: width * 0.035,
-              ),
-            ],
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
+              children: [
+                CustomFont(
+                  name: subDescription,
+
+                  fontColor: secondaryColor,
+
+                  fontSize: width * 0.05,
+
+                  fontWeight: FontWeight.bold,
+                ),
+
+                SizedBox(height: width * 0.01),
+
+                CustomFont(
+                  name: address,
+
+                  fontColor: isDark ? darkSubtitleColor : Colors.grey,
+
+                  fontSize: width * 0.035,
+                ),
+              ],
+            ),
           ),
 
+          SizedBox(width: width * 0.03),
+
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+
             children: [
               CustomFont(
                 name: price,
 
-                fontColor: blackColor,
+                fontColor: secondaryColor,
+
                 fontSize: width * 0.045,
+
                 fontWeight: FontWeight.bold,
               ),
+
               CustomFont(
                 name: rentOrSale,
 
-                fontColor: Color(0xff5F6264),
+                fontColor: isDark ? darkSubtitleColor : Colors.grey,
+
                 fontSize: width * 0.03,
               ),
             ],

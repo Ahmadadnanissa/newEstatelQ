@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/widgets/notification_overlay.dart';
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
@@ -249,6 +250,10 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: SplashPage.id,
       debugShowCheckedModeBanner: false,
+
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.dark,
     );
   }
 }

@@ -19,6 +19,7 @@ class _PriceRaangeState extends State<PriceRaange> {
     super.initState();
 
     widget.minController?.text = values.start.round().toString();
+
     widget.maxController?.text = values.end.round().toString();
   }
 
@@ -26,71 +27,122 @@ class _PriceRaangeState extends State<PriceRaange> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: width * 0.04,
         horizontal: width * 0.05,
       ),
+
       child: Container(
         padding: EdgeInsets.all(width * 0.04),
+
         decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: greenColor, width: 1),
+          // ================= BACKGROUND =================
+          color: Theme.of(context).cardColor,
+
+          borderRadius: BorderRadius.circular(18),
+
+          // ================= BORDER =================
+          border: Border.all(
+            color: isDark
+                ? darkSurfaceColor
+                : greenColor.withValues(alpha: 0.5),
+            width: 1,
+          ),
+
+          // ================= SHADOW =================
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: isDark ? 0.10 : 0.06),
+
+              blurRadius: 10,
+
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
-            /// Title
+            // ================= TITLE =================
             Text(
               "Price Range",
+
               style: TextStyle(
                 fontFamily: fontFamily,
-                fontSize: width * 0.04,
+
+                fontSize: width * 0.043,
+
                 color: secondaryColor,
+
                 fontWeight: FontWeight.bold,
               ),
             ),
 
-            SizedBox(height: width * 0.03),
+            SizedBox(height: width * 0.04),
 
-            /// Price boxes
+            // ================= PRICE BOXES =================
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
               children: [
+                // ================= MIN =================
                 Container(
-                  width: width * .28,
-                  padding: EdgeInsets.symmetric(vertical: width * .025),
+                  width: width * .3,
+
+                  padding: EdgeInsets.symmetric(vertical: width * .03),
+
                   decoration: BoxDecoration(
                     color: secondaryColor,
-                    borderRadius: BorderRadius.circular(10),
+
+                    borderRadius: BorderRadius.circular(14),
                   ),
+
                   child: Center(
                     child: Text(
                       "\$${values.start.round()}",
+
                       style: TextStyle(
                         color: primaryColor,
+
                         fontSize: width * .04,
+
                         fontWeight: FontWeight.bold,
+
+                        fontFamily: fontFamily,
                       ),
                     ),
                   ),
                 ),
 
+                // ================= MAX =================
                 Container(
-                  width: width * .28,
-                  padding: EdgeInsets.symmetric(vertical: width * .025),
+                  width: width * .3,
+
+                  padding: EdgeInsets.symmetric(vertical: width * .03),
+
                   decoration: BoxDecoration(
                     color: secondaryColor,
-                    borderRadius: BorderRadius.circular(10),
+
+                    borderRadius: BorderRadius.circular(14),
                   ),
+
                   child: Center(
                     child: Text(
                       "\$${values.end.round()}",
+
                       style: TextStyle(
                         color: primaryColor,
+
                         fontSize: width * .04,
+
                         fontWeight: FontWeight.bold,
+
+                        fontFamily: fontFamily,
                       ),
                     ),
                   ),
@@ -98,30 +150,47 @@ class _PriceRaangeState extends State<PriceRaange> {
               ],
             ),
 
-            SizedBox(height: width * .03),
+            SizedBox(height: width * .04),
 
-            RangeSlider(
-              values: values,
+            // ================= RANGE SLIDER =================
+            SliderTheme(
+              data: SliderTheme.of(context).copyWith(
+                trackHeight: 4,
 
-              min: 5000,
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
 
-              max: 50000,
+                overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
 
-              divisions: 45,
+                rangeThumbShape: const RoundRangeSliderThumbShape(
+                  enabledThumbRadius: 8,
+                ),
+              ),
 
-              activeColor: secondaryColor,
+              child: RangeSlider(
+                values: values,
 
-              inactiveColor: secondaryColor.withOpacity(.3),
+                min: 5000,
 
-              onChanged: (RangeValues newValues) {
-                setState(() {
-                  values = newValues;
-                });
+                max: 50000,
 
-                widget.minController?.text = newValues.start.round().toString();
+                divisions: 45,
 
-                widget.maxController?.text = newValues.end.round().toString();
-              },
+                activeColor: secondaryColor,
+
+                inactiveColor: secondaryColor.withValues(alpha: 0.25),
+
+                onChanged: (RangeValues newValues) {
+                  setState(() {
+                    values = newValues;
+                  });
+
+                  widget.minController?.text = newValues.start
+                      .round()
+                      .toString();
+
+                  widget.maxController?.text = newValues.end.round().toString();
+                },
+              ),
             ),
           ],
         ),

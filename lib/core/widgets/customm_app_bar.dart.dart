@@ -25,8 +25,8 @@ class CustommAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0.5,
-      shadowColor: primaryColor,
-      backgroundColor: primaryColor,
+      shadowColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       title: Text(
         title,
         style: TextStyle(

@@ -10,7 +10,7 @@ class FilterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: CustomAppBarForFilterPage(),
         body: BodyFilterPage(),
       ),

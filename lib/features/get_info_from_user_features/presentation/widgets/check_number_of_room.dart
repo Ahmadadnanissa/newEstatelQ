@@ -19,11 +19,14 @@ class _CheckNumberOfRoomState extends State<CheckNumberOfRoom> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.all(width * 0.04),
+
       child: Row(
         children: [
-          /// Studio Button
+          // ================= STUDIO BUTTON =================
           GestureDetector(
             onTap: () {
               setState(() {
@@ -33,44 +36,89 @@ class _CheckNumberOfRoomState extends State<CheckNumberOfRoom> {
               // 🔥 تخزين القيمة
               widget.controller?.text = "studio";
             },
-            child: Container(
-              width: width * 0.25,
-              height: width * 0.13,
+
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+
+              width: width * 0.28,
+              height: width * 0.14,
+
               decoration: BoxDecoration(
                 color: secondaryColor,
+
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(width * 0.03),
-                  bottomLeft: Radius.circular(width * 0.03),
+                  topLeft: Radius.circular(width * 0.04),
+
+                  bottomLeft: Radius.circular(width * 0.04),
                 ),
+
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.12 : 0.08),
+
+                    blurRadius: 8,
+
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
+
               child: Center(
                 child: Text(
                   'Studio+',
+
                   style: TextStyle(
                     color: primaryColor,
+
                     fontFamily: fontFamily,
-                    fontSize: width * 0.05,
+
+                    fontSize: width * 0.047,
+
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
           ),
 
-          /// Numbers
+          // ================= NUMBERS SECTION =================
           Expanded(
             child: Container(
-              height: width * 0.13,
+              height: width * 0.14,
+
               decoration: BoxDecoration(
-                color: const Color(0xffEDF6F9),
+                color: Theme.of(context).cardColor,
+
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(width * 0.03),
-                  bottomRight: Radius.circular(width * 0.03),
+                  topRight: Radius.circular(width * 0.04),
+
+                  bottomRight: Radius.circular(width * 0.04),
                 ),
+
+                border: Border.all(
+                  color: isDark
+                      ? darkSurfaceColor
+                      : greenColor.withValues(alpha: 0.35),
+                ),
+
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.10 : 0.05),
+
+                    blurRadius: 8,
+
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
+
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
+
                 itemCount: beds.length,
+
                 shrinkWrap: true,
+
                 itemBuilder: (context, index) {
                   bool isSelected = selectedIndex == index;
 
@@ -83,21 +131,39 @@ class _CheckNumberOfRoomState extends State<CheckNumberOfRoom> {
                       // 🔥 تخزين الرقم
                       widget.controller?.text = beds[index].toString();
                     },
-                    child: Container(
-                      width: width * 0.13,
+
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
+
+                      width: width * 0.14,
+
                       alignment: Alignment.center,
+
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? secondaryColor.withValues(alpha: 0.12)
+                            : Colors.transparent,
+
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+
                       child: Text(
                         "+${beds[index]}",
+
                         style: TextStyle(
                           color: isSelected
                               ? secondaryColor
-                              // ignore: deprecated_member_use
-                              : secondaryColor.withOpacity(0.8),
+                              : Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
+
                           fontFamily: fontFamily,
-                          fontSize: width * 0.045,
+
+                          fontSize: width * 0.043,
+
                           fontWeight: isSelected
                               ? FontWeight.bold
-                              : FontWeight.normal,
+                              : FontWeight.w500,
                         ),
                       ),
                     ),

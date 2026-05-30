@@ -9,32 +9,45 @@ class ListOfMoreDetails extends StatelessWidget {
     required this.numberOfRoom,
     required this.sqft,
   });
+
   final int numberOfPath;
   final int numberOfRoom;
   final int sqft;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final Color iconColor = Theme.of(context).colorScheme.onSurface;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
+
       children: [
         MoreDetailsForPropertyCard(
-          icon: Icon(Icons.bed, size: width * 0.05, color: blackColor),
-          type: ' $numberOfRoom Rooms',
+          icon: Icon(Icons.bed_outlined, size: width * 0.05, color: iconColor),
+
+          type: '$numberOfRoom Rooms',
         ),
 
         MoreDetailsForPropertyCard(
           icon: Icon(
-            Icons.square_outlined,
+            Icons.straighten_rounded,
             size: width * 0.05,
-            color: blackColor,
+            color: iconColor,
           ),
-          type: ' $sqft sqft',
+
+          type: '$sqft sqft',
         ),
 
         MoreDetailsForPropertyCard(
-          icon: Icon(Icons.bathtub, size: width * 0.05, color: blackColor),
-          type: ' $numberOfPath Path',
+          icon: Icon(
+            Icons.bathtub_outlined,
+            size: width * 0.05,
+            color: iconColor,
+          ),
+
+          type: '$numberOfPath Bath',
         ),
       ],
     );

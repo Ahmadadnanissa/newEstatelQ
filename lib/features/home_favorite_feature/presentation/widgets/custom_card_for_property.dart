@@ -19,6 +19,7 @@ class CustomCardForProperty extends StatefulWidget {
     required this.sqft,
     required this.id,
   });
+
   final String image;
   final String title;
   final String address;
@@ -42,21 +43,21 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
 
     bool isFavorite = favoriteProvider.isFavorite(widget.id);
 
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       decoration: BoxDecoration(
-        color: primaryColor,
+        color: Theme.of(context).cardColor,
 
         borderRadius: BorderRadius.circular(width * 0.05),
 
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.2),
+            color: Colors.black.withValues(alpha: isDark ? 0.15 : 0.08),
 
-            blurRadius: 10,
+            blurRadius: 12,
 
-            spreadRadius: 1,
-
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -72,11 +73,8 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
 
                 child: AppImage(
                   path: widget.image,
-
                   width: double.infinity,
-
                   height: width * .38,
-
                   fit: BoxFit.cover,
                 ),
               ),
@@ -88,29 +86,38 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                   children: [
                     Container(
                       height: width * .08,
-
                       width: width * .23,
 
                       decoration: BoxDecoration(
-                        color: primaryColor,
+                        color: Theme.of(context).cardColor,
 
                         borderRadius: BorderRadius.circular(width * .03),
+
+                        border: Border.all(
+                          color: secondaryColor.withValues(alpha: 0.25),
+                        ),
                       ),
 
                       child: Center(
                         child: CustomFont(
                           name: widget.type,
 
-                          fontColor: blackColor,
+                          fontColor: secondaryColor,
 
                           fontSize: width * .035,
+
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
 
-                    Spacer(),
+                    const Spacer(),
 
-                    Icon(Icons.share, size: width * .09),
+                    Icon(
+                      Icons.share_outlined,
+                      color: Theme.of(context).colorScheme.onSurface,
+                      size: width * .08,
+                    ),
 
                     GestureDetector(
                       onTap: () async {
@@ -118,11 +125,17 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                       },
 
                       child: Icon(
-                        Icons.favorite,
+                        isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border_rounded,
 
-                        color: isFavorite ? Colors.red : Colors.grey,
+                        color: isFavorite
+                            ? Colors.red
+                            : Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.6),
 
-                        size: width * .09,
+                        size: width * .08,
                       ),
                     ),
                   ],
@@ -134,7 +147,6 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: width * .03,
-
               vertical: width * .03,
             ),
 
@@ -142,28 +154,32 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
 
-                  children: [
-                    CustomFont(
-                      name: widget.title,
+                    children: [
+                      CustomFont(
+                        name: widget.title,
 
-                      fontColor: blackColor,
+                        fontColor: secondaryColor,
 
-                      fontSize: width * .05,
+                        fontSize: width * .05,
 
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontWeight: FontWeight.bold,
+                      ),
 
-                    CustomFont(
-                      name: widget.address,
+                      SizedBox(height: width * .01),
 
-                      fontColor: Color(0xff5F6264),
+                      CustomFont(
+                        name: widget.address,
 
-                      fontSize: width * .035,
-                    ),
-                  ],
+                        fontColor: isDark ? darkSubtitleColor : Colors.grey,
+
+                        fontSize: width * .035,
+                      ),
+                    ],
+                  ),
                 ),
 
                 Column(
@@ -173,7 +189,7 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                     CustomFont(
                       name: widget.price,
 
-                      fontColor: blackColor,
+                      fontColor: secondaryColor,
 
                       fontSize: width * .05,
 
@@ -183,7 +199,7 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                     CustomFont(
                       name: "For Sale",
 
-                      fontColor: Color(0xff5F6264),
+                      fontColor: isDark ? darkSubtitleColor : Colors.grey,
 
                       fontSize: width * .035,
                     ),

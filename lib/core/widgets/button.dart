@@ -9,8 +9,11 @@ class PrimaryButton extends StatefulWidget {
     required this.pushing,
     this.isLoading = false,
   });
+
   String name;
+
   Future<void> Function() pushing;
+
   final bool isLoading;
 
   @override
@@ -24,68 +27,75 @@ class _PrimaryButtonState extends State<PrimaryButton> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     Future<void> onTap() async {
       setState(() {
-        opacity = 0.8;
-        scale = 0.9;
+        opacity = 0.85;
+        scale = 0.95;
       });
 
-      await Future.delayed(const Duration(milliseconds: 150));
+      await Future.delayed(const Duration(milliseconds: 120));
 
       setState(() {
         opacity = 1;
         scale = 1;
       });
-      await Future.delayed(const Duration(milliseconds: 150));
 
       await widget.pushing();
     }
 
     return GestureDetector(
       onTap: onTap,
+
       onTapDown: (details) {
         setState(() {
-          scale = 0.9;
-          opacity = 0.8;
+          scale = 0.95;
+          opacity = 0.85;
         });
       },
+
       onTapUp: (details) {
         setState(() {
           scale = 1;
           opacity = 1;
         });
       },
+
       onTapCancel: () {
         setState(() {
           scale = 1;
           opacity = 1;
         });
       },
+
       child: AnimatedOpacity(
         opacity: opacity,
-        duration: const Duration(milliseconds: 175),
+        duration: const Duration(milliseconds: 150),
+
         child: AnimatedScale(
           scale: scale,
-          duration: const Duration(milliseconds: 175),
+          duration: const Duration(milliseconds: 150),
+
           child: Container(
             height: width * 0.13,
             width: width * 0.85,
+
             decoration: BoxDecoration(
               color: secondaryColor,
+
               borderRadius: BorderRadius.circular(width * 0.07),
-              border: Border.all(
-                color: Color(0xff2B282B),
-                width: 1,
-                style: BorderStyle.solid,
-              ),
-              boxShadow: const [
+
+              border: Border.all(color: secondaryColor, width: 1),
+
+              boxShadow: [
                 BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 2,
-                  offset: Offset(0.5, 2),
+                  color: Colors.black.withValues(alpha: 0.12),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
+
             child: widget.isLoading
                 ? Center(
                     child: SizedBox(
@@ -97,19 +107,19 @@ class _PrimaryButtonState extends State<PrimaryButton> {
                       ),
                     ),
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.name,
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontFamily: fontFamily,
-                          fontSize: width * 0.07,
-                        ),
+                : Center(
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(
+                        color: primaryColor,
+
+                        fontFamily: fontFamily,
+
+                        fontWeight: FontWeight.w600,
+
+                        fontSize: width * 0.055,
                       ),
-                    ],
+                    ),
                   ),
           ),
         ),

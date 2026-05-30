@@ -5,10 +5,8 @@ import 'package:estatelqapp/features/auth_features/presentation/pages/signup_pag
 import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/final_double_text_for_login.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/forget_your_password.dart';
-import 'package:estatelqapp/features/auth_features/presentation/widgets/google_or_face_widget.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/login_and_signup_image.dart';
 import 'package:estatelqapp/core/widgets/name_page.dart';
-import 'package:estatelqapp/features/auth_features/presentation/widgets/or_continue_with.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/row_for_navigation_between_login_and_signup.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -39,86 +37,104 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SafeArea(
       child: Form(
         key: globalKey,
 
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              LoginAndSignupImage(),
+          physics: const BouncingScrollPhysics(),
 
-              NamePage(name: 'Login'),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
 
-              RowForNavigationBetweenLoginAndSignup(
-                subTitle: 'Don’t Have An Account?',
+            child: Column(
+              children: [
+                // ================= IMAGE =================
+                const LoginAndSignupImage(),
 
-                name: 'Signup',
+                // ================= TITLE =================
+                NamePage(name: 'Login'),
 
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, SignupPage.id);
-                },
-              ),
+                // ================= NAVIGATION =================
+                RowForNavigationBetweenLoginAndSignup(
+                  subTitle: 'Don’t Have An Account?',
 
-              FinalDoubleTextForLogin(
-                emailController: emailController,
+                  name: 'Signup',
 
-                passwordController: passwordController,
-              ),
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, SignupPage.id);
+                  },
+                ),
 
-              ForgetYourPassword(),
+                // ================= FORM =================
+                FinalDoubleTextForLogin(
+                  emailController: emailController,
 
-              Consumer<AuthProvider>(
-                builder: (context, provider, _) {
-                  return PrimaryButton(
-                    name: "Login",
+                  passwordController: passwordController,
+                ),
 
-                    isLoading: provider.isLoading,
+                // ================= FORGET PASSWORD =================
+                const ForgetYourPassword(),
 
-                    pushing: () async {
-                      FocusScope.of(context).unfocus();
+                SizedBox(height: 20),
 
-                      if (!globalKey.currentState!.validate()) {
-                        return;
-                      }
+                // ================= BUTTON =================
+                Consumer<AuthProvider>(
+                  builder: (context, provider, _) {
+                    return PrimaryButton(
+                      name: "Login",
 
-                      final email = emailController.text.trim();
+                      isLoading: provider.isLoading,
 
-                      final password = passwordController.text.trim();
+                      pushing: () async {
+                        FocusScope.of(context).unfocus();
 
-                      final authProvider = context.read<AuthProvider>();
+                        if (!globalKey.currentState!.validate()) {
+                          return;
+                        }
 
-                      await authProvider.login(email, password);
+                        final email = emailController.text.trim();
 
-                      if (authProvider.error != null) {
-                        CustomMessage.error(context, authProvider.error!);
+                        final password = passwordController.text.trim();
 
-                        return;
-                      }
+                        final authProvider = context.read<AuthProvider>();
 
-                      if (authProvider.userData != null) {
-                        CustomMessage.success(
-                          context,
-                          authProvider.userData?.message ?? "Welcome back!",
-                        );
+                        await authProvider.login(email, password);
 
-                        emailController.clear();
+                        if (authProvider.error != null) {
+                          CustomMessage.error(context, authProvider.error!);
 
-                        passwordController.clear();
+                          return;
+                        }
 
-                        Navigator.pushReplacement(
-                          context,
-                          SlideRight(page: HomePage()),
-                        );
-                      }
-                    },
-                  );
-                },
-              ),
+                        if (authProvider.userData != null) {
+                          CustomMessage.success(
+                            context,
+                            authProvider.userData?.message ?? "Welcome back!",
+                          );
 
-              // OrContinueWith(),
-              // GoogleOrFaceWidget(),
-            ],
+                          emailController.clear();
+
+                          passwordController.clear();
+
+                          Navigator.pushReplacement(
+                            context,
+                            SlideRight(page: HomePage()),
+                          );
+                        }
+                      },
+                    );
+                  },
+                ),
+
+                SizedBox(height: isDark ? 20 : 10),
+
+                // OrContinueWith(),
+                // GoogleOrFaceWidget(),
+              ],
+            ),
           ),
         ),
       ),

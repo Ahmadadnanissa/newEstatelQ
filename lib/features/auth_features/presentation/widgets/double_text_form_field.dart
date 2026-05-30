@@ -18,18 +18,36 @@ class DoubleTextFormfield extends StatelessWidget {
     this.controller1,
     this.controller2,
   });
+
   TextEditingController? controller1;
   TextEditingController? controller2;
+
   bool obsecureText1;
   bool obsecureText2;
+
   String text1, text2;
+
   Function(String)? onChanged1, onChanged2;
+
   String? Function(String?) validator1, validator2;
+
   Widget icon1, icon2;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color fieldColor = Theme.of(context).cardColor;
+
+    final Color borderColor = isDark
+        ? darkSurfaceColor
+        : const Color(0xffE5F0F4);
+
+    final Color hintColor = isDark
+        ? darkSubtitleColor
+        : const Color(0xff5F6264);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -39,12 +57,15 @@ class DoubleTextFormfield extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // ================= FIRST FIELD =================
           Container(
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  offset: Offset(0, 3),
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.15)
+                      : Colors.black.withValues(alpha: 0.08),
+                  offset: const Offset(0, 3),
                   blurRadius: 10,
                 ),
               ],
@@ -56,10 +77,18 @@ class DoubleTextFormfield extends StatelessWidget {
               onChanged: onChanged1,
               textAlign: TextAlign.start,
               textAlignVertical: TextAlignVertical.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontFamily: fontFamily,
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(vertical: width * 0.035),
-                fillColor: Color(0xffEDF6F9),
+
+                // ================= COLORS =================
+                fillColor: fieldColor,
                 filled: true,
+
+                // ================= ICON =================
                 prefixIcon: Padding(
                   padding: EdgeInsets.only(
                     left: width * 0.02,
@@ -71,59 +100,51 @@ class DoubleTextFormfield extends StatelessWidget {
                     color: secondaryColor,
                   ),
                 ),
+
+                // ================= HINT =================
                 hintText: text1,
+
                 hintStyle: TextStyle(
-                  color: Color(0xff5F6264),
+                  color: hintColor,
                   fontFamily: fontFamily,
                   fontSize: width * 0.04,
                 ),
+
+                // ================= BORDERS =================
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                  ),
-                  borderSide: BorderSide(color: Color(0xffE5F0F4), width: 1),
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide(color: borderColor, width: 1),
                 ),
+
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                  ),
-                  borderSide: BorderSide(color: Color(0xffE5F0F4), width: 1),
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide(color: borderColor, width: 1),
                 ),
+
                 errorBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                  ),
-                  borderSide: BorderSide(color: Color(0xffE5F0F4), width: 1),
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide(color: borderColor, width: 1),
                 ),
+
                 focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                  ),
-                  borderSide: BorderSide(color: Color(0xffE5F0F4), width: 1),
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide(color: borderColor, width: 1),
                 ),
               ),
             ),
           ),
+
+          // ================= SECOND FIELD =================
           Padding(
             padding: EdgeInsets.only(top: width * 0.03),
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: blackColor.withValues(alpha: 0.2),
-                    offset: Offset(0, 3),
+                    color: isDark
+                        ? Colors.black.withValues(alpha: 0.15)
+                        : Colors.black.withValues(alpha: 0.08),
+                    offset: const Offset(0, 3),
                     blurRadius: 10,
                   ),
                 ],
@@ -135,10 +156,18 @@ class DoubleTextFormfield extends StatelessWidget {
                 onChanged: onChanged2,
                 textAlign: TextAlign.start,
                 textAlignVertical: TextAlignVertical.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontFamily: fontFamily,
+                ),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: width * 0.035),
-                  fillColor: Color(0xffEDF6F9),
+
+                  // ================= COLORS =================
+                  fillColor: fieldColor,
                   filled: true,
+
+                  // ================= ICON =================
                   prefixIcon: Padding(
                     padding: EdgeInsets.only(
                       left: width * 0.02,
@@ -150,47 +179,35 @@ class DoubleTextFormfield extends StatelessWidget {
                       color: secondaryColor,
                     ),
                   ),
+
+                  // ================= HINT =================
                   hintText: text2,
+
                   hintStyle: TextStyle(
-                    color: Color(0xff5F6264),
+                    color: hintColor,
                     fontFamily: fontFamily,
                     fontSize: width * 0.04,
                   ),
+
+                  // ================= BORDERS =================
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
-                    borderSide: BorderSide(color: Color(0xffE5F0F4), width: 1),
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: borderColor, width: 1),
                   ),
+
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
-                    borderSide: BorderSide(color: Color(0xffE5F0F4), width: 1),
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: borderColor, width: 1),
                   ),
+
                   errorBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
-                    borderSide: BorderSide(color: Color(0xffE5F0F4), width: 1),
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: borderColor, width: 1),
                   ),
+
                   focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
-                    borderSide: BorderSide(color: Color(0xffE5F0F4), width: 1),
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: borderColor, width: 1),
                   ),
                 ),
               ),

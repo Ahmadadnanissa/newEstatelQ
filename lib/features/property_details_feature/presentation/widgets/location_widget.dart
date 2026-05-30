@@ -26,31 +26,50 @@ class LocationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color titleColor = secondaryColor;
+
+    final Color textColor = isDark ? darkSubtitleColor : Colors.grey;
+
+    final Color chipBg = isDark
+        ? Colors.white10
+        : primaryColor.withValues(alpha: 0.1);
+
     if (property.latitude == null || property.longitude == null) {
       return Padding(
-        padding: const EdgeInsets.all(15),
-        child: Text("Location unavailable"),
+        padding: EdgeInsets.all(width * 0.04),
+        child: CustomFont(
+          name: "Location unavailable",
+          fontColor: textColor,
+          fontSize: width * 0.04,
+        ),
       );
     }
 
     final nearby = getNearbyServices();
 
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: EdgeInsets.all(width * 0.04),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
+          // ================= TITLE =================
           CustomFont(
             name: 'Location',
-            fontColor: blackColor,
-            fontSize: width * 0.05,
-            fontWeight: FontWeight.bold,
+            fontColor: titleColor,
+            fontSize: width * 0.055,
+            fontWeight: FontWeight.w600,
           ),
 
-          const SizedBox(height: 15),
+          SizedBox(height: width * 0.03),
 
+          // ================= MAP + LOCATION =================
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+
             children: [
               GestureDetector(
                 onTap: () {
@@ -64,11 +83,15 @@ class LocationWidget extends StatelessWidget {
                     ),
                   );
                 },
+
                 child: Container(
                   width: width * .4,
                   height: width * .25,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: isDark ? Colors.white10 : Colors.black12,
+                    ),
                     image: const DecorationImage(
                       image: AssetImage('assets/images/map_Image.png'),
                       fit: BoxFit.cover,
@@ -77,50 +100,50 @@ class LocationWidget extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: width * 0.03),
 
               Expanded(
-                child: Text(
-                  property.location,
-                  style: TextStyle(fontSize: width * 0.03),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+                child: CustomFont(
+                  name: property.location,
+                  fontColor: textColor,
+                  fontSize: width * 0.035,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 15),
+          SizedBox(height: width * 0.04),
 
+          // ================= NEARBY =================
           if (nearby.isNotEmpty) ...[
             CustomFont(
               name: "Nearby Services",
-              fontColor: blackColor,
+              fontColor: titleColor,
               fontSize: width * 0.045,
               fontWeight: FontWeight.w600,
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: width * 0.02),
 
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: nearby.map((item) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: primaryColor.withOpacity(0.1),
+                    color: chipBg,
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: primaryColor),
+                    border: Border.all(
+                      color: isDark ? Colors.white10 : Colors.black12,
+                    ),
                   ),
                   child: Text(
                     item,
                     style: TextStyle(
                       fontSize: width * 0.03,
-                      color: blackColor,
+                      color: textColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

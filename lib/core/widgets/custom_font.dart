@@ -6,24 +6,28 @@ class CustomFont extends StatelessWidget {
   CustomFont({
     super.key,
     required this.name,
-    required this.fontColor,
     required this.fontSize,
+    this.fontColor,
     this.fontWeight,
   });
+
   String name;
   double fontSize;
   Color? fontColor;
   FontWeight? fontWeight;
+
   @override
   Widget build(BuildContext context) {
     return Text(
       name,
       textAlign: TextAlign.center,
-
       style: TextStyle(
-        color: fontColor,
+        color: fontColor ?? Theme.of(context).colorScheme.onSurface,
+
         fontSize: fontSize,
+
         fontFamily: fontFamily,
+
         fontWeight: fontWeight,
       ),
     );

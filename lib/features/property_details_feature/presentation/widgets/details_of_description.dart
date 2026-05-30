@@ -8,49 +8,58 @@ class DetailsOfDescription extends StatelessWidget {
     super.key,
     required this.fullDescr,
     required this.images,
-    // required this.image1,
-    // required this.image2,
-    // required this.image3,
-    // required this.image4,
   });
+
   final String fullDescr;
-  // final String image1;
-  // final String image2;
-  // final String image3;
-  // final String image4;
   final List<String> images;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color subtitleColor = isDark ? darkSubtitleColor : Colors.grey;
+
+    final Color titleColor = Theme.of(context).colorScheme.onSurface;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
+          // ================= TITLE =================
           CustomFont(
             name: 'Description',
-            fontColor: blackColor,
+            fontColor: secondaryColor,
             fontSize: width * 0.06,
             fontWeight: FontWeight.w600,
           ),
+
           SizedBox(height: width * 0.02),
+
+          // ================= DESCRIPTION =================
           Text(
             fullDescr,
-
             style: TextStyle(
-              color: Color(0xff5F6264),
+              color: subtitleColor,
               fontSize: width * 0.04,
               fontFamily: fontFamily,
+              height: 1.4,
             ),
           ),
+
           SizedBox(height: width * 0.04),
+
+          // ================= IMAGES =================
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: images.map((e) {
                 return Padding(
-                  padding: EdgeInsets.only(right: 8),
-
+                  padding: const EdgeInsets.only(right: 8),
                   child: CustomImageForDescription(image: e),
                 );
               }).toList(),

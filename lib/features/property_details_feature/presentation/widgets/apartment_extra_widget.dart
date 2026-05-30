@@ -13,6 +13,13 @@ class ApartmentExtraWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color titleColor = secondaryColor;
+
+    final Color textColor = isDark ? darkSubtitleColor : Colors.grey;
+
     List<String> details = [];
 
     if (property.floorNumber != null) {
@@ -20,9 +27,7 @@ class ApartmentExtraWidget extends StatelessWidget {
     }
 
     details.add("Heater : ${property.heating}");
-
     details.add("Furnished : ${property.furnishing}");
-
     details.add("Built : ${property.constructionYear}");
 
     return Padding(
@@ -35,19 +40,22 @@ class ApartmentExtraWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
 
         children: [
+          // ================= TITLE =================
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CustomFont(
                 name: 'More Details',
-                fontColor: blackColor,
-                fontSize: width * 0.05,
-                fontWeight: FontWeight.bold,
+                fontColor: titleColor,
+                fontSize: width * 0.055,
+                fontWeight: FontWeight.w600,
               ),
             ],
           ),
-          SizedBox(height: 15),
 
+          SizedBox(height: width * 0.03),
+
+          // ================= CHIPS =================
           Wrap(
             spacing: 10,
             runSpacing: 10,

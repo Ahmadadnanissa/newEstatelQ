@@ -12,6 +12,9 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(body: BodyChangePasswordPage()));
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(child: BodyChangePasswordPage()),
+    );
   }
 }

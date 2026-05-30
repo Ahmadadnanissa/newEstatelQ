@@ -12,6 +12,9 @@ class EnterYourEmail extends StatefulWidget {
 class _EnterYourEmailState extends State<EnterYourEmail> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(body: BodyEnterYourEmailPage()));
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(child: BodyEnterYourEmailPage()),
+    );
   }
 }

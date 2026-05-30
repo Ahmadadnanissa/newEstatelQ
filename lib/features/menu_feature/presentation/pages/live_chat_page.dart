@@ -13,7 +13,7 @@ class LiveChatPage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: CustommAppBar(
           title: 'Live Chat',
           sizeTitle: width * 0.06,

@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/body_signup_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +12,9 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: primaryColor, body: BodySignupPage());
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: BodySignupPage(),
+    );
   }
 }

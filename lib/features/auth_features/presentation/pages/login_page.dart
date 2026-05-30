@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/body_login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +12,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: primaryColor, body: BodyLoginPage());
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: BodyLoginPage(),
+    );
   }
 }

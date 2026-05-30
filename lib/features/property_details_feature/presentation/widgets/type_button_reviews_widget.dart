@@ -11,6 +11,7 @@ class TypeButtonReviewsWidget extends StatelessWidget {
     required this.reviewCount,
     required this.rating,
   });
+
   final String propertyType;
   final String reviewCount;
   final String rating;
@@ -18,96 +19,109 @@ class TypeButtonReviewsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color textColor = Theme.of(context).colorScheme.onSurface;
+
     return Padding(
       padding: EdgeInsets.all(width * 0.03),
+
       child: Row(
         children: [
+          // ================= TYPE =================
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
-
             children: [
               AppImage(
                 path: 'assets/images/Building.png',
                 width: width * 0.1,
                 height: width * 0.1,
               ),
+
+              SizedBox(height: width * 0.01),
+
               CustomFont(
                 name: propertyType,
-
-                fontColor: Color(0xff5F6264),
+                fontColor: isDark ? darkSubtitleColor : Colors.grey,
                 fontSize: width * 0.03,
               ),
             ],
           ),
-          Spacer(),
+
+          const Spacer(),
+
+          // ================= DIVIDER =================
           Container(
-            width: width * 0.0008,
-            height: width * 0.2,
-            color: Color(0xff5F6264),
+            width: 1,
+            height: width * 0.18,
+            color: isDark
+                ? darkSubtitleColor.withValues(alpha: 0.4)
+                : Colors.grey.withValues(alpha: 0.5),
           ),
-          Spacer(),
+
+          const Spacer(),
+
+          // ================= REVIEWS =================
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Icon(
-                    Icons.reviews,
+                    Icons.rate_review_outlined,
                     color: secondaryColor,
-                    size: width * 0.06,
+                    size: width * 0.055,
                   ),
+
                   SizedBox(width: width * 0.01),
+
                   CustomFont(
                     name: reviewCount,
-
-                    fontColor: Color(0xff5F6264),
+                    fontColor: isDark ? darkSubtitleColor : Colors.grey,
                     fontSize: width * 0.035,
                   ),
                 ],
               ),
+
+              SizedBox(height: width * 0.01),
+
               Row(
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellowAccent,
-                    size: width * 0.06,
+                children: List.generate(
+                  5,
+                  (index) => Icon(
+                    Icons.star_rounded,
+                    color: Colors.amber,
+                    size: width * 0.05,
                   ),
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellowAccent,
-                    size: width * 0.06,
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellowAccent,
-                    size: width * 0.06,
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellowAccent,
-                    size: width * 0.06,
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellowAccent,
-                    size: width * 0.06,
-                  ),
-                ],
+                ),
               ),
+
+              SizedBox(height: width * 0.01),
+
               CustomFont(
                 name: rating,
-                fontColor: Color(0xff5F6264),
+                fontColor: secondaryColor,
                 fontSize: width * 0.04,
+                fontWeight: FontWeight.w600,
               ),
             ],
           ),
-          Spacer(),
+
+          const Spacer(),
+
+          // ================= DIVIDER =================
           Container(
-            width: width * 0.0008,
-            height: width * 0.2,
-            color: Color(0xff5F6264),
+            width: 1,
+            height: width * 0.18,
+            color: isDark
+                ? darkSubtitleColor.withValues(alpha: 0.4)
+                : Colors.grey.withValues(alpha: 0.5),
           ),
-          Spacer(),
+
+          const Spacer(),
+
+          // ================= BUTTON =================
           CustomButton(name: 'Book Now', pushing: () {}),
         ],
       ),

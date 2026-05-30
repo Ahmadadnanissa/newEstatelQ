@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/property_details_feature/data/models/property_model.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/room_details_widget.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/details_of_description.dart';
@@ -24,6 +25,10 @@ class BasePropertyDetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color subtitleColor = isDark ? darkSubtitleColor : Colors.grey;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,15 +60,15 @@ class BasePropertyDetailsWidget extends StatelessWidget {
 
         SizedBox(height: width * .04),
 
-        Divider(),
+        Divider(color: subtitleColor),
 
         RoomDetailsWidget(rooms: property.rooms),
 
-        Divider(),
+        Divider(color: subtitleColor),
 
         OutdoorWidget(outdoorItems: property.outdoorItems),
 
-        Divider(),
+        Divider(color: subtitleColor),
 
         LocationWidget(property: property),
       ],

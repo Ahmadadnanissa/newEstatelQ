@@ -10,7 +10,7 @@ class RoomsLiveChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: CustommAppBar(
         title: 'Live Chat',
         sizeTitle: width * 0.06,
