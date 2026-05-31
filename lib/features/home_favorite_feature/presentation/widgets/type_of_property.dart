@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 
 class TypeOfProperty extends StatelessWidget {
