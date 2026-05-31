@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +9,18 @@ class TitleAndTypeForPropertyStatus extends StatelessWidget {
     required this.price,
     required this.forWhat,
   });
+
   final String title;
   final String type;
   final String price;
   final String forWhat;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: width * 0.03,
@@ -30,13 +34,13 @@ class TitleAndTypeForPropertyStatus extends StatelessWidget {
             children: [
               CustomFont(
                 name: title,
-                fontColor: blackColor,
+                fontColor: colorScheme.onSurface,
                 fontSize: width * 0.05,
                 fontWeight: FontWeight.bold,
               ),
               CustomFont(
                 name: type,
-                fontColor: Color(0xff5F6264),
+                fontColor: colorScheme.onSurface.withValues(alpha: 0.65),
                 fontSize: width * 0.035,
               ),
             ],
@@ -47,14 +51,13 @@ class TitleAndTypeForPropertyStatus extends StatelessWidget {
             children: [
               CustomFont(
                 name: '\$$price',
-                fontColor: blackColor,
+                fontColor: colorScheme.primary,
                 fontSize: width * 0.05,
                 fontWeight: FontWeight.bold,
               ),
               CustomFont(
                 name: forWhat,
-                // widget.type
-                fontColor: Color(0xff5F6264),
+                fontColor: colorScheme.onSurface.withValues(alpha: 0.65),
                 fontSize: width * 0.035,
               ),
             ],

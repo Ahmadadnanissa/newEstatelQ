@@ -11,36 +11,47 @@ class CustomCardForStatusPage extends StatelessWidget {
   Color checkColor(PropertyActivity activity) {
     switch (activity.status) {
       case 'started':
-        return const Color.fromARGB(255, 49, 89, 123);
+        return const Color(0xFF457B9D);
+
       case 'pending':
-        return const Color.fromARGB(255, 159, 148, 53);
+        return const Color(0xFFF4A261);
+
       case 'failed':
-        return Colors.red;
+        return const Color(0xFFE63946);
+
       case 'success':
-        return Colors.green;
+        return const Color(0xFF2A9D8F);
+
       default:
-        return secondaryColor;
+        return const Color(0xFF8D99AE);
     }
   }
 
   IconData checkIcon(PropertyActivity activity) {
     switch (activity.status) {
       case 'started':
-        return Icons.play_arrow;
+        return Icons.play_circle_outline;
+
       case 'pending':
-        return Icons.attach_money;
+        return Icons.schedule_outlined;
+
       case 'failed':
-        return Icons.cancel;
+        return Icons.cancel_outlined;
+
       case 'success':
-        return Icons.check_circle;
+        return Icons.check_circle_outline;
+
       default:
-        return Icons.home;
+        return Icons.home_outlined;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
@@ -71,31 +82,32 @@ class CustomCardForStatusPage extends StatelessWidget {
                     children: [
                       CustomFont(
                         name: activity.title,
-                        fontColor: blackColor,
+                        fontColor: colorScheme.onSurface,
                         fontSize: width * 0.04,
+                        fontWeight: FontWeight.w600,
                       ),
-                      Spacer(),
+
+                      const Spacer(),
+
                       CustomFont(
                         name: activity.date.toString(),
-                        fontColor: blackColor,
+                        fontColor: colorScheme.onSurface.withValues(alpha: 0.6),
                         fontSize: width * 0.025,
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
+
+                  const SizedBox(height: 5),
+
                   Text(
                     activity.description,
                     style: TextStyle(
-                      color: greenColor,
+                      color: checkColor(activity),
                       fontFamily: fontFamily,
                       fontSize: width * 0.03,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  // CustomFont(
-                  //   name: activity.description,
-                  //   fontColor: greenColor,
-                  //   fontSize: width * 0.04,
-                  // ),
                 ],
               ),
             ),

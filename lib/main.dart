@@ -50,6 +50,7 @@ import 'package:estatelqapp/features/menu_feature/presentation/pages/menu_page.d
 import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/rooms_live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_provider.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_with_ai_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/request_provider.dart';
@@ -196,7 +197,7 @@ void main() async {
             MarkAsReadUseCase(repo),
           ),
         ),
-
+        ChangeNotifierProvider(create: (_) => ChatWithAiProvider()),
         ChangeNotifierProvider(create: (_) => ChatProvider(SocketService())),
 
         ChangeNotifierProvider(

@@ -10,7 +10,7 @@ class PropertyStatusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: CustommAppBar(
         title: 'My Property Status',
         sizeTitle: width * 0.06,

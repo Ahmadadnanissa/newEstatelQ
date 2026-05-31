@@ -1,4 +1,3 @@
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/more_details_for_property_card.dart';
 import 'package:flutter/material.dart';
 
@@ -15,28 +14,30 @@ class ListOfMoreDetails extends StatelessWidget {
   final int sqft;
 
   @override
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    final Color iconColor = Theme.of(context).colorScheme.onSurface;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-
       children: [
         MoreDetailsForPropertyCard(
-          icon: Icon(Icons.bed_outlined, size: width * 0.05, color: iconColor),
-
+          icon: Icon(
+            Icons.bed_outlined,
+            size: width * 0.05,
+            color: colorScheme.primary,
+          ),
           type: '$numberOfRoom Rooms',
         ),
 
         MoreDetailsForPropertyCard(
           icon: Icon(
-            Icons.straighten_rounded,
+            Icons.square_foot_outlined,
             size: width * 0.05,
-            color: iconColor,
+            color: colorScheme.primary,
           ),
-
           type: '$sqft sqft',
         ),
 
@@ -44,9 +45,8 @@ class ListOfMoreDetails extends StatelessWidget {
           icon: Icon(
             Icons.bathtub_outlined,
             size: width * 0.05,
-            color: iconColor,
+            color: colorScheme.primary,
           ),
-
           type: '$numberOfPath Bath',
         ),
       ],
