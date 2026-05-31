@@ -49,7 +49,7 @@ class BodyAiAssistant extends StatelessWidget {
                           ),
                         )
                       : ListView.builder(
-                          reverse: true,
+                          controller: provider.scrollController,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           itemCount:
                               provider.messages.length +

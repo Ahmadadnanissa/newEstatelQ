@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 
 class ChatWithAiProvider extends ChangeNotifier {
   final TextEditingController controller = TextEditingController();
-
   final GeminiService _geminiService = GeminiService();
+  final ScrollController scrollController = ScrollController();
 
   List<ChatMessageModel> messages = [];
-
   bool isLoading = false;
 
   ChatWithAiProvider() {
-    // 🔥 مهم جداً: حتى يتحدث الزر لحظياً عند كتابة النص
     controller.addListener(() {
       notifyListeners();
     });
@@ -23,28 +21,59 @@ class ChatWithAiProvider extends ChangeNotifier {
 
     String userMessage = controller.text.trim();
 
+    // add user message
     messages.add(ChatMessageModel(message: userMessage, isUser: true));
 
     controller.clear();
-
     isLoading = true;
     notifyListeners();
 
-    try {
-      final response = await _geminiService.sendMessage(userMessage);
+    scrollToBottom();
 
-      messages.add(ChatMessageModel(message: response, isUser: false));
-    } catch (e) {
-      messages.add(ChatMessageModel(message: "Error: $e", isUser: false));
+    try {
+      final response = await _geminiService.sendConversation(messages);
+
+      if (response == "NETWORK_ERROR") {
+        messages.add(
+          ChatMessageModel(
+            message: "حدثت مشكلة في الشبكة، حاول لاحقاً",
+            isUser: false,
+          ),
+        );
+      } else {
+        messages.add(ChatMessageModel(message: response, isUser: false));
+      }
+
+      scrollToBottom();
+    } catch (_) {
+      messages.add(
+        ChatMessageModel(
+          message: "حدثت مشكلة في الشبكة، حاول لاحقاً",
+          isUser: false,
+        ),
+      );
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
 
+  void scrollToBottom() {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   @override
   void dispose() {
     controller.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 }
