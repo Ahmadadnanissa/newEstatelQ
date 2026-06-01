@@ -32,7 +32,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
   int numberOfRooms = 0;
   int numberOfBathrooms = 0;
   String locationProperty = '';
-  String propertyType = 'Apartments';
+  String propertyType = 'Apartment';
 
   bool isParking = true;
   bool isSwimmingPool = true;
@@ -88,7 +88,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
   }
 
   String getRequestType() {
-    return propertyStatus == "For Sale" ? "SALE" : "RENT";
+    return propertyStatus == "For Sale" ? "SELL" : "RENT";
   }
 
   @override

@@ -9,7 +9,7 @@ class RequestRemoteDataSource {
 
   Future<String> sendRequest({
     required RequestModel request,
-    required String type, // 🔥 NEW (SALE / RENT)
+    required String type, // 🔥 NEW (SELL / RENT)
     required String? token,
   }) async {
     final response = await client.post(
