@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:estatelqapp/features/auth_features/data/models/login_response_model.dart';
 import 'package:estatelqapp/features/auth_features/data/models/sign_up_response_model.dart';
 import 'package:estatelqapp/features/forget_password_features/data/models/forget_passowrd_response_model.dart';
+import 'package:estatelqapp/features/forget_password_features/data/models/reset_password_response_model.dart';
 import 'package:estatelqapp/features/forget_password_features/data/models/verify_for_go_to_passowrd_otp_veriffy_response.dart';
 import 'package:http/http.dart' as http;
 
@@ -93,16 +94,13 @@ class AuthRemoteDataSource {
     throw Exception(data["message"] ?? "Failed to resend OTP");
   }
 
-  Future<String> logout(String id, String token) async {
+  Future<String> logout(String token) async {
     final response = await client.post(
-      Uri.parse("YOUR_URL/logout"),
-
+      Uri.parse("YOUR_URL/auth/logout"),
       headers: {
-        "Content-Type": "application/json",
         "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
       },
-
-      body: jsonEncode({"id": id}),
     );
 
     final data = jsonDecode(response.body);
@@ -137,7 +135,7 @@ class AuthRemoteDataSource {
     String otp,
   ) async {
     final response = await client.post(
-      Uri.parse("YOUR_URL/auth/verifyForgotPasswordOtp"),
+      Uri.parse("YOUR_URL/auth/verifyPasswordResetOtp"),
 
       headers: {'Content-Type': 'application/json'},
 
@@ -153,18 +151,15 @@ class AuthRemoteDataSource {
     throw Exception(data["message"] ?? "OTP verification failed");
   }
 
-  Future<String> resetPassword(
+  Future<ResetPasswordResponseModel> resetPassword(
     String password,
     String passwordConfirm,
     String resetToken,
   ) async {
     final response = await client.patch(
-      Uri.parse("YOUR_URL/auth/resetPassword"),
+      Uri.parse("YOUR_URL/auth/resetPassword/$resetToken"),
 
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": "Bearer $resetToken",
-      },
+      headers: {'Content-Type': 'application/json'},
 
       body: jsonEncode({
         "password": password,
@@ -175,7 +170,7 @@ class AuthRemoteDataSource {
     final data = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      return data["message"] ?? "Password changed successfully";
+      return ResetPasswordResponseModel.fromJson(data);
     }
 
     throw Exception(data["message"] ?? "Reset password failed");

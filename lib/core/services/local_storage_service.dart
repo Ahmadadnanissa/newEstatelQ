@@ -16,7 +16,7 @@ class LocalStorageService {
   }
 
   static Future<void> saveUser({
-    required int id,
+    required String id,
     required String name,
     required String email,
   }) async {
@@ -37,7 +37,7 @@ class LocalStorageService {
     return box.get('email');
   }
 
-  static int? getId() {
+  static String? getId() {
     return box.get('id');
   }
 

@@ -102,7 +102,7 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
                         final authProvider = context.read<AuthProvider>();
 
                         await authProvider.login(email, password);
-
+                        if (!mounted) return;
                         if (authProvider.error != null) {
                           CustomMessage.error(context, authProvider.error!);
 

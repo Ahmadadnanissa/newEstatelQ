@@ -138,7 +138,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
                           password,
                           confirmPassword,
                         );
-
+                        if (!mounted) return;
                         if (authProvider.error != null) {
                           CustomMessage.error(context, authProvider.error!);
 

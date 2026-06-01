@@ -44,7 +44,7 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void connectSocket(int id, String userType) {
+  void connectSocket(String id, String userType) {
     socketService.connect();
 
     socketService.emit("register_user", {"id": id, "userType": userType});

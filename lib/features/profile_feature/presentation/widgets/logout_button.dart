@@ -20,13 +20,24 @@ class LogoutButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () {
-              context.read<AuthProvider>().logout(context);
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                WelcomePage.id,
-                (route) => false,
-              );
+            onTap: () async {
+              await context.read<AuthProvider>().logout(context);
+
+              final provider = context.read<AuthProvider>();
+
+              await provider.logout(context);
+
+              if (provider.error != null) {
+                return;
+              }
+
+              if (context.mounted) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  WelcomePage.id,
+                  (route) => false,
+                );
+              }
             },
             child: Container(
               height: width * 0.14,

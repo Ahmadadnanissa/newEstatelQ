@@ -5,6 +5,7 @@ import 'package:estatelqapp/features/auth_features/presentation/pages/login_page
 import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/widgets/change_password_image.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/widgets/custom_text_form_field_for_change_password.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,27 +68,23 @@ class _BodyChangePasswordPageState extends State<BodyChangePasswordPage> {
                       return;
                     }
 
-                    final message = await provider.resetPassword(
+                    await provider.resetPassword(
                       passwordController.text.trim(),
-
                       confirmPasswordController.text.trim(),
                     );
 
                     if (provider.error != null) {
                       CustomMessage.error(context, provider.error!);
-
                       return;
                     }
-
-                    CustomMessage.success(
-                      context,
-                      message ?? "Password changed successfully",
-                    );
+                    if (provider.resetPasswordData == null) {
+                      return;
+                    }
 
                     Navigator.pushAndRemoveUntil(
                       context,
 
-                      SlideRight(page: LoginPage()),
+                      SlideRight(page: HomePage()),
 
                       (route) => false,
                     );

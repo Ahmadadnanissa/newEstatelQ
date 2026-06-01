@@ -27,7 +27,7 @@ class _GetStartButtonState extends State<GetStartButton> {
           final guestId = uuid.v4();
 
           await LocalStorageService.saveUser(
-            id: guestId.hashCode, // أو تخليه String إذا بدك (أفضل لاحقاً)
+            id: guestId, // أو تخليه String إذا بدك (أفضل لاحقاً)
             name: "Guest",
             email: "guest@local",
           );

@@ -20,6 +20,12 @@ class _BodyEnterYourEmailPageState extends State<BodyEnterYourEmailPage> {
   final emailController = TextEditingController();
   GlobalKey<FormState> globalKey = GlobalKey();
   @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Form(
@@ -48,8 +54,6 @@ class _BodyEnterYourEmailPageState extends State<BodyEnterYourEmailPage> {
 
                     return;
                   }
-
-                  CustomMessage.success(context, "OTP sent successfully");
 
                   Navigator.push(
                     context,

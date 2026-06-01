@@ -4,8 +4,7 @@ class LogoutUseCase {
   final AuthRepositoryImpl repository;
 
   LogoutUseCase(this.repository);
-
-  Future<String> execute(String id, String token) {
-    return repository.logout(id, token);
+  Future<String> execute(String token) {
+    return repository.logout(token);
   }
 }
