@@ -27,11 +27,7 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
     Future.microtask(() {
       final provider = context.read<ClientProvider>();
 
-      final id = LocalStorageService.getId();
-
-      if (id != null) {
-        provider.getClient(id.toString(), context);
-      }
+      provider.getClient(context);
     });
   }
 

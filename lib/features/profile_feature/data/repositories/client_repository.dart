@@ -7,8 +7,8 @@ class ClientRepository {
 
   ClientRepository(this.remote);
 
-  Future<ClientModel> getClient(String id) {
-    return remote.getClient(id);
+  Future<ClientModel> getClient(String token) {
+    return remote.getClient(token);
   }
 
   Future<void> updateAddress({

@@ -7,15 +7,19 @@ class ClientRemoteDataSource {
 
   ClientRemoteDataSource(this.client);
 
-  Future<ClientModel> getClient(String id) async {
+  Future<ClientModel> getClient(String token) async {
     final response = await client.get(
-      Uri.parse("YOUR_URL/client?id=$id"),
-      headers: {"Content-Type": "application/json"},
+      Uri.parse("YOUR_URL/api/v1/auth/getMe"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return ClientModel.fromJson(data);
+      final json = jsonDecode(response.body);
+
+      return ClientModel.fromJson(json["data"]);
     } else {
       throw Exception("Failed to get client");
     }

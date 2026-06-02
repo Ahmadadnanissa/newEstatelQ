@@ -10,6 +10,7 @@ class ClientProvider extends ChangeNotifier {
   final GetClientUseCase getClientUseCase;
   final UpdateAddressUseCase updateAddressUseCase;
   final UpdateProfileUseCase updateProfileUseCase;
+
   ClientProvider(
     this.getClientUseCase,
     this.updateAddressUseCase,
@@ -21,10 +22,10 @@ class ClientProvider extends ChangeNotifier {
   bool isLoading = false;
   String? error;
 
-  Future<void> getClient(String id, BuildContext context) async {
-    final userType = LocalStorageService.getUserType();
+  Future<void> getClient(BuildContext context) async {
+    final token = LocalStorageService.getToken();
 
-    if (userType == null || userType == "guest") {
+    if (token == null) {
       CustomMessage.error(context, "Please create an account first");
       client = null;
       notifyListeners();
@@ -36,13 +37,14 @@ class ClientProvider extends ChangeNotifier {
       error = null;
       notifyListeners();
 
-      client = await getClientUseCase.execute(id);
+      client = await getClientUseCase.execute(token);
     } catch (e) {
       error = e.toString();
+      CustomMessage.error(context, error!);
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
-
-    isLoading = false;
-    notifyListeners();
   }
 
   Future<void> updateAddress({
@@ -50,19 +52,19 @@ class ClientProvider extends ChangeNotifier {
     required double longitude,
     required BuildContext context,
   }) async {
-    final userType = LocalStorageService.getUserType();
+    final token = LocalStorageService.getToken();
 
-    if (userType == null || userType == "guest") {
+    if (token == null) {
       CustomMessage.error(context, "Please create an account first");
       return;
     }
 
     try {
       isLoading = true;
+      error = null;
       notifyListeners();
 
       final id = LocalStorageService.getId().toString();
-      final token = LocalStorageService.getToken() ?? "";
 
       await updateAddressUseCase.execute(
         id: id,
@@ -89,19 +91,19 @@ class ClientProvider extends ChangeNotifier {
     required String location,
     required BuildContext context,
   }) async {
-    final userType = LocalStorageService.getUserType();
+    final token = LocalStorageService.getToken();
 
-    if (userType == null || userType == "guest") {
+    if (token == null) {
       CustomMessage.error(context, "Please create an account first");
       return;
     }
 
     try {
       isLoading = true;
+      error = null;
       notifyListeners();
 
       final id = LocalStorageService.getId().toString();
-      final token = LocalStorageService.getToken() ?? "";
 
       await updateProfileUseCase.execute(
         id: id,

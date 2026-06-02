@@ -26,30 +26,20 @@ class ClientModel {
   });
 
   factory ClientModel.fromJson(Map<String, dynamic> json) {
+    final clientData = json['client'] ?? {};
+
     return ClientModel(
       id: json['id'],
-      name: json['name'],
       email: json['email'],
-      phone: json['phone'],
-      location: json['location'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      userType: json['userType'] ?? "guest",
-      image: json['image'],
-    );
-  }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "name": name,
-      "email": email,
-      "phone": phone,
-      "location": location,
-      "latitude": latitude,
-      "longitude": longitude,
-      "userType": userType,
-      "image": image,
-    };
+      name: clientData['name'],
+      phone: clientData['phone'],
+      location: clientData['location'],
+      image: clientData['photo'],
+      latitude: clientData['latitude'],
+      longitude: clientData['longitude'],
+
+      userType: json['role'] ?? 'guest',
+    );
   }
 }
