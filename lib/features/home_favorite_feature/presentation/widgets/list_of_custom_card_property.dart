@@ -38,7 +38,7 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<HomeProvider>(context);
+    final provider = context.watch<HomeProvider>();
 
     double width = MediaQuery.of(context).size.width;
 
@@ -78,17 +78,17 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
               ),
 
               child: CustomCardForProperty(
-                image: property.images.isNotEmpty ? property.images[0] : "",
+                image: property.primaryImage!,
 
-                title: property.title,
+                title: property.simpleDescription,
 
-                address: property.location,
+                address: property.city,
 
-                price: "\$${property.price}",
+                price: "\$${property.listedPrice.toInt()}",
 
                 type: property.type,
 
-                numberOfRooms: property.rooms,
+                numberOfRooms: property.numOfRooms,
 
                 numberOfPath: property.bathrooms,
 

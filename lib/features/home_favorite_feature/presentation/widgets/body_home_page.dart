@@ -2,6 +2,7 @@ import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:estatelqapp/core/widgets/form_field_for_location.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/filter_page.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/filter_icon.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/list_of_custom_card_property.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/row_for_type_of_property.dart';
@@ -22,12 +23,12 @@ class _BodyHomePageState extends State<BodyHomePage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final provider = context.read<NotificationProvider>();
+      final notificationProvider = context.read<NotificationProvider>();
 
       final id = LocalStorageService.getId();
       final type = LocalStorageService.getUserType();
 
-      provider.connectSocket(id!, type!);
+      notificationProvider.connectSocket(id!, type!);
     });
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/type_of_property.dart';
 import 'package:provider/provider.dart';
@@ -19,18 +18,20 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
     final colorScheme = Theme.of(context).colorScheme;
 
     Widget item({
-      required String type,
+      required String label,
+      required String value,
       required IconData icon,
       required Color bg,
     }) {
       return TypeOfProperty(
         icon: icon,
-        type: type,
+        type: label,
         backgroundColor: bg,
-        isSelected: selectedType == type,
+        isSelected: selectedType == value,
         onTap: () {
-          setState(() => selectedType = type);
-          context.read<HomeProvider>().setType(type);
+          setState(() => selectedType = value);
+
+          context.read<HomeProvider>().setType(value);
         },
       );
     }
@@ -42,37 +43,43 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
         child: Row(
           children: [
             item(
-              type: 'All',
+              label: 'All',
+              value: 'All',
               icon: Icons.public_rounded,
               bg: colorScheme.surface,
             ),
 
             item(
-              type: 'Apartment',
+              label: 'Apartment',
+              value: 'APARTMENT',
               icon: Icons.apartment_rounded,
               bg: colorScheme.surface,
             ),
 
             item(
-              type: 'Villa',
+              label: 'Villa',
+              value: 'VILLA',
               icon: Icons.villa_rounded,
               bg: colorScheme.surface,
             ),
 
             item(
-              type: 'House',
+              label: 'House',
+              value: 'HOUSE',
               icon: Icons.home_rounded,
               bg: colorScheme.surface,
             ),
 
             item(
-              type: 'Store',
+              label: 'Store',
+              value: 'STORE',
               icon: Icons.storefront_rounded,
               bg: colorScheme.surface,
             ),
 
             item(
-              type: 'office',
+              label: 'Office',
+              value: 'OFFICE',
               icon: Icons.business_rounded,
               bg: colorScheme.surface,
             ),

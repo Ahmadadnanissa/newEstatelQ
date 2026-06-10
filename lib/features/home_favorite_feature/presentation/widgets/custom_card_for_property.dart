@@ -35,13 +35,19 @@ class CustomCardForProperty extends StatefulWidget {
 }
 
 class _CustomCardForPropertyState extends State<CustomCardForProperty> {
+  String formatPropertyType(String type) {
+    if (type.isEmpty) return "";
+
+    return type[0].toUpperCase() + type.substring(1).toLowerCase();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    final favoriteProvider = context.watch<FavoriteProvider>();
+    // final favoriteProvider = context.watch<FavoriteProvider>();
 
-    bool isFavorite = favoriteProvider.isFavorite(widget.id);
+    // bool isFavorite = favoriteProvider.isFavorite(widget.id);
 
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -100,7 +106,7 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
 
                       child: Center(
                         child: CustomFont(
-                          name: widget.type,
+                          name: formatPropertyType(widget.type),
 
                           fontColor: secondaryColor,
 
@@ -121,19 +127,21 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
 
                     GestureDetector(
                       onTap: () async {
-                        await favoriteProvider.addToFavorite(widget.id);
+                        // await favoriteProvider.addToFavorite(widget.id);
                       },
 
                       child: Icon(
-                        isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_border_rounded,
+                        // isFavorite
+                        //     ? Icons.favorite
+                        // :
+                        Icons.favorite_border_rounded,
 
-                        color: isFavorite
-                            ? Colors.red
-                            : Theme.of(
-                                context,
-                              ).colorScheme.onSurface.withValues(alpha: 0.6),
+                        color:
+                            // isFavorite
+                            //     ? Colors.red:
+                            Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
 
                         size: width * .08,
                       ),
@@ -159,14 +167,24 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                     crossAxisAlignment: CrossAxisAlignment.start,
 
                     children: [
-                      CustomFont(
-                        name: widget.title,
-
-                        fontColor: secondaryColor,
-
-                        fontSize: width * .05,
-
-                        fontWeight: FontWeight.bold,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: width * 0.65,
+                            child: Text(
+                              maxLines: 2,
+                              widget.title,
+                              softWrap: true,
+                              style: TextStyle(
+                                color: secondaryColor,
+                                fontSize: width * .05,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: fontFamily,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
 
                       SizedBox(height: width * .01),

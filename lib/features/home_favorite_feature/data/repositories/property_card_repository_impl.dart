@@ -8,11 +8,14 @@ class PropertyCardRepositoryImpl {
   PropertyCardRepositoryImpl(this.remote);
 
   Future<List<PropertyCardModel>> getProperties({
-    required int page,
-
     required int limit,
+    String? cursor,
     FilterPropertyModel? filter,
   }) async {
-    return await remote.getProperties(page: page, limit: limit, filter: filter);
+    return await remote.getProperties(
+      limit: limit,
+      cursor: cursor,
+      filter: filter,
+    );
   }
 }

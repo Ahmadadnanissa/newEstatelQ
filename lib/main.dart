@@ -118,9 +118,9 @@ void main() async {
   final getPropertyActivities = GetPropertyActivities(statusRepo);
   // Favorite
 
-  final favoriteRemote = FavoriteRemoteDataSource(
-    // http.Client()
-  );
+  // final favoriteRemote = FavoriteRemoteDataSource(
+  //   // http.Client()
+  // );
 
   final requestRemote = RequestRemoteDataSource(http.Client());
 
@@ -128,11 +128,13 @@ void main() async {
 
   final sendRequestUseCase = SendRequestUseCase(requestRepo);
 
-  final favoriteRepo = FavoriteRepository(favoriteRemote);
+  // final favoriteRepo = FavoriteRepository(
+  //   favoriteRemote
+  //   );
 
-  final getFavoriteUseCase = GetFavoritePropertiesUseCase(favoriteRepo);
+  // final getFavoriteUseCase = GetFavoritePropertiesUseCase(favoriteRepo);
 
-  final addFavoriteUseCase = AddToFavoriteUseCase(favoriteRepo);
+  // final addFavoriteUseCase = AddToFavoriteUseCase(favoriteRepo);
 
   final clientRemote = ClientRemoteDataSource(http.Client());
   final clientRepo = ClientRepository(clientRemote);
@@ -157,11 +159,13 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => HomeProvider(useCaseP)..getProperties(),
         ),
-        ChangeNotifierProvider(
-          create: (_) =>
-              FavoriteProvider(getFavoriteUseCase, addFavoriteUseCase)
-                ..getFavorites(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (_) =>
+        //       FavoriteProvider(
+        //         getFavoriteUseCase, addFavoriteUseCase
+        //         )
+        //         ..getFavorites(),
+        // ),
         ChangeNotifierProvider(
           create: (_) => ClientProvider(
             getClientUseCase,

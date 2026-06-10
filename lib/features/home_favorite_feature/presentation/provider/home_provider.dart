@@ -7,7 +7,9 @@ class HomeProvider extends ChangeNotifier {
   final GetPropertiesCardUseCase useCase;
 
   HomeProvider(this.useCase);
+
   FilterPropertyModel filter = FilterPropertyModel();
+
   List<PropertyCardModel> properties = [];
 
   bool isLoading = false;
@@ -16,7 +18,7 @@ class HomeProvider extends ChangeNotifier {
 
   bool hasMore = true;
 
-  int page = 1;
+  String? cursor;
 
   final int limit = 5;
 
@@ -24,15 +26,17 @@ class HomeProvider extends ChangeNotifier {
     if (isLoading || !hasMore) {
       return;
     }
-    error = null;
+
     try {
+      error = null;
+
       isLoading = true;
 
       notifyListeners();
 
       final result = await useCase.execute(
-        page: page,
         limit: limit,
+        cursor: cursor,
         filter: filter,
       );
 
@@ -41,35 +45,54 @@ class HomeProvider extends ChangeNotifier {
       } else {
         properties.addAll(result);
 
-        page++;
+        cursor = result.last.id;
+
+        if (result.length < limit) {
+          hasMore = false;
+        }
       }
     } catch (e) {
       error = e.toString();
+    } finally {
+      isLoading = false;
+
+      notifyListeners();
     }
-
-    isLoading = false;
-
-    notifyListeners();
   }
 
   Future<void> refresh() async {
-    page = 1;
+    cursor = null;
 
     hasMore = true;
+
     error = null;
+
     properties.clear();
 
     await getProperties();
   }
 
-  void setType(String type) async {
+  Future<void> setType(String type) async {
     filter.type = type == "All" ? null : type;
 
     await refresh();
   }
 
-  void setLocation(String location) async {
-    filter.location = location.isEmpty ? null : location;
+  Future<void> setCity(String city) async {
+    filter.city = city.isEmpty ? null : city;
+
+    await refresh();
+  }
+
+  Future<void> setListingType(String listingType) async {
+    filter.listingType = listingType == "All" ? null : listingType;
+
+    await refresh();
+  }
+
+  Future<void> clearFilters() async {
+    filter = FilterPropertyModel();
+
     await refresh();
   }
 }

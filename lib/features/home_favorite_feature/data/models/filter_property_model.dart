@@ -1,21 +1,21 @@
 class FilterPropertyModel {
-  String? location;
+  String? city;
 
   String? type;
 
-  String? purpose;
+  String? listingType;
 
-  int? rooms;
+  int? numOfRooms;
 
   double? minPrice;
 
   double? maxPrice;
 
   FilterPropertyModel({
-    this.location,
+    this.city,
     this.type,
-    this.purpose,
-    this.rooms,
+    this.listingType,
+    this.numOfRooms,
     this.minPrice,
     this.maxPrice,
   });
@@ -23,28 +23,28 @@ class FilterPropertyModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
 
-    if (location != null) {
-      data["location"] = location;
+    if (city != null && city!.isNotEmpty) {
+      data["city"] = city;
     }
 
-    if (type != null) {
+    if (type != null && type!.isNotEmpty) {
       data["type"] = type;
     }
 
-    if (purpose != null) {
-      data["purpose"] = purpose;
+    if (listingType != null && listingType!.isNotEmpty) {
+      data["listingType"] = listingType;
     }
 
-    if (rooms != null) {
-      data["rooms"] = rooms;
+    if (numOfRooms != null) {
+      data["numOfRooms"] = numOfRooms;
     }
 
     if (minPrice != null) {
-      data["minPrice"] = minPrice;
+      data["listedPrice[gte]"] = minPrice;
     }
 
     if (maxPrice != null) {
-      data["maxPrice"] = maxPrice;
+      data["listedPrice[lte]"] = maxPrice;
     }
 
     return data;

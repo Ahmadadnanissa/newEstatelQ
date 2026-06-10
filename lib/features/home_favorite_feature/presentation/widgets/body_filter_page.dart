@@ -19,12 +19,20 @@ class BodyFilterPage extends StatefulWidget {
 class _BodyFilterPageState extends State<BodyFilterPage> {
   bool isSelectedBuy = true;
   bool isSelectedRent = false;
-  String selectedType = 'Apartment';
+  String selectedType = 'APARTMENT';
 
   final locationController = TextEditingController();
   final roomController = TextEditingController();
   final minController = TextEditingController();
   final maxController = TextEditingController();
+  @override
+  void dispose() {
+    locationController.dispose();
+    roomController.dispose();
+    minController.dispose();
+    maxController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +84,13 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              selectedType = 'Apartment';
+              selectedType = 'APARTMENT';
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
               icon: Icons.apartment,
               type: 'Apartment',
-              isSelected: selectedType == 'Apartment',
+              isSelected: selectedType == 'APARTMENT',
             ),
           ),
 
@@ -91,13 +99,13 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              selectedType = 'Villa';
+              selectedType = 'VILLA';
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
               icon: Icons.villa,
               type: 'Villa',
-              isSelected: selectedType == 'Villa',
+              isSelected: selectedType == 'VILLA',
             ),
           ),
 
@@ -106,13 +114,13 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              selectedType = 'House';
+              selectedType = 'HOUSE';
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
               icon: Icons.home_outlined,
               type: 'House',
-              isSelected: selectedType == 'House',
+              isSelected: selectedType == 'HOUSE',
             ),
           ),
 
@@ -121,13 +129,13 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              selectedType = 'office';
+              selectedType = 'OFFICE';
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
               icon: Icons.business_center_outlined,
               type: 'Office',
-              isSelected: selectedType == 'office',
+              isSelected: selectedType == 'OFFICE',
             ),
           ),
 
@@ -136,13 +144,13 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              selectedType = 'Store';
+              selectedType = 'STORE';
               setState(() {});
             },
             child: ProperyTypeCheckInFilter(
               icon: Icons.storefront_outlined,
               type: 'Store',
-              isSelected: selectedType == 'Store',
+              isSelected: selectedType == 'STORE',
             ),
           ),
 
@@ -159,7 +167,7 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
 
           FormFieldForLocation(controller: locationController),
 
-          CustomSubTitleForFilterPage(title: 'Numbers of beds'),
+          CustomSubTitleForFilterPage(title: 'Number of Rooms'),
 
           CheckNumberOfRoom(controller: roomController),
 
@@ -170,14 +178,14 @@ class _BodyFilterPageState extends State<BodyFilterPage> {
             pushing: () async {
               final provider = context.read<HomeProvider>();
 
-              provider.filter.location = locationController.text.isEmpty
+              provider.filter.city = locationController.text.isEmpty
                   ? null
                   : locationController.text;
 
               provider.filter.type = selectedType;
-              provider.filter.purpose = isSelectedBuy ? "Buy" : "Rent";
+              provider.filter.listingType = isSelectedBuy ? "SALE" : "RENT";
 
-              provider.filter.rooms = roomController.text.isEmpty
+              provider.filter.numOfRooms = roomController.text.isEmpty
                   ? null
                   : int.tryParse(roomController.text);
 

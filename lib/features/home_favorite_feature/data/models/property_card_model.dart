@@ -1,53 +1,63 @@
 class PropertyCardModel {
   final String id;
 
-  final String title;
-
-  final List<String> images;
-
-  final String location;
-
-  final double price;
+  final String referenceCode;
 
   final String type;
 
-  final int rooms;
+  final String listingType;
 
-  final int bathrooms;
+  final String simpleDescription;
+
+  final String city;
+
+  final double listedPrice;
 
   final double sqft;
 
+  final int numOfRooms;
+
+  final int bathrooms;
+
+  final String? primaryImage;
+
   PropertyCardModel({
     required this.id,
-    required this.title,
-    required this.images,
-    required this.location,
-    required this.price,
+    required this.referenceCode,
     required this.type,
-    required this.rooms,
-    required this.bathrooms,
+    required this.listingType,
+    required this.simpleDescription,
+    required this.city,
+    required this.listedPrice,
     required this.sqft,
+    required this.numOfRooms,
+    required this.bathrooms,
+    this.primaryImage,
   });
 
   factory PropertyCardModel.fromJson(Map<String, dynamic> json) {
     return PropertyCardModel(
-      id: json["id"],
+      id: json["id"] ?? "",
 
-      title: json["title"],
+      referenceCode: json["referenceCode"] ?? "",
 
-      images: List<String>.from(json["images"] ?? []),
+      type: json["type"] ?? "",
 
-      location: json["location"],
+      listingType: json["listingType"] ?? "",
 
-      price: (json["price"] as num).toDouble(),
+      simpleDescription: json["simpleDescription"] ?? "",
 
-      type: json["type"],
+      city: json["city"] ?? "",
 
-      rooms: json["rooms"],
+      listedPrice: (json["listedPrice"] as num?)?.toDouble() ?? 0,
 
-      bathrooms: json["bathrooms"],
+      sqft: (json["sqft"] as num?)?.toDouble() ?? 0,
 
-      sqft: (json["sqft"] as num).toDouble(),
+      numOfRooms: json["numOfRooms"] ?? 0,
+
+      bathrooms: json["bathrooms"] ?? 0,
+
+      primaryImage: json["primaryImage"],
     );
   }
 }

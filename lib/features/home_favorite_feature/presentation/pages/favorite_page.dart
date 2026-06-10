@@ -16,7 +16,7 @@ class _FavoritePageState extends State<FavoritePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarForFavoritePage(),
-      body: BodyFavoriteBage(),
+      // body: BodyFavoriteBage(),
     );
   }
 }

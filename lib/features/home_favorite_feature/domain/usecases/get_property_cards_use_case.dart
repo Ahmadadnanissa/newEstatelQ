@@ -8,14 +8,13 @@ class GetPropertiesCardUseCase {
   GetPropertiesCardUseCase(this.repository);
 
   Future<List<PropertyCardModel>> execute({
-    required int page,
-
     required int limit,
+    String? cursor,
     FilterPropertyModel? filter,
   }) async {
     return await repository.getProperties(
-      page: page,
       limit: limit,
+      cursor: cursor,
       filter: filter,
     );
   }
