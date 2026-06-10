@@ -1,6 +1,6 @@
 import 'package:estatelqapp/core/services/local_storage_service.dart';
-import 'package:estatelqapp/core/widgets/form_field_for_location.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
+import 'package:estatelqapp/core/widgets/search_about_property_home_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/filter_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/filter_icon.dart';
@@ -40,7 +40,7 @@ class _BodyHomePageState extends State<BodyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(child: FormFieldForLocation()),
+            Expanded(child: SearchAboutPropertyHomePage()),
             GestureDetector(
               onTap: () {
                 Navigator.push(context, SlideRight(page: FilterPage()));

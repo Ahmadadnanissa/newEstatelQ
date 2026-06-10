@@ -1,4 +1,5 @@
 class FilterPropertyModel {
+  String? q;
   String? city;
 
   String? type;
@@ -12,6 +13,7 @@ class FilterPropertyModel {
   double? maxPrice;
 
   FilterPropertyModel({
+    this.q,
     this.city,
     this.type,
     this.listingType,
@@ -45,6 +47,9 @@ class FilterPropertyModel {
 
     if (maxPrice != null) {
       data["listedPrice[lte]"] = maxPrice;
+    }
+    if (q != null && q!.isNotEmpty) {
+      data["q"] = q;
     }
 
     return data;

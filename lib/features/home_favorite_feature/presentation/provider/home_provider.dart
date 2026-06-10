@@ -1,37 +1,58 @@
+import 'package:flutter/material.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/models/filter_property_model.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/models/property_card_model.dart';
 import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/get_property_cards_use_case.dart';
-import 'package:flutter/material.dart';
 
 class HomeProvider extends ChangeNotifier {
   final GetPropertiesCardUseCase useCase;
 
   HomeProvider(this.useCase);
 
+  // =====================
+  // STATE
+  // =====================
   FilterPropertyModel filter = FilterPropertyModel();
 
   List<PropertyCardModel> properties = [];
 
+  String searchText = "";
+
   bool isLoading = false;
+  bool isRefreshing = false;
 
   String? error;
 
   bool hasMore = true;
-
   String? cursor;
 
   final int limit = 5;
 
+  // =====================
+  // SEARCH
+  // =====================
+  Future<void> setSearch(String value) async {
+    searchText = value;
+    filter.q = value.trim().isEmpty ? null : value.trim();
+
+    await refresh();
+  }
+
+  Future<void> clearSearch() async {
+    searchText = "";
+    filter.q = null;
+
+    await refresh();
+  }
+
+  // =====================
+  // MAIN FETCH
+  // =====================
   Future<void> getProperties() async {
-    if (isLoading || !hasMore) {
-      return;
-    }
+    if (isLoading || !hasMore) return;
 
     try {
-      error = null;
-
       isLoading = true;
-
+      error = null;
       notifyListeners();
 
       final result = await useCase.execute(
@@ -44,7 +65,6 @@ class HomeProvider extends ChangeNotifier {
         hasMore = false;
       } else {
         properties.addAll(result);
-
         cursor = result.last.id;
 
         if (result.length < limit) {
@@ -55,43 +75,57 @@ class HomeProvider extends ChangeNotifier {
       error = e.toString();
     } finally {
       isLoading = false;
-
       notifyListeners();
     }
   }
 
+  // =====================
+  // REFRESH (IMPORTANT FIX)
+  // =====================
   Future<void> refresh() async {
-    cursor = null;
+    if (isRefreshing) return;
 
-    hasMore = true;
+    try {
+      isRefreshing = true;
 
-    error = null;
+      cursor = null;
+      hasMore = true;
+      error = null;
+      properties.clear();
 
-    properties.clear();
+      notifyListeners();
 
-    await getProperties();
+      await getProperties();
+    } finally {
+      isRefreshing = false;
+      notifyListeners();
+    }
   }
 
+  // =====================
+  // FILTERS
+  // =====================
   Future<void> setType(String type) async {
     filter.type = type == "All" ? null : type;
-
     await refresh();
   }
 
   Future<void> setCity(String city) async {
-    filter.city = city.isEmpty ? null : city;
-
+    filter.city = city.trim().isEmpty ? null : city;
     await refresh();
   }
 
   Future<void> setListingType(String listingType) async {
     filter.listingType = listingType == "All" ? null : listingType;
-
     await refresh();
   }
 
+  // =====================
+  // CLEAR ALL FILTERS
+  // =====================
   Future<void> clearFilters() async {
     filter = FilterPropertyModel();
+    searchText = "";
 
     await refresh();
   }

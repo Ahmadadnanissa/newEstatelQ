@@ -57,7 +57,7 @@ class PropertyCardModel {
 
       bathrooms: json["bathrooms"] ?? 0,
 
-      primaryImage: json["primaryImage"],
+      primaryImage: json["primaryPhoto"],
     );
   }
 }

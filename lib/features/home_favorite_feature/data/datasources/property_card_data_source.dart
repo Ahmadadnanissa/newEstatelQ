@@ -45,12 +45,89 @@
 
 //     throw Exception(data["message"] ?? "Failed To Load Properties");
 //   }
+
+//   Future<List<PropertyCardModel>> searchProperties({
+//     required int limit,
+//     String? cursor,
+//     FilterPropertyModel? filter,
+//   }) async {
+//     final Map<String, dynamic> query = {"limit": limit.toString()};
+
+//     if (cursor != null && cursor.isNotEmpty) {
+//       query["cursor"] = cursor;
+//     }
+
+//     if (filter != null) {
+//       query.addAll(filter.toJson());
+//     }
+
+//     final uri = Uri.parse("YOUR_URL/api/v1/properties/search").replace(
+//       queryParameters: query.map(
+//         (key, value) => MapEntry(key, value.toString()),
+//       ),
+//     );
+
+//     final response = await client.get(
+//       uri,
+//       headers: {"Content-Type": "application/json"},
+//     );
+
+//     final data = jsonDecode(response.body);
+
+//     if (response.statusCode == 200) {
+//       return (data["data"] as List)
+//           .map((e) => PropertyCardModel.fromJson(e))
+//           .toList();
+//     }
+
+//     throw Exception(data["message"] ?? "Failed To Search Properties");
+//   }
 // }
+
+import 'dart:convert';
 
 import 'package:estatelqapp/features/home_favorite_feature/data/models/filter_property_model.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/models/property_card_model.dart';
+import 'package:http/http.dart' as client;
 
 class PropertyCardRemoteDataSource {
+  Future<List<PropertyCardModel>> searchProperties({
+    required int limit,
+    String? cursor,
+    FilterPropertyModel? filter,
+  }) async {
+    final Map<String, dynamic> query = {"limit": limit.toString()};
+
+    if (cursor != null && cursor.isNotEmpty) {
+      query["cursor"] = cursor;
+    }
+
+    if (filter != null) {
+      query.addAll(filter.toJson());
+    }
+
+    final uri = Uri.parse("YOUR_URL/api/v1/properties/search").replace(
+      queryParameters: query.map(
+        (key, value) => MapEntry(key, value.toString()),
+      ),
+    );
+
+    final response = await client.get(
+      uri,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    final data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return (data["data"] as List)
+          .map((e) => PropertyCardModel.fromJson(e))
+          .toList();
+    }
+
+    throw Exception(data["message"] ?? "Failed To Search Properties");
+  }
+
   Future<List<PropertyCardModel>> getProperties({
     required int limit,
     String? cursor,

@@ -12,6 +12,16 @@ class PropertyCardRepositoryImpl {
     String? cursor,
     FilterPropertyModel? filter,
   }) async {
+    final isSearch = (filter?.q != null && filter!.q!.isNotEmpty);
+
+    if (isSearch) {
+      return await remote.searchProperties(
+        limit: limit,
+        cursor: cursor,
+        filter: filter,
+      );
+    }
+
     return await remote.getProperties(
       limit: limit,
       cursor: cursor,
