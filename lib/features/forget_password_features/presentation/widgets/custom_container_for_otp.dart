@@ -145,33 +145,30 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
                       context,
                       "Please enter a valid 6-digit OTP",
                     );
-
                     return;
                   }
-
                   final authProvider = context.read<AuthProvider>();
 
                   if (widget.toCreateAccount) {
+                    print("otpcooodddddd d dddddd dddddddddd  $otpCode");
+                    print("otpcooodddddd d dddddd dddddddddd  ${widget.email}");
                     await authProvider.verifyOtp(widget.email, otpCode.trim());
 
                     if (authProvider.error != null) {
                       CustomMessage.error(context, authProvider.error!);
-
                       return;
                     }
 
-                    if (authProvider.otpData != null) {
-                      CustomMessage.success(
-                        context,
-                        authProvider.otpData?.message ??
-                            "Account verified successfully",
-                      );
+                    CustomMessage.success(
+                      context,
+                      authProvider.otpData?.message ??
+                          "OTP verified successfully",
+                    );
 
-                      Navigator.pushReplacement(
-                        context,
-                        SlideRight(page: HomePage()),
-                      );
-                    }
+                    Navigator.pushReplacement(
+                      context,
+                      SlideRight(page: HomePage()),
+                    );
                   } else {
                     await authProvider.verifyForgotPasswordOtp(
                       widget.email,

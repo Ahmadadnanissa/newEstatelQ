@@ -9,6 +9,7 @@ import 'package:estatelqapp/features/auth_features/presentation/widgets/login_an
 import 'package:estatelqapp/core/widgets/name_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/row_for_navigation_between_login_and_signup.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -121,7 +122,7 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
 
                           Navigator.pushReplacement(
                             context,
-                            SlideRight(page: HomePage()),
+                            SlideRight(page: NavigationPage()),
                           );
                         }
                       },

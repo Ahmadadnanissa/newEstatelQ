@@ -1,5 +1,6 @@
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
 import 'package:estatelqapp/features/auth_features/data/models/login_response_model.dart';
+import 'package:estatelqapp/features/auth_features/data/models/otp_responce_model.dart';
 import 'package:estatelqapp/features/auth_features/data/models/sign_up_response_model.dart';
 import 'package:estatelqapp/features/forget_password_features/data/models/forget_passowrd_response_model.dart';
 import 'package:estatelqapp/features/forget_password_features/data/models/reset_password_response_model.dart';
@@ -23,7 +24,7 @@ class AuthRepositoryImpl {
     return await remote.signup(name, email, password, passwordConfirm);
   }
 
-  Future<LoginResponseModel> verifyOtp(String email, String otp) async {
+  Future<OtpResponceModel> verifyOtp(String email, String otp) async {
     return await remote.verifyOtp(email, otp);
   }
 

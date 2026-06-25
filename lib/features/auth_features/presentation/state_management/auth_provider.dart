@@ -1,6 +1,7 @@
 import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:estatelqapp/core/widgets/custom_message.dart';
 import 'package:estatelqapp/features/auth_features/data/models/login_response_model.dart';
+import 'package:estatelqapp/features/auth_features/data/models/otp_responce_model.dart';
 import 'package:estatelqapp/features/auth_features/data/models/sign_up_response_model.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/forgot_password_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/log_out_use_case.dart';
@@ -46,7 +47,7 @@ class AuthProvider extends ChangeNotifier {
 
   SignupResponseModel? signupData;
 
-  LoginResponseModel? otpData;
+  OtpResponceModel? otpData;
 
   ForgotPasswordResponseModel? forgotPasswordData;
 
@@ -122,14 +123,14 @@ class AuthProvider extends ChangeNotifier {
       await LocalStorageService.saveToken(otpData!.token);
 
       await LocalStorageService.saveUser(
-        id: otpData!.user.id,
-        name: otpData!.user.name,
-        email: otpData!.user.email,
+        id: otpData!.id,
+        name: otpData!.name,
+        email: otpData!.email,
       );
 
-      await LocalStorageService.saveUserType(otpData!.user.role);
+      await LocalStorageService.saveUserType(otpData!.role);
     } catch (e) {
-      error = e.toString().replaceFirst("Exception: ", "");
+      error = e.toString().replaceFirst("Exception: ", "khedr providor :");
     } finally {
       isLoading = false;
 
@@ -263,7 +264,9 @@ class AuthProvider extends ChangeNotifier {
         passwordConfirm,
         token,
       );
-
+      print("RESET TOKEN = $token");
+      print("PASSWORD = $password");
+      print("PASSWORD CONFIRM = $passwordConfirm");
       await LocalStorageService.saveToken(resetPasswordData!.token);
 
       await LocalStorageService.saveUser(

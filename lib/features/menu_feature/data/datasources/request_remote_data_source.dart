@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:estatelqapp/core/services/constants.dart';
 import 'package:http/http.dart' as http;
 import '../models/request_model.dart';
 
@@ -13,7 +14,7 @@ class RequestRemoteDataSource {
     required String? token,
   }) async {
     final response = await client.post(
-      Uri.parse("YOUR_BASE_URL/api/v1/requests"),
+      Uri.parse("$baseUrl/api/v1/requests"),
       headers: {
         "Content-Type": "application/json",
         if (token != null && token.isNotEmpty) "Authorization": "Bearer $token",
@@ -21,6 +22,7 @@ class RequestRemoteDataSource {
       body: jsonEncode({
         "type": type,
         "message": "يرجى التواصل لترتيب موعد معاينة العقار في أقرب وقت.",
+
         "sellData": request.toJson(),
       }),
     );

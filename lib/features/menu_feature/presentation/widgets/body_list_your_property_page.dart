@@ -83,7 +83,8 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
       heating: isHeating,
       lat: lat,
       lng: lng,
-      images: await convertImagesToBase64List(),
+      images: ['hfalidhvdfv'],
+      // images: await convertImagesToBase64List(),
     );
   }
 
@@ -313,10 +314,10 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
 
                         if (!_formKey.currentState!.validate()) return;
 
-                        if (selectedImages.isEmpty) {
-                          CustomMessage.error(context, "Please upload images");
-                          return;
-                        }
+                        // if (selectedImages.isEmpty) {
+                        //   CustomMessage.error(context, "Please upload images");
+                        //   return;
+                        // }
 
                         if (lat == 0 || lng == 0) {
                           CustomMessage.error(

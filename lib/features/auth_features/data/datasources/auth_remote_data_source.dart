@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:estatelqapp/core/services/constants.dart';
 import 'package:estatelqapp/features/auth_features/data/models/login_response_model.dart';
+import 'package:estatelqapp/features/auth_features/data/models/otp_responce_model.dart';
 import 'package:estatelqapp/features/auth_features/data/models/sign_up_response_model.dart';
 import 'package:estatelqapp/features/forget_password_features/data/models/forget_passowrd_response_model.dart';
 import 'package:estatelqapp/features/forget_password_features/data/models/reset_password_response_model.dart';
@@ -68,7 +69,6 @@ class AuthRemoteDataSource {
       rethrow;
     }
   }
-
   // Future<SignupResponseModel> signup(
   //   String name,
   //   String email,
@@ -77,9 +77,7 @@ class AuthRemoteDataSource {
   // ) async {
   //   final response = await client.post(
   //     Uri.parse("$baseUrl/api/v1/auth/signup"),
-
   //     headers: {'Content-Type': 'application/json'},
-
   //     body: jsonEncode({
   //       "name": name,
   //       "email": email,
@@ -97,22 +95,23 @@ class AuthRemoteDataSource {
   //   throw Exception(data["message"] ?? "Signup failed");
   // }
 
-  Future<LoginResponseModel> verifyOtp(String email, String otp) async {
+  Future<OtpResponceModel> verifyOtp(String email, String otp) async {
+    print('before otp post $email $otp');
     final response = await client.post(
       Uri.parse("$baseUrl/api/v1/auth/verifyOtp"),
 
       headers: {'Content-Type': 'application/json'},
 
-      body: jsonEncode({"email": email, "otp": otp}),
+      body: jsonEncode({"otp": otp, "email": email}),
     );
 
     final data = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-      return LoginResponseModel.fromJson(data);
+    print(data);
+    if (data['status'] == 'success') {
+      return OtpResponceModel.fromJson(data);
     }
 
-    throw Exception(data["message"] ?? "OTP verification failed");
+    throw Exception(data["message"] ?? "OTP verification failed khedr");
   }
 
   Future<String> sendOtp(String email) async {
@@ -205,10 +204,11 @@ class AuthRemoteDataSource {
         "passwordConfirm": passwordConfirm,
       }),
     );
-
+    print("RESET STATUS = ${response.statusCode}");
+    print("RESET BODY = ${response.body}");
     final data = jsonDecode(response.body);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return ResetPasswordResponseModel.fromJson(data);
     }
 

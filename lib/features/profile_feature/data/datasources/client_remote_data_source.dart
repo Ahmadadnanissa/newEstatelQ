@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:estatelqapp/core/services/constants.dart';
 import 'package:estatelqapp/features/profile_feature/data/models/client_model..dart';
 import 'package:http/http.dart' as http;
 
@@ -9,7 +10,7 @@ class ClientRemoteDataSource {
 
   Future<ClientModel> getClient(String token) async {
     final response = await client.get(
-      Uri.parse("YOUR_URL/api/v1/auth/getMe"),
+      Uri.parse("$baseUrl/api/v1/auth/getMe"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token",

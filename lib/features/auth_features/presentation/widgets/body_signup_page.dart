@@ -183,8 +183,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
                 SizedBox(height: 15),
 
                 // ================= SOCIAL =================
-                const GoogleOrFaceWidget(),
-
+                // const GoogleOrFaceWidget(),
                 SizedBox(height: isDark ? 25 : 15),
               ],
             ),
