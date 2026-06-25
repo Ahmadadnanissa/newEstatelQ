@@ -19,7 +19,7 @@ class BodyFilterPage extends StatefulWidget {
 class _BodyFilterPageState extends State<BodyFilterPage> {
   bool isSelectedBuy = true;
   bool isSelectedRent = false;
-  String selectedType = 'APARTMENT';
+  String selectedType = 'All';
 
   final locationController = TextEditingController();
   final roomController = TextEditingController();
