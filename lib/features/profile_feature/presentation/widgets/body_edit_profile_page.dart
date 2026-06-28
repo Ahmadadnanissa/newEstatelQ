@@ -50,17 +50,17 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
     super.dispose();
   }
 
-  void _saveProfile() {
-    final provider = context.read<ClientProvider>();
+  // void _saveProfile() {
+  //   final provider = context.read<ClientProvider>();
 
-    provider.updateProfile(
-      name: nameController.text.trim(),
-      phone: phoneController.text.trim(),
-      location: locationController.text.trim(),
-      image: imagePath ?? widget.image,
-      context: context,
-    );
-  }
+  //   provider.updateProfile(
+  //     name: nameController.text.trim(),
+  //     phone: phoneController.text.trim(),
+  //     location: locationController.text.trim(),
+  //     image: imagePath ?? widget.image,
+  //     context: context,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,21 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
               PrimaryButton(
                 name: 'Save',
                 pushing: () async {
-                  _saveProfile();
+                  // _saveProfile();
+
+                  // Navigator.pop(context);
+
+                  final provider = context.read<ClientProvider>();
+
+                  await provider.updateProfile(
+                    name: nameController.text.trim(),
+                    phone: phoneController.text.trim(),
+                    location: locationController.text.trim(),
+                    image: imagePath ?? widget.image,
+                  );
+
+                  if (!context.mounted) return;
+                  await provider.getClient(context);
                   Navigator.pop(context);
                 },
               ),

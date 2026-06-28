@@ -42,22 +42,23 @@ class ClientProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateProfile({
+  Future<bool> updateProfile({
     required String name,
     required String phone,
     required String image,
     required String location,
-    required BuildContext context,
   }) async {
     final token = LocalStorageService.getToken();
 
     if (token == null) {
-      CustomMessage.error(context, "Please create an account first");
-      return;
+      error = "Please create an account first";
+      notifyListeners();
+      return false;
     }
 
     try {
       isLoading = true;
+      error = null;
       notifyListeners();
 
       await updateProfileUseCase.execute(
@@ -67,13 +68,14 @@ class ClientProvider extends ChangeNotifier {
         image: image,
         location: location,
       );
-
-      CustomMessage.success(context, "Profile updated successfully");
-    } catch (e) {
-      CustomMessage.error(context, e.toString());
-    } finally {
       isLoading = false;
       notifyListeners();
+      return true;
+    } catch (e) {
+      isLoading = false;
+      error = e.toString();
+      notifyListeners();
+      return false;
     }
   }
 }
