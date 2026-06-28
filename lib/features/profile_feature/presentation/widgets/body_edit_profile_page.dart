@@ -27,10 +27,8 @@ class BodyEditProfilePage extends StatefulWidget {
 
 class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
   late TextEditingController nameController;
-  late TextEditingController emailController;
   late TextEditingController phoneController;
   late TextEditingController locationController;
-
   String? imagePath;
 
   @override
@@ -38,7 +36,6 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
     super.initState();
 
     nameController = TextEditingController(text: widget.name);
-    emailController = TextEditingController(text: widget.email);
     phoneController = TextEditingController(text: widget.phone);
     locationController = TextEditingController(text: widget.location);
 
@@ -48,7 +45,6 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
   @override
   void dispose() {
     nameController.dispose();
-    emailController.dispose();
     phoneController.dispose();
     locationController.dispose();
     super.dispose();
@@ -59,7 +55,6 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
 
     provider.updateProfile(
       name: nameController.text.trim(),
-      email: emailController.text.trim(),
       phone: phoneController.text.trim(),
       location: locationController.text.trim(),
       image: imagePath ?? widget.image,
@@ -95,12 +90,6 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
               SizedBox(height: width * 0.04),
 
               /// Email
-              CustomEditTextField(
-                controller: emailController,
-                title: 'Email',
-                icon: Icon(Icons.email_outlined, size: width * 0.08),
-              ),
-
               SizedBox(height: width * 0.04),
 
               /// Phone

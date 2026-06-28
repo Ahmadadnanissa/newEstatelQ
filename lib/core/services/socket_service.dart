@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/services/constants.dart';
 import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -6,35 +7,51 @@ class SocketService {
 
   bool _isConnected = false;
 
+  bool get isConnected => _isConnected;
+
   void connect() {
     if (_isConnected) return;
 
-    final id = LocalStorageService.getId();
-    final userType = LocalStorageService.getUserType();
+    final userId = LocalStorageService.getId();
 
     socket = IO.io(
-      'http://your-server-url',
-
+      baseUrl,
       IO.OptionBuilder()
           .setTransports(['websocket'])
-          .setAuth({"id": id, "userType": userType})
           .enableReconnection()
-          .enableForceNew()
           .build(),
     );
 
     socket.connect();
 
     socket.onConnect((_) {
+      print("Socket Connected");
+
       _isConnected = true;
+
+      if (userId != null) {
+        socket.emit("identify", userId);
+
+        print("Identify emitted for user: $userId");
+      }
     });
 
     socket.onDisconnect((_) {
+      print("Socket Disconnected");
+
       _isConnected = false;
     });
 
-    socket.onConnectError((e) {
-      print(e);
+    socket.onReconnect((_) {
+      print("Socket Reconnected");
+
+      if (userId != null) {
+        socket.emit("identify", userId);
+      }
+    });
+
+    socket.onConnectError((error) {
+      print("Socket Error: $error");
     });
   }
 
@@ -49,6 +66,8 @@ class SocketService {
   }
 
   void disconnect() {
+    socket.disconnect();
+
     socket.dispose();
 
     _isConnected = false;

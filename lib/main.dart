@@ -42,7 +42,7 @@ import 'package:estatelqapp/features/menu_feature/data/repositories/property_sta
 import 'package:estatelqapp/features/menu_feature/data/repositories/request_repository.dart';
 import 'package:estatelqapp/features/menu_feature/domain/repository/notification.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/get_property_activities.dart';
-import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_usecase.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/send_request_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
@@ -137,7 +137,6 @@ void main() async {
   final clientRemote = ClientRemoteDataSource(http.Client());
   final clientRepo = ClientRepository(clientRemote);
   final getClientUseCase = GetClientUseCase(clientRepo);
-  final updateUdressUseCase = UpdateAddressUseCase(clientRepo);
   final updateProfileUseCase = UpdateProfileUseCase(clientRepo);
   WidgetsFlutterBinding.ensureInitialized();
   final supportRemote = SupportRemoteDataSource(http.Client());
@@ -146,6 +145,10 @@ void main() async {
   final submitComplaintUseCase = SubmitComplaintUseCase(supportRepo);
   final socketService = SocketService();
 
+  final notificationRemote = NotificationRemoteDataSource(http.Client());
+  final notificationRepo = NotificationRepository(notificationRemote);
+
+  final markAsReadUseCase = MarkAsReadUseCase(notificationRepo);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(
@@ -165,11 +168,14 @@ void main() async {
         //         ..getFavorites(),
         // ),
         ChangeNotifierProvider(
-          create: (_) => ClientProvider(
-            getClientUseCase,
-            updateUdressUseCase,
-            updateProfileUseCase,
-          ),
+          create: (_) => NotificationProvider(
+            notificationRepo,
+            socketService,
+            markAsReadUseCase,
+          )..connectSocket(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ClientProvider(getClientUseCase, updateProfileUseCase),
         ),
 
         ChangeNotifierProvider(
@@ -194,15 +200,8 @@ void main() async {
         ),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
 
-        ChangeNotifierProvider(
-          create: (_) => NotificationProvider(
-            repo,
-            socketService,
-            MarkAsReadUseCase(repo),
-          ),
-        ),
         ChangeNotifierProvider(create: (_) => ChatWithAiProvider()),
-        ChangeNotifierProvider(create: (_) => ChatProvider(SocketService())),
+        ChangeNotifierProvider(create: (_) => ChatProvider(socketService)),
 
         ChangeNotifierProvider(
           create: (_) => PropertyStatusProvider(getPropertyActivities),

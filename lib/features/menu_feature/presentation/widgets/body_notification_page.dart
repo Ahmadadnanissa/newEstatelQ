@@ -46,9 +46,10 @@ class _BodyNotificationPageState extends State<BodyNotificationPage> {
                     },
                     child: CustomBottonForNotificationPage(
                       name: 'New',
-                      number: provider.notifications
-                          .where((n) => !n.isRead)
-                          .length,
+                      number: provider.unreadCount,
+                      //  provider.notifications
+                      //     .where((n) => !n.isRead)
+                      //     .length,
                     ),
                   ),
                 ],

@@ -23,12 +23,8 @@ class _BodyHomePageState extends State<BodyHomePage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final notificationProvider = context.read<NotificationProvider>();
-
-      final id = LocalStorageService.getId();
-      final type = LocalStorageService.getUserType();
-
-      notificationProvider.connectSocket(id!, type!);
+      // final notificationProvider = context.read<NotificationProvider>();
+      // notificationProvider.connectSocket();
     });
   }
 

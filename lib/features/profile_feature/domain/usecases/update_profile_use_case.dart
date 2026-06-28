@@ -6,19 +6,15 @@ class UpdateProfileUseCase {
   UpdateProfileUseCase(this.repository);
 
   Future<void> execute({
-    required String id,
     required String token,
-    required String name,
-    required String email,
-    required String phone,
-    required String image,
-    required String location,
+    String? name,
+    String? phone,
+    String? image,
+    String? location,
   }) {
     return repository.updateProfile(
-      id: id,
       token: token,
       name: name,
-      email: email,
       phone: phone,
       image: image,
       location: location,

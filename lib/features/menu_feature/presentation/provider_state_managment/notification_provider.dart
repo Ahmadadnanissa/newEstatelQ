@@ -1,82 +1,104 @@
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/widgets/notification_overlay.dart';
+import 'package:estatelqapp/features/menu_feature/data/models/notification_model.dart';
 import 'package:estatelqapp/features/menu_feature/domain/repository/notification.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_use_case.dart';
 import 'package:flutter/material.dart';
-import '../../data/models/notification_model.dart';
-
-import '../../domain/usecases/mark_as_read_usecase.dart';
 
 class NotificationProvider extends ChangeNotifier {
   final NotificationRepository repo;
+
   final SocketService socketService;
+
   final MarkAsReadUseCase markAsReadUseCase;
 
   NotificationProvider(this.repo, this.socketService, this.markAsReadUseCase);
 
   List<AppNotification> notifications = [];
+  bool _isSocketInitialized = false;
+
   bool isLoading = false;
 
-  Future<void> loadAll() async {
-    isLoading = true;
-    notifyListeners();
+  int unreadCount = 0;
 
+  Future<void> loadAll() async {
     try {
+      isLoading = true;
+
+      notifyListeners();
+
       notifications = await repo.getAll();
+
+      unreadCount = await repo.getUnreadCount();
     } catch (e) {
       print(e);
     }
 
     isLoading = false;
+
     notifyListeners();
   }
 
   Future<void> loadUnread() async {
-    isLoading = true;
-    notifyListeners();
-
     try {
+      isLoading = true;
+
+      notifyListeners();
       notifications = await repo.getUnread();
+      unreadCount = await repo.getUnreadCount();
     } catch (e) {
       print(e);
     }
 
     isLoading = false;
+
     notifyListeners();
   }
 
-  void connectSocket(String id, String userType) {
+  void connectSocket() {
+    if (_isSocketInitialized) return;
+
+    _isSocketInitialized = true;
     socketService.connect();
 
-    socketService.emit("register_user", {"id": id, "userType": userType});
+    socketService.listen("notification", (data) {
+      final notification = AppNotification.fromJson(data);
 
-    socketService.listen("new_notification", (data) {
-      final notif = AppNotification.fromJson(data);
+      final exists = notifications.any((n) => n.id == notification.id);
 
-      notifications.insert(0, notif);
+      if (!exists) {
+        notifications.insert(0, notification);
+      }
+
+      NotificationOverlay.show(notification.title, notification.body);
+
       notifyListeners();
-      NotificationOverlay.show(notif.title, notif.body);
+    });
+
+    socketService.listen("unreadCount", (count) {
+      unreadCount = count;
+
+      notifyListeners();
     });
   }
 
-  Future<void> markAsRead(String id) async {
+  Future<void> markAsRead(String notificationId) async {
     try {
-      await markAsReadUseCase.execute([id]);
+      await markAsReadUseCase.execute(notificationId);
 
-      notifications = notifications.map((n) {
-        if (n.id == id) {
-          return AppNotification(
-            id: n.id,
-            title: n.title,
-            body: n.body,
-            image: n.image,
-            createdAt: n.createdAt,
-            isRead: true,
-            entityId: n.entityId,
-            type: n.type,
-          );
-        }
-        return n;
-      }).toList();
+      await loadAll();
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> markAllAsRead() async {
+    try {
+      await repo.markAllAsRead();
+
+      unreadCount = 0;
 
       notifyListeners();
     } catch (e) {

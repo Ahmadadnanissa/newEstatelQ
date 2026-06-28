@@ -26,53 +26,27 @@ class ClientRemoteDataSource {
     }
   }
 
-  Future<void> updateAddress({
-    required String id,
-    required String token,
-    required double latitude,
-    required double longitude,
-  }) async {
-    final response = await client.put(
-      Uri.parse("YOUR_URL/client/address"),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $token",
-      },
-      body: jsonEncode({
-        "id": id,
-        "latitude": latitude,
-        "longitude": longitude,
-      }),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception("Failed to update address");
-    }
-  }
-
   Future<void> updateProfile({
-    required String id,
     required String token,
-    required String name,
-    required String email,
-    required String phone,
-    required String image,
-    required String location,
+    String? name,
+    String? phone,
+    String? image,
+    String? location,
   }) async {
-    final response = await client.put(
-      Uri.parse("YOUR_URL/client/update-profile"),
+    final body = <String, dynamic>{};
+
+    if (name != null) body["name"] = name;
+    if (phone != null) body["phone"] = phone;
+    if (image != null) body["photo"] = image;
+    if (location != null) body["location"] = location;
+
+    final response = await client.patch(
+      Uri.parse("$baseUrl/api/v1/clients/updateMe"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token",
       },
-      body: jsonEncode({
-        "id": id,
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "image": image,
-        "location": location,
-      }),
+      body: jsonEncode(body),
     );
 
     if (response.statusCode != 200) {

@@ -1,53 +1,76 @@
 import 'dart:convert';
+
+import 'package:estatelqapp/core/services/constants.dart';
+import 'package:estatelqapp/core/services/local_storage_service.dart';
+import 'package:estatelqapp/features/menu_feature/data/models/notification_model.dart';
 import 'package:http/http.dart' as http;
-import '../models/notification_model.dart';
 
 class NotificationRemoteDataSource {
   final http.Client client;
 
   NotificationRemoteDataSource(this.client);
 
-  final String baseUrl = "YOUR_API_URL";
+  String get token => LocalStorageService.getToken() ?? '';
 
-  Future<List<AppNotification>> getAllNotifications() async {
+  Map<String, String> get headers => {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer $token",
+  };
+
+  Future<List<AppNotification>> getAllNotifications({bool? isRead}) async {
+    String url = "$baseUrl/api/v1/notifications/myNotifications";
+
+    if (isRead != null) {
+      url += "?isRead=$isRead";
+    }
+
+    final response = await client.get(Uri.parse(url), headers: headers);
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+
+      final List notifications = responseData['data'] ?? [];
+
+      return notifications.map((e) => AppNotification.fromJson(e)).toList();
+    }
+
+    throw Exception("Failed to load notifications");
+  }
+
+  Future<int> getUnreadCount() async {
     final response = await client.get(
-      Uri.parse("$baseUrl/notifications"),
-      headers: {"Content-Type": "application/json"},
+      Uri.parse("$baseUrl/api/v1/notifications/countUnRead"),
+      headers: headers,
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+      final responseData = jsonDecode(response.body);
 
-      return (data as List).map((e) => AppNotification.fromJson(e)).toList();
-    } else {
-      throw Exception("Failed to load notifications");
+      return responseData['data'] ?? 0;
     }
+
+    throw Exception("Failed to load unread count");
   }
 
-  Future<List<AppNotification>> getUnreadNotifications() async {
-    final response = await client.get(
-      Uri.parse("$baseUrl/notifications/unread"),
-      headers: {"Content-Type": "application/json"},
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-
-      return (data as List).map((e) => AppNotification.fromJson(e)).toList();
-    } else {
-      throw Exception("Failed to load unread notifications");
-    }
-  }
-
-  Future<void> markAsRead(List<String> ids) async {
-    final response = await client.post(
-      Uri.parse("$baseUrl/notifications/read"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"notificationIds": ids}),
+  Future<void> markAsRead(String notificationId) async {
+    final response = await client.patch(
+      Uri.parse("$baseUrl/api/v1/notifications/$notificationId/read"),
+      headers: headers,
     );
 
     if (response.statusCode != 200) {
-      throw Exception("Failed to mark notifications as read");
+      throw Exception("Failed to mark notification as read");
+    }
+  }
+
+  Future<void> markAllAsRead() async {
+    final response = await client.patch(
+      Uri.parse("$baseUrl/api/v1/notifications/readAll"),
+      headers: headers,
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception("Failed to mark all notifications as read");
     }
   }
 }

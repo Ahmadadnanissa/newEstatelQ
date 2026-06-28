@@ -11,10 +11,22 @@ class NotificationRepository {
   }
 
   Future<List<AppNotification>> getUnread() {
-    return remote.getUnreadNotifications();
+    return remote.getAllNotifications(isRead: false);
   }
 
-  Future<void> markAsRead(List<String> ids) {
-    return remote.markAsRead(ids);
+  Future<List<AppNotification>> getRead() {
+    return remote.getAllNotifications(isRead: true);
+  }
+
+  Future<int> getUnreadCount() {
+    return remote.getUnreadCount();
+  }
+
+  Future<void> markAsRead(String notificationId) {
+    return remote.markAsRead(notificationId);
+  }
+
+  Future<void> markAllAsRead() {
+    return remote.markAllAsRead();
   }
 }

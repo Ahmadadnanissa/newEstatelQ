@@ -5,7 +5,7 @@ class MarkAsReadUseCase {
 
   MarkAsReadUseCase(this.repository);
 
-  Future<void> execute(List<String> ids) {
-    return repository.markAsRead(ids);
+  Future<void> execute(String notificationId) {
+    return repository.markAsRead(notificationId);
   }
 }

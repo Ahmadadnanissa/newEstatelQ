@@ -36,7 +36,9 @@ class BodyOfNotification extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   child: CircleAvatar(
                     radius: width * 0.09,
-                    backgroundImage: AssetImage(notification.image!),
+                    backgroundImage: AssetImage(
+                      'assets/images/backbone-L4iRkKL5dng-unsplash.jpg',
+                    ),
                   ),
                 ),
 

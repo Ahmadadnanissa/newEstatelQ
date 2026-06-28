@@ -164,17 +164,17 @@ class _EnterYourAdressWithMapPageState
                   ),
                 ),
                 onPressed: () {
-                  if (_selectedPoint != null) {
-                    context.read<ClientProvider>().updateAddress(
-                      latitude: _selectedPoint!.latitude,
-                      longitude: _selectedPoint!.longitude,
-                      context: context,
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Please select a location")),
-                    );
-                  }
+                  // if (_selectedPoint != null) {
+                  //   context.read<ClientProvider>().updateAddress(
+                  //     latitude: _selectedPoint!.latitude,
+                  //     longitude: _selectedPoint!.longitude,
+                  //     context: context,
+                  //   );
+                  // } else {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(content: Text("Please select a location")),
+                  //   );
+                  // }
                 },
                 child: const Text(
                   "Confirm Location",
