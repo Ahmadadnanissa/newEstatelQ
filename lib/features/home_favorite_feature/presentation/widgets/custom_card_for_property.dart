@@ -78,7 +78,8 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                 ),
 
                 child: AppImage(
-                  path: widget.image,
+                  path:
+                      "assets/images/lotus-design-n-print-0sDzRgrN_pI-unsplash.jpg",
                   width: double.infinity,
                   height: width * .38,
                   fit: BoxFit.cover,
