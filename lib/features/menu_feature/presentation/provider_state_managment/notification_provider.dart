@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:estatelqapp/core/services/app_navigation.dart';
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/widgets/notification_overlay.dart';
 import 'package:estatelqapp/features/menu_feature/data/models/notification_model.dart';
@@ -18,8 +21,20 @@ class NotificationProvider extends ChangeNotifier {
   bool _isSocketInitialized = false;
 
   bool isLoading = false;
+  Timer? _markAllTimer;
 
   int unreadCount = 0;
+  void startMarkAllTimer() {
+    _markAllTimer?.cancel();
+
+    _markAllTimer = Timer(const Duration(minutes: 2), () async {
+      await markAllAsRead();
+    });
+  }
+
+  void cancelMarkAllTimer() {
+    _markAllTimer?.cancel();
+  }
 
   Future<void> loadAll() async {
     try {
@@ -69,8 +84,13 @@ class NotificationProvider extends ChangeNotifier {
       if (!exists) {
         notifications.insert(0, notification);
       }
-
-      NotificationOverlay.show(notification.title, notification.body);
+      print("Notification event received");
+      print(AppNavigation.navigatorKey.currentContext);
+      NotificationOverlay.show(
+        title: notification.title,
+        body: notification.body,
+        createdAt: notification.createdAt,
+      );
 
       notifyListeners();
     });
@@ -98,7 +118,7 @@ class NotificationProvider extends ChangeNotifier {
     try {
       await repo.markAllAsRead();
 
-      unreadCount = 0;
+      await loadAll();
 
       notifyListeners();
     } catch (e) {

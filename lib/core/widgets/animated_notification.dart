@@ -1,38 +1,4 @@
-import 'package:estatelqapp/core/services/app_navigation.dart';
 import 'package:flutter/material.dart';
-
-class NotificationOverlay {
-  static OverlayEntry? _entry;
-
-  static void show({
-    required String title,
-    required String body,
-    DateTime? createdAt,
-  }) {
-    final overlay = AppNavigation.navigatorKey.currentState?.overlay;
-
-    if (overlay == null) return;
-
-    _entry?.remove();
-    _entry = null;
-
-    _entry = OverlayEntry(
-      builder: (context) {
-        return _AnimatedNotification(
-          title: title,
-          body: body,
-          createdAt: createdAt,
-          onDismiss: () {
-            _entry?.remove();
-            _entry = null;
-          },
-        );
-      },
-    );
-
-    overlay.insert(_entry!);
-  }
-}
 
 class _AnimatedNotification extends StatefulWidget {
   final String title;
@@ -97,19 +63,14 @@ class _AnimatedNotificationState extends State<_AnimatedNotification>
       child: Align(
         alignment: Alignment.topCenter,
         child: Padding(
-          padding: const EdgeInsets.only(top: 12),
-          child: Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: _buildCard(context),
-                  ),
-                ),
+          padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
+          child: SlideTransition(
+            position: _slideAnimation,
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Material(
+                color: Colors.transparent,
+                child: _buildCard(context),
               ),
             ),
           ),

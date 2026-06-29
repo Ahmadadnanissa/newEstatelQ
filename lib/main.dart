@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/services/app_navigation.dart';
 
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/them_provider.dart';
@@ -220,7 +221,7 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return MaterialApp(
-          scaffoldMessengerKey: NotificationOverlay.key,
+          navigatorKey: AppNavigation.navigatorKey,
           routes: {
             WelcomePage.id: (context) => WelcomePage(),
             SplashPage.id: (context) => SplashPage(),

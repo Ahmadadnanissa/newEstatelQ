@@ -21,6 +21,13 @@ class _BodyNotificationPageState extends State<BodyNotificationPage> {
   }
 
   @override
+  void dispose() {
+    context.read<NotificationProvider>().cancelMarkAllTimer();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
@@ -35,6 +42,7 @@ class _BodyNotificationPageState extends State<BodyNotificationPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      provider.cancelMarkAllTimer();
                       provider.loadAll();
                     },
                     child: CustomBottonForNotificationPage(name: 'All'),
@@ -43,6 +51,7 @@ class _BodyNotificationPageState extends State<BodyNotificationPage> {
                   GestureDetector(
                     onTap: () {
                       provider.loadUnread();
+                      provider.startMarkAllTimer();
                     },
                     child: CustomBottonForNotificationPage(
                       name: 'New',
