@@ -90,7 +90,7 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
 
                 numberOfRooms: property.numOfRooms,
 
-                numberOfPath: property.bathrooms,
+                numberOfPath: property.bathrooms.toInt(),
 
                 sqft: property.sqft.toInt(),
                 id: property.id,

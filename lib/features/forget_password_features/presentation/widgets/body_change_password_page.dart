@@ -84,7 +84,7 @@ class _BodyChangePasswordPageState extends State<BodyChangePasswordPage> {
                     Navigator.pushAndRemoveUntil(
                       context,
 
-                      SlideRight(page: HomePage()),
+                      SlideRight(page: LoginPage()),
 
                       (route) => false,
                     );

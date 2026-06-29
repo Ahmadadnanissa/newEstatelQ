@@ -1,21 +1,15 @@
-import 'package:estatelqapp/features/property_details_feature/data/models/appartment_model.dart';
-import 'package:estatelqapp/features/property_details_feature/data/models/hall_model.dart';
-import 'package:estatelqapp/features/property_details_feature/data/models/house_model.dart';
-import 'package:estatelqapp/features/property_details_feature/data/models/store_model.dart';
-import 'package:estatelqapp/features/property_details_feature/data/models/villa_mode.dart';
-
+import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
-import 'package:estatelqapp/features/property_details_feature/presentation/widgets/apartment_details_widget.dart';
-import 'package:estatelqapp/features/property_details_feature/presentation/widgets/hall_details_widget.dart';
-import 'package:estatelqapp/features/property_details_feature/presentation/widgets/house_details_widget.dart';
-import 'package:estatelqapp/features/property_details_feature/presentation/widgets/store_details_widget.dart';
-import 'package:estatelqapp/features/property_details_feature/presentation/widgets/villa_details_widget.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/base_property_details_widget.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_nearby_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BodyPropertyPage extends StatefulWidget {
   BodyPropertyPage({super.key, required this.propertyId});
+
   final String propertyId;
 
   @override
@@ -36,46 +30,94 @@ class _BodyPropertyPageState extends State<BodyPropertyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<PropertyDetailsProvider>();
+    final property = provider.property;
+
     double width = MediaQuery.of(context).size.width;
 
-    return Consumer<PropertyDetailsProvider>(
-      builder: (context, provider, _) {
-        if (provider.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
-        if (provider.error != null) {
-          return Center(child: Text(provider.error!));
-        }
+    final Color titleColor = secondaryColor;
+    final Color textColor = isDark ? darkSubtitleColor : Colors.grey;
 
-        if (provider.property == null) {
-          return const Center(child: Text("No Data"));
-        }
+    /// 🔴 LOADING STATE
+    if (provider.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-        final property = provider.property!;
+    /// 🔴 ERROR STATE
+    if (provider.error != null) {
+      return Center(child: Text(provider.error!));
+    }
 
-        if (property is ApartmentModel) {
-          return ApartmentDetailsWidget(property: property);
-        }
+    /// 🔴 NULL STATE
+    if (property == null) {
+      return const SizedBox();
+    }
 
-        if (property is VillaModel) {
-          return VillaDetailsWidget(property: property);
-        }
+    /// ================= EXTRA DETAILS =================
+    List<String> details = [];
 
-        if (property is HouseModel) {
-          return HouseDetailsWidget(property: property);
-        }
+    if (property.floorNumber != null && property.floorNumber!.isNotEmpty) {
+      details.add("Floor : ${property.floorNumber}");
+    }
 
-        if (property is HallModel) {
-          return HallDetailsWidget(property: property);
-        }
+    if (property.heating.isNotEmpty) {
+      details.add("Heater : ${property.heating}");
+    }
 
-        if (property is StoreModel) {
-          return StoreDetailsWidget(property: property);
-        }
+    if (property.furnishing.isNotEmpty) {
+      details.add("Furnished : ${property.furnishing}");
+    }
 
-        return SizedBox();
-      },
+    if (property.constructionYear.isNotEmpty) {
+      details.add("Built : ${property.constructionYear}");
+    }
+
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            /// ================= BASE =================
+            BasePropertyDetailsWidget(property: property),
+
+            /// ================= MORE DETAILS =================
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: width * 0.02,
+                horizontal: width * 0.03,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// TITLE
+                  Row(
+                    children: [
+                      CustomFont(
+                        name: 'More Details',
+                        fontColor: titleColor,
+                        fontSize: width * 0.055,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: width * 0.03),
+
+                  /// CHIPS
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: details.map((e) {
+                      return CustomNearbyWidget(name: e);
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

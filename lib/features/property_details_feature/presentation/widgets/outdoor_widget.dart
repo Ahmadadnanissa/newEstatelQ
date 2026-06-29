@@ -1,10 +1,10 @@
 import 'package:estatelqapp/core/app_theme.dart';
-import 'package:estatelqapp/features/property_details_feature/data/models/outdoor_detail_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/out_door_model.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_widget_for_more_details.dart';
 import 'package:flutter/material.dart';
 
 class OutdoorWidget extends StatelessWidget {
-  final List<OutdoorItemModel> outdoorItems;
+  final List<OutdoorItem> outdoorItems;
 
   const OutdoorWidget({super.key, required this.outdoorItems});
 

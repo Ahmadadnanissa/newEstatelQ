@@ -5,6 +5,16 @@ import 'package:flutter/material.dart';
 class CustomNearbyWidget extends StatelessWidget {
   const CustomNearbyWidget({super.key, required this.name});
   final String name;
+  String formatOutdoorType(String type) {
+    return type
+        .toLowerCase()
+        .split('_')
+        .map(
+          (word) =>
+              word.isNotEmpty ? word[0].toUpperCase() + word.substring(1) : '',
+        )
+        .join(' ');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +50,7 @@ class CustomNearbyWidget extends StatelessWidget {
           vertical: width * 0.015,
         ),
         child: CustomFont(
-          name: name,
+          name: formatOutdoorType(name),
           fontColor: textColor.withOpacity(0.8),
           fontSize: width * 0.035,
           fontWeight: FontWeight.w500,

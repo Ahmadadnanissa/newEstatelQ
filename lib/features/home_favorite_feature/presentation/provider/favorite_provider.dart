@@ -1,60 +1,64 @@
-// import 'package:estatelqapp/features/home_favorite_feature/data/models/property_card_model.dart';
-// import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/add_to_favorite_use_case.dart';
-// import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/get_fovorite_properties_use_case.dart';
-// import 'package:flutter/material.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/models/filter_property_model.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/models/property_card_model.dart';
+import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/add_to_favorite_use_case.dart';
+import 'package:estatelqapp/features/home_favorite_feature/domain/usecases/get_fovorite_properties_use_case.dart';
+import 'package:flutter/material.dart';
 
-// class FavoriteProvider extends ChangeNotifier {
-//   final GetFavoritePropertiesUseCase getFavoriteUseCase;
+class FavoriteProvider extends ChangeNotifier {
+  final GetFavoritePropertiesUseCase getFavoriteUseCase;
 
-//   final AddToFavoriteUseCase addFavoriteUseCase;
+  final AddToFavoriteUseCase addFavoriteUseCase;
 
-//   FavoriteProvider(this.getFavoriteUseCase, this.addFavoriteUseCase);
+  FavoriteProvider(this.getFavoriteUseCase, this.addFavoriteUseCase);
 
-//   List<PropertyCardModel> favoriteProperties = [];
+  List<PropertyCardModel> favoriteProperties = [];
 
-//   bool isLoading = false;
+  bool isLoading = false;
 
-//   String? error;
+  String? error;
+  Future<void> getFavorites({
+    int page = 1,
+    int limit = 10,
+    FilterPropertyModel? filter,
+  }) async {
+    try {
+      error = null;
 
-//   Future<void> getFavorites() async {
-//     try {
-//       error = null;
+      isLoading = true;
 
-//       isLoading = true;
+      notifyListeners();
 
-//       notifyListeners();
+      final result = await getFavoriteUseCase.execute(
+        page: page,
+        limit: limit,
+        filter: filter,
+      );
 
-//       final result = await getFavoriteUseCase.execute();
+      favoriteProperties = result;
+    } catch (e) {
+      error = e.toString();
+    }
 
-//       favoriteProperties = result;
-//     } catch (e) {
-//       error = e.toString();
-//     }
+    isLoading = false;
 
-//     isLoading = false;
+    notifyListeners();
+  }
 
-//     notifyListeners();
-//   }
+  Future<void> addToFavorite(String propertyId) async {
+    try {
+      error = null;
 
-//   Future<void> addToFavorite(String propertyId) async {
-//     try {
-//       error = null;
+      await addFavoriteUseCase.execute(propertyId);
 
-//       await addFavoriteUseCase.execute(propertyId);
+      await getFavorites();
+    } catch (e) {
+      error = e.toString();
+    }
 
-//       final result = await getFavoriteUseCase.execute();
+    notifyListeners();
+  }
 
-//       favoriteProperties = result;
-
-//       notifyListeners();
-//     } catch (e) {
-//       error = e.toString();
-
-//       notifyListeners();
-//     }
-//   }
-
-//   bool isFavorite(String propertyId) {
-//     return favoriteProperties.any((e) => e.id == propertyId);
-//   }
-// }
+  bool isFavorite(String propertyId) {
+    return favoriteProperties.any((e) => e.id == propertyId);
+  }
+}

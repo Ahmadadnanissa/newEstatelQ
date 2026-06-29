@@ -51,6 +51,11 @@ class CustomEditTextField extends StatelessWidget {
                       ),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
                       ),
                     ),
                   ),

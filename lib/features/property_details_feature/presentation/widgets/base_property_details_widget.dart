@@ -15,17 +15,15 @@ class BasePropertyDetailsWidget extends StatelessWidget {
   const BasePropertyDetailsWidget({super.key, required this.property});
 
   String getGalleryImage(int index) {
-    if (property.galleryPhotos.length > index) {
-      return property.galleryPhotos[index];
+    if (property.galleryPhoto.length > index) {
+      return property.galleryPhoto[index];
     }
-
     return "";
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
+    final width = MediaQuery.of(context).size.width;
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     final Color subtitleColor = isDark ? darkSubtitleColor : Colors.grey;
@@ -33,40 +31,45 @@ class BasePropertyDetailsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PropertyImage(primaryImage: property.primaryPhoto),
+        PropertyImage(
+          primaryImage:
+              // property.primaryPhoto ??
+              "assets/images/apartment.jpg",
+        ),
 
         SumDetailsForPropertyLikeTitle(
-          subDescription: property.simpleDescription ?? "",
-
+          subDescription: property.shortDescription,
           address: property.location,
-
           rentOrSale: property.listingType,
-
-          price: property.listedPrice.toString(),
+          price: property.askingPrice,
         ),
 
         TypeButtonReviewsWidget(
-          propertyType: property.type,
-
+          propertyType: property.propertyType,
           reviewCount: "0",
-
           rating: "0",
         ),
 
         DetailsOfDescription(
-          fullDescr: property.fullDescription ?? "",
-          images: property.galleryPhotos,
+          fullDescr: property.fullDescription,
+          images: [
+            "assets/images/jesse-collins-LUitWpwc008-unsplash.jpg",
+            "assets/images/ahmed-rangel-QAzk_ceFf-w-unsplash.jpg",
+            "assets/images/clay-banks-79yk4XalXCM-unsplash.jpg",
+            "assets/images/uday-vatti-8YC9T7W-lE4-unsplash.jpg",
+          ],
+          // property.galleryPhoto,
         ),
 
         SizedBox(height: width * .04),
 
         Divider(color: subtitleColor),
 
-        RoomDetailsWidget(rooms: property.rooms),
+        RoomDetailsWidget(rooms: property.roomItems),
 
         Divider(color: subtitleColor),
 
-        OutdoorWidget(outdoorItems: property.outdoorItems),
+        OutdoorWidget(outdoorItems: property.outDoors),
 
         Divider(color: subtitleColor),
 

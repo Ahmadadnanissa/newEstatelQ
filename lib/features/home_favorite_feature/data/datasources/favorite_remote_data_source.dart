@@ -1,77 +1,67 @@
-// // import 'dart:convert';
+import 'dart:convert';
 
-// // import 'package:estatelqapp/features/home_favorite_feature/data/models/property_card_model.dart';
-// // import 'package:http/http.dart' as http;
+import 'package:estatelqapp/core/services/constants.dart';
+import 'package:estatelqapp/core/services/local_storage_service.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/models/filter_property_model.dart';
+import 'package:estatelqapp/features/home_favorite_feature/data/models/property_card_model.dart';
+import 'package:http/http.dart' as http;
 
-// // class FavoriteRemoteDataSource {
-// //   final http.Client client;
+class FavoriteRemoteDataSource {
+  Future<List<PropertyCardModel>> getFavoriteProperties({
+    int page = 1,
+    int limit = 10,
+    FilterPropertyModel? filter,
+  }) async {
+    final token = LocalStorageService.getToken();
 
-// //   FavoriteRemoteDataSource(this.client);
+    final queryParameters = {
+      "page": page.toString(),
+      "limit": limit.toString(),
+      ...?filter?.toJson(),
+    };
 
-// //   // جلب كل المفضلات
-// //   Future<List<PropertyCardModel>> getFavoriteProperties() async {
-// //     final response = await client.get(
-// //       Uri.parse("YOUR_URL/favorites"),
+    final uri = Uri.parse(
+      "$baseUrl/api/v1/clients/favorite",
+    ).replace(queryParameters: queryParameters);
 
-// //       headers: {
-// //         "Content-Type": "application/json",
+    final response = await http.get(
+      uri,
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    final data = jsonDecode(response.body);
 
-// //         // إذا عندك توكن
-// //         // "Authorization":"Bearer $token"
-// //       },
-// //     );
+    if (response.statusCode == 200) {
+      final List favorites = data["data"];
 
-// //     if (response.statusCode == 200) {
-// //       final data = jsonDecode(response.body);
+      return favorites.map((e) => PropertyCardModel.fromJson(e)).toList();
+    }
 
-// //       return (data["data"] as List)
-// //           .map((e) => PropertyCardModel.fromJson(e))
-// //           .toList();
-// //     }
+    throw Exception(data["message"] ?? "Failed to load favorites");
+  }
 
-// //     throw Exception("Failed to load favorites");
-// //   }
+  Future<void> addToFavorite(String propertyId) async {
+    final token = LocalStorageService.getToken();
+    print(token);
+    final response = await http.post(
+      Uri.parse("$baseUrl/api/v1/clients/favorite"),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({"propertyId": propertyId}),
+    );
 
-// //   // إضافة عقار للمفضلة
-// //   Future<void> addToFavorite(String propertyId) async {
-// //     final response = await client.post(
-// //       Uri.parse("YOUR_URL/favorites"),
+    print(response.statusCode);
+    print(response.body);
+    final data = jsonDecode(response.body);
 
-// //       headers: {"Content-Type": "application/json"},
-
-// //       body: jsonEncode({"propertyId": propertyId}),
-// //     );
-
-// //     if (response.statusCode != 200 && response.statusCode != 201) {
-// //       throw Exception("Failed To Add Favorite");
-// //     }
-// //   }
-// // }
-
-// import 'dart:async';
-
-// import 'package:estatelqapp/features/home_favorite_feature/data/datasources/property_card_data_source.dart';
-// import 'package:estatelqapp/features/home_favorite_feature/data/models/property_card_model.dart';
-
-// class FavoriteRemoteDataSource {
-//   static List<String> favoriteIds = [];
-
-//   Future<List<PropertyCardModel>> getFavoriteProperties() async {
-//     await Future.delayed(Duration(milliseconds: 500));
-
-//     List<PropertyCardModel> allProperties = await PropertyCardRemoteDataSource()
-//         .getProperties(cursor: 1, limit: 100, filter: null);
-
-//     return allProperties.where((property) {
-//       return favoriteIds.contains(property.id);
-//     }).toList();
-//   }
-
-//   Future<void> addToFavorite(String propertyId) async {
-//     await Future.delayed(Duration(milliseconds: 400));
-
-//     if (!favoriteIds.contains(propertyId)) {
-//       favoriteIds.add(propertyId);
-//     }
-//   }
-// }
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception(data["message"] ?? "Failed to add favorite");
+    }
+  }
+}

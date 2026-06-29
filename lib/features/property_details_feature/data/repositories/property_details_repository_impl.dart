@@ -7,6 +7,10 @@ class PropertyDetailsRepositoryImpl {
   PropertyDetailsRepositoryImpl(this.remote);
 
   Future<PropertyModel> getPropertyById(String id) async {
-    return await remote.getPropertyById(id);
+    try {
+      return await remote.getPropertyById(id);
+    } catch (e) {
+      throw Exception("Repository Error: $e");
+    }
   }
 }

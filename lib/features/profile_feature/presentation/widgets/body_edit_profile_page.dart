@@ -108,7 +108,7 @@ class _BodyEditProfilePageState extends State<BodyEditProfilePage> {
                 icon: Icon(Icons.location_on_outlined, size: width * 0.08),
               ),
 
-              SizedBox(height: width * 0.08),
+              SizedBox(height: width * 0.2),
 
               /// Save Button
               PrimaryButton(

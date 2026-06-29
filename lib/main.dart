@@ -3,7 +3,6 @@ import 'package:estatelqapp/core/services/app_navigation.dart';
 
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/them_provider.dart';
-import 'package:estatelqapp/core/widgets/notification_overlay.dart';
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
 import 'package:estatelqapp/features/auth_features/domain/repository/auth_repository_impl.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/forgot_password_use_case.dart';
@@ -62,7 +61,6 @@ import 'package:estatelqapp/features/profile_feature/data/repositories/client_re
 import 'package:estatelqapp/features/profile_feature/data/repositories/support_repository.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/get_client_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/submit_complaint_use_case.dart';
-import 'package:estatelqapp/features/profile_feature/domain/usecases/update_address_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/update_profile_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
@@ -91,9 +89,7 @@ void main() async {
 
   await Hive.openBox('authBox');
   final remoteP = PropertyCardRemoteDataSource(http.Client());
-  final remotepd = PropertyDetailsRemoteDataSource(
-    // http.Client()
-  );
+  final remotepd = PropertyDetailsRemoteDataSource(http.Client());
   final repoPd = PropertyDetailsRepositoryImpl(remotepd);
   final getPropertByIdUseCase = GetPropertyByIdUseCase(repoPd);
   final repoP = PropertyCardRepositoryImpl(remoteP);
@@ -117,9 +113,7 @@ void main() async {
   final getPropertyActivities = GetPropertyActivities(statusRepo);
   // Favorite
 
-  // final favoriteRemote = FavoriteRemoteDataSource(
-  //   // http.Client()
-  // );
+  final favoriteRemote = FavoriteRemoteDataSource();
 
   final requestRemote = RequestRemoteDataSource(http.Client());
 
@@ -127,13 +121,11 @@ void main() async {
 
   final sendRequestUseCase = SendRequestUseCase(requestRepo);
 
-  // final favoriteRepo = FavoriteRepository(
-  //   favoriteRemote
-  //   );
+  final favoriteRepo = FavoriteRepository(favoriteRemote);
 
-  // final getFavoriteUseCase = GetFavoritePropertiesUseCase(favoriteRepo);
+  final getFavoriteUseCase = GetFavoritePropertiesUseCase(favoriteRepo);
 
-  // final addFavoriteUseCase = AddToFavoriteUseCase(favoriteRepo);
+  final addFavoriteUseCase = AddToFavoriteUseCase(favoriteRepo);
 
   final clientRemote = ClientRemoteDataSource(http.Client());
   final clientRepo = ClientRepository(clientRemote);
@@ -161,13 +153,11 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => HomeProvider(useCaseP)..getProperties(),
         ),
-        // ChangeNotifierProvider(
-        //   create: (_) =>
-        //       FavoriteProvider(
-        //         getFavoriteUseCase, addFavoriteUseCase
-        //         )
-        //         ..getFavorites(),
-        // ),
+        ChangeNotifierProvider(
+          create: (_) =>
+              FavoriteProvider(getFavoriteUseCase, addFavoriteUseCase)
+                ..getFavorites(),
+        ),
         ChangeNotifierProvider(
           create: (_) => NotificationProvider(
             notificationRepo,

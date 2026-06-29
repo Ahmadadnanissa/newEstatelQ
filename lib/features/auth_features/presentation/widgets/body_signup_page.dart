@@ -104,7 +104,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
                   confirmPasswordController: confirmPasswordController,
                 ),
 
-                SizedBox(height: 30),
+                SizedBox(height: 50),
 
                 // ================= BUTTON =================
                 Consumer<AuthProvider>(
@@ -160,7 +160,7 @@ class _BodySignupPageState extends State<BodySignupPage> {
 
                           confirmPasswordController.clear();
 
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
                             SlideRight(
                               page: OtpVerifivcationPageForPassword(

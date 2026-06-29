@@ -1,11 +1,11 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
-import 'package:estatelqapp/features/property_details_feature/data/models/room_model.dart';
+import 'package:estatelqapp/features/property_details_feature/data/models/room_item.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/details_about_beds.dart';
 import 'package:flutter/material.dart';
 
 class RoomDetailsWidget extends StatefulWidget {
-  final List<RoomItemModel> rooms;
+  final List<RoomItem> rooms;
 
   const RoomDetailsWidget({super.key, required this.rooms});
 
@@ -14,15 +14,16 @@ class RoomDetailsWidget extends StatefulWidget {
 }
 
 class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
-  String? selectedRoomId;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.rooms.isNotEmpty) {
-      selectedRoomId = widget.rooms.first.id;
-    }
+  int selectedIndex = 0;
+  String formatOutdoorType(String type) {
+    return type
+        .toLowerCase()
+        .split('_')
+        .map(
+          (word) =>
+              word.isNotEmpty ? word[0].toUpperCase() + word.substring(1) : '',
+        )
+        .join(' ');
   }
 
   IconData getIcon(String type) {
@@ -52,11 +53,10 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
     }
   }
 
-  String getImage(List<String>? images, int index) {
-    if (images != null && images.length > index) {
+  String getImage(List<String> images, int index) {
+    if (images.length > index) {
       return images[index];
     }
-
     return "assets/images/bogdan-vaskan-1taEJJwIv-0-unsplash.jpg";
   }
 
@@ -73,39 +73,32 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
       return const SizedBox();
     }
 
-    final selectedRoom = widget.rooms.firstWhere(
-      (room) => room.id == selectedRoomId,
-      orElse: () => widget.rooms.first,
-    );
+    final selectedRoom = widget.rooms[selectedIndex];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        /// 🔹 ROOM TYPES LIST
         SizedBox(
           height: width * .15,
-
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.rooms.length,
-
             itemBuilder: (context, index) {
               final room = widget.rooms[index];
-              final isSelected = room.id == selectedRoomId;
+              final isSelected = index == selectedIndex;
 
               return Padding(
                 padding: EdgeInsets.only(right: width * .05),
-
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-
                   children: [
                     InkWell(
                       onTap: () {
                         setState(() {
-                          selectedRoomId = room.id;
+                          selectedIndex = index;
                         });
                       },
-
                       child: Row(
                         children: [
                           Icon(
@@ -117,7 +110,7 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
                           SizedBox(width: width * .01),
 
                           CustomFont(
-                            name: room.type.replaceAll("_", " "),
+                            name: formatOutdoorType(room.type),
                             fontColor: isSelected ? activeColor : inactiveColor,
                             fontSize: width * .04,
                             fontWeight: isSelected
@@ -146,9 +139,9 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
 
         SizedBox(height: width * .02),
 
+        /// 🔹 ROOM DETAILS
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),
-
           transitionBuilder: (child, animation) {
             return FadeTransition(
               opacity: animation,
@@ -163,27 +156,40 @@ class _RoomDetailsWidgetState extends State<RoomDetailsWidget> {
           },
 
           child: DetailsAboutBeds(
-            key: ValueKey(selectedRoom.id),
-            descr: selectedRoom.description ?? "",
-            image1: getImage(selectedRoom.photos, 0),
-            image2: getImage(selectedRoom.photos, 1),
-            image3: getImage(selectedRoom.photos, 2),
-            image4: getImage(selectedRoom.photos, 3),
+            key: ValueKey(selectedIndex),
+            descr: selectedRoom.description,
+            image1: getImage([
+              'assets/images/spacejoy-KJUGhE9ojro-unsplash.jpg',
+              'assets/images/spacejoy-nEtpvJjnPVo-unsplash.jpg',
+            ], 0),
+            image2: getImage([
+              'assets/images/spacejoy-KJUGhE9ojro-unsplash.jpg',
+              'assets/images/spacejoy-nEtpvJjnPVo-unsplash.jpg',
+            ], 1),
+            image3: getImage([
+              'assets/images/spacejoy-KJUGhE9ojro-unsplash.jpg',
+              'assets/images/spacejoy-nEtpvJjnPVo-unsplash.jpg',
+            ], 0),
+            image4: getImage([
+              'assets/images/spacejoy-KJUGhE9ojro-unsplash.jpg',
+              'assets/images/spacejoy-nEtpvJjnPVo-unsplash.jpg',
+            ], 1),
           ),
         ),
 
         SizedBox(height: width * .03),
 
-        if (selectedRoom.size != null)
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * .03),
-            child: CustomFont(
-              name: "Room Size : ${selectedRoom.size} m²",
-              fontColor: activeColor,
-              fontSize: width * .04,
-            ),
+        /// 🔹 SIZE
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * .03),
+          child: CustomFont(
+            name: "Room Size : ${selectedRoom.size} m²",
+            fontColor: activeColor,
+            fontSize: width * .04,
           ),
+        ),
 
+        /// 🔹 BALCONY
         if (selectedRoom.hasBalcony)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width * .03),

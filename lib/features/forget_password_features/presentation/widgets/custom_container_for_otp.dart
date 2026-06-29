@@ -5,7 +5,7 @@ import 'package:estatelqapp/core/widgets/custom_message.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/change_password_page.dart';
-import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user1.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +40,7 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
       width: width,
 
       decoration: BoxDecoration(
-        color: const Color(0xffEDF6F9),
+        color: Theme.of(context).colorScheme.surface,
 
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(width * 0.1),
@@ -165,9 +165,12 @@ class _CustomContainerForOtpState extends State<CustomContainerForOtp> {
                           "OTP verified successfully",
                     );
 
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                       context,
-                      SlideRight(page: HomePage()),
+
+                      SlideRight(page: GetinfoFromUser1()),
+
+                      (route) => false,
                     );
                   } else {
                     await authProvider.verifyForgotPasswordOtp(

@@ -1,90 +1,90 @@
-// import 'package:estatelqapp/core/app_theme.dart';
-// import 'package:estatelqapp/core/widgets/navigation_route.dart';
-// import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/favorite_provider.dart';
-// import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/custom_card_for_property.dart';
-// import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
+import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/widgets/navigation_route.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/favorite_provider.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/custom_card_for_property.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-// class ListOfCustomCardPropertyForFavoritePage extends StatefulWidget {
-//   const ListOfCustomCardPropertyForFavoritePage({super.key});
+class ListOfCustomCardPropertyForFavoritePage extends StatefulWidget {
+  const ListOfCustomCardPropertyForFavoritePage({super.key});
 
-//   @override
-//   State<ListOfCustomCardPropertyForFavoritePage> createState() =>
-//       _ListOfCustomCardPropertyForFavoritePageState();
-// }
+  @override
+  State<ListOfCustomCardPropertyForFavoritePage> createState() =>
+      _ListOfCustomCardPropertyForFavoritePageState();
+}
 
-// class _ListOfCustomCardPropertyForFavoritePageState
-//     extends State<ListOfCustomCardPropertyForFavoritePage> {
-//   @override
-//   void initState() {
-//     super.initState();
+class _ListOfCustomCardPropertyForFavoritePageState
+    extends State<ListOfCustomCardPropertyForFavoritePage> {
+  @override
+  void initState() {
+    super.initState();
 
-//     Future.microtask(() {
-//       context.read<FavoriteProvider>().getFavorites();
-//     });
-//   }
+    Future.microtask(() {
+      context.read<FavoriteProvider>().getFavorites();
+    });
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final provider = Provider.of<FavoriteProvider>(context);
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<FavoriteProvider>(context);
 
-//     double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
 
-//     if (provider.isLoading && provider.favoriteProperties.isEmpty) {
-//       return Center(child: CircularProgressIndicator(color: secondaryColor));
-//     }
+    if (provider.isLoading && provider.favoriteProperties.isEmpty) {
+      return Center(child: CircularProgressIndicator(color: secondaryColor));
+    }
 
-//     if (provider.error != null && provider.favoriteProperties.isEmpty) {
-//       return Center(child: Text(provider.error!));
-//     }
+    if (provider.error != null && provider.favoriteProperties.isEmpty) {
+      return Center(child: Text(provider.error!));
+    }
 
-//     if (provider.favoriteProperties.isEmpty) {
-//       return Center(child: Text("No favorite properties yet"));
-//     }
+    if (provider.favoriteProperties.isEmpty) {
+      return Center(child: Text("No favorite properties yet"));
+    }
 
-//     return ListView.builder(
-//       itemCount: provider.favoriteProperties.length,
+    return ListView.builder(
+      itemCount: provider.favoriteProperties.length,
 
-//       itemBuilder: (context, index) {
-//         final property = provider.favoriteProperties[index];
+      itemBuilder: (context, index) {
+        final property = provider.favoriteProperties[index];
 
-//         return GestureDetector(
-//           onTap: () {
-//             Navigator.push(
-//               context,
-//               SlideRight(page: PropertyPage(propertyId: property.id)),
-//             );
-//           },
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              SlideRight(page: PropertyPage(propertyId: property.id)),
+            );
+          },
 
-//           child: Padding(
-//             padding: EdgeInsets.symmetric(
-//               vertical: width * .02,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: width * .02,
 
-//               horizontal: width * .04,
-//             ),
+              horizontal: width * .04,
+            ),
 
-//             child:  CustomCardForProperty(
-//                 image: property.primaryImage ?? "",
+            child: CustomCardForProperty(
+              image: property.primaryImage ?? "",
 
-//                 title: property.simpleDescription,
+              title: property.simpleDescription,
 
-//                 address: property.city,
+              address: property.city,
 
-//                 price: "\$${property.listedPrice.toInt()}",
+              price: "\$${property.listedPrice.toInt()}",
 
-//                 type: property.type,
+              type: property.type,
 
-//                 numberOfRooms: property.numOfRooms,
+              numberOfRooms: property.numOfRooms,
 
-//                 numberOfPath: property.bathrooms,
+              numberOfPath: property.bathrooms.toInt(),
 
-//                 sqft: property.sqft.toInt(),
-//                 id: property.id,
-//               ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
+              sqft: property.sqft.toInt(),
+              id: property.id,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

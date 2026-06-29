@@ -23,17 +23,17 @@ class OtpResponceModel {
   });
 
   factory OtpResponceModel.fromJson(Map<String, dynamic> json) {
+    final data = json["data"] ?? {};
     return OtpResponceModel(
-      status: json["status"],
-      token: json["token"],
+      status: json["status"] ?? "",
+      token: json["token"] ?? "",
       message: json["message"],
-
-      id: json["data"]["id"],
-      name: json["data"]["name"],
-      email: json["data"]["email"],
-      isActive: json["data"]["isActive"],
-      role: json["data"]["role"],
-      otpVerified: json["data"]["otpVerified"],
+      id: data["id"] ?? "",
+      name: data["name"] ?? "",
+      email: data["email"] ?? "",
+      isActive: data["isActive"] ?? false,
+      role: data["role"] ?? "",
+      otpVerified: data["otpVerified"] ?? false,
     );
   }
 }

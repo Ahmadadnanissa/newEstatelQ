@@ -97,21 +97,21 @@ class AuthRemoteDataSource {
 
   Future<OtpResponceModel> verifyOtp(String email, String otp) async {
     print('before otp post $email $otp');
+
     final response = await client.post(
       Uri.parse("$baseUrl/api/v1/auth/verifyOtp"),
-
       headers: {'Content-Type': 'application/json'},
-
       body: jsonEncode({"otp": otp, "email": email}),
     );
 
     final data = jsonDecode(response.body);
-    print(data);
-    if (data['status'] == 'success') {
+    print("OTP RESPONSE: $data");
+
+    if (response.statusCode == 200 && data['status'] == 'success') {
       return OtpResponceModel.fromJson(data);
     }
 
-    throw Exception(data["message"] ?? "OTP verification failed khedr");
+    throw Exception(data["message"] ?? "OTP verification failed");
   }
 
   Future<String> sendOtp(String email) async {

@@ -79,7 +79,7 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
                 // ================= FORGET PASSWORD =================
                 const ForgetYourPassword(),
 
-                SizedBox(height: 20),
+                SizedBox(height: 90),
 
                 // ================= BUTTON =================
                 Consumer<AuthProvider>(
@@ -120,9 +120,12 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
 
                           passwordController.clear();
 
-                          Navigator.pushReplacement(
+                          Navigator.pushAndRemoveUntil(
                             context,
+
                             SlideRight(page: NavigationPage()),
+
+                            (route) => false,
                           );
                         }
                       },

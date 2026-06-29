@@ -10,15 +10,10 @@ class LocationWidget extends StatelessWidget {
   const LocationWidget({super.key, required this.property});
 
   List<String> getNearbyServices() {
-    if (property.area == null) return [];
-
-    final Map<String, dynamic> areaMap = Map<String, dynamic>.from(
-      property.area!,
-    );
-
-    return areaMap.entries
-        .where((e) => e.value == true)
-        .map((e) => e.key)
+    return property.nearByPlaces
+        .map((e) => e['category']?.toString() ?? '')
+        .where((e) => e.isNotEmpty)
+        .toSet()
         .toList();
   }
 
@@ -36,7 +31,7 @@ class LocationWidget extends StatelessWidget {
         ? Colors.white10
         : primaryColor.withValues(alpha: 0.1);
 
-    if (property.latitude == null || property.longitude == null) {
+    if (property.lat == 0 && property.lon == 0) {
       return Padding(
         padding: EdgeInsets.all(width * 0.04),
         child: CustomFont(
@@ -77,8 +72,8 @@ class LocationWidget extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => PropertyOnMap(
-                        propertyLat: property.latitude!,
-                        propertyLng: property.longitude!,
+                        propertyLat: property.lat,
+                        propertyLng: property.lon,
                       ),
                     ),
                   );
