@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/services/app_navigation.dart';
 import 'package:flutter/material.dart';
 
@@ -98,17 +99,16 @@ class _AnimatedNotificationState extends State<_AnimatedNotification>
         alignment: Alignment.topCenter,
         child: Padding(
           padding: const EdgeInsets.only(top: 12),
-          child: Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: _buildCard(context),
-                  ),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.width * 0.3,
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: Material(
+                  color: Colors.transparent,
+                  child: _buildCard(context),
                 ),
               ),
             ),
@@ -137,7 +137,7 @@ class _AnimatedNotificationState extends State<_AnimatedNotification>
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.12),
+              color: greenColor,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
