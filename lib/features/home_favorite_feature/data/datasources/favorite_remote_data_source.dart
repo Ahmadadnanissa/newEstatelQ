@@ -14,15 +14,14 @@ class FavoriteRemoteDataSource {
   }) async {
     final token = LocalStorageService.getToken();
 
-    final queryParameters = {
-      "page": page.toString(),
-      "limit": limit.toString(),
-      ...?filter?.toJson(),
-    };
+    // final queryParameters = {
+    //   "page": page.toString(),
+    //   "limit": limit.toString(),
+    //   ...?filter?.toJson(),
+    // };
 
-    final uri = Uri.parse(
-      "$baseUrl/api/v1/clients/favorite",
-    ).replace(queryParameters: queryParameters);
+    final uri = Uri.parse("$baseUrl/api/v1/clients/favorite");
+    // .replace(queryParameters: queryParameters);
 
     final response = await http.get(
       uri,

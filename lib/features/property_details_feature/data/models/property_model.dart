@@ -119,16 +119,21 @@ class PropertyModel {
       lon: (json['longitude'] as num?)?.toDouble() ?? 0,
 
       nearByPlaces: json['nearbyPlaces'] != null
-          ? (json['nearbyPlaces'] as Map<String, dynamic>).entries.expand((
-              entry,
-            ) {
-              final list = entry.value as List;
-              return list.map(
-                (e) => {'category': entry.key, ...Map<String, dynamic>.from(e)},
-              );
-            }).toList()
+          ? List<Map<String, dynamic>>.from(
+              json['nearbyPlaces'].map((e) => Map<String, dynamic>.from(e)),
+            )
           : [],
 
+      //  json['nearbyPlaces'] != null
+      //     ? (json['nearbyPlaces'] as Map<String, dynamic>).entries.expand((
+      //         entry,
+      //       ) {
+      //         final list = entry.value as List;
+      //         return list.map(
+      //           (e) => {'category': entry.key, ...Map<String, dynamic>.from(e)},
+      //         );
+      //       }).toList()
+      //     : [],
       outDoors: (json['outdoorItems'] as List? ?? [])
           .map((e) => OutdoorItem.fromJson(e))
           .toList(),

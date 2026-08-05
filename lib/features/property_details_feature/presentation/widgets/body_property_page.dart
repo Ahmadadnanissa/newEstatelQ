@@ -73,6 +73,13 @@ class _BodyPropertyPageState extends State<BodyPropertyPage> {
     if (property.constructionYear.isNotEmpty) {
       details.add("Built : ${property.constructionYear}");
     }
+    if (property.nearByPlaces.isNotEmpty) {
+      for (int i = 0; i < property.nearByPlaces.length; i++) {
+        details.add(
+          "Nearby Place: \n ${property.nearByPlaces[i]['name']} ,${property.nearByPlaces[i]['distanceKm']} KM",
+        );
+      }
+    }
 
     return SafeArea(
       child: SingleChildScrollView(

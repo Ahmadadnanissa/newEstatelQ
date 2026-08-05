@@ -15,50 +15,49 @@ class CustomBottomNavigationBar extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: width * 0.2,
-        // vertical: width * 0.02,
-      ),
-      child: Container(
-        width: width * 0.6,
-        height: width * 0.12, // 🔥 أصغر
-        decoration: BoxDecoration(
-          color: colorScheme.primary,
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.12),
-              blurRadius: 15,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
+    return Row(
+      children: [
+        SizedBox(width: width * 0.238),
+        Container(
+          width: width * 0.6,
+          height: width * 0.12, // 🔥 أصغر
+          decoration: BoxDecoration(
+            color: colorScheme.primary,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.12),
+                blurRadius: 15,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            buildItem(
-              icon: Icons.favorite_border,
-              index: 1,
-              width: width,
-              colorScheme: colorScheme,
-            ),
-            buildItem(
-              icon: Icons.home_outlined,
-              index: 0,
-              width: width,
-              colorScheme: colorScheme,
-            ),
-            buildItem(
-              icon: Icons.person_outline,
-              index: 2,
-              width: width,
-              colorScheme: colorScheme,
-            ),
-          ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              buildItem(
+                icon: Icons.favorite_border,
+                index: 1,
+                width: width,
+                colorScheme: colorScheme,
+              ),
+              buildItem(
+                icon: Icons.home_outlined,
+                index: 0,
+                width: width,
+                colorScheme: colorScheme,
+              ),
+              buildItem(
+                icon: Icons.person_outline,
+                index: 2,
+                width: width,
+                colorScheme: colorScheme,
+              ),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
