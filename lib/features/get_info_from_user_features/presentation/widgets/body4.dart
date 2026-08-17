@@ -101,7 +101,7 @@ class _Body4State extends State<Body4> {
                     SizedBox(height: width * 0.2),
 
                     OnboardingIllustration(
-                      imagePath: 'assets/images/Rectangle 102.png',
+                      imagePath: 'assets/images/New notifications-amico.png',
                     ),
 
                     TitlePage(title: 'Stay Updated, Every Step'),

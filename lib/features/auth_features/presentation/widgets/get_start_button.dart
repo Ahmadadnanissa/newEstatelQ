@@ -1,7 +1,7 @@
 import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
-import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';

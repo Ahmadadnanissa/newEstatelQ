@@ -113,7 +113,7 @@ class _Body3State extends State<Body3> {
                     SizedBox(height: width * 0.2),
 
                     OnboardingIllustration(
-                      imagePath: 'assets/images/Rectangle 102.png',
+                      imagePath: 'assets/images/Connected world-bro.png',
                     ),
 
                     TitlePage(title: 'Everything in One Conversation'),

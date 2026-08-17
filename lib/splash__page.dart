@@ -1,6 +1,5 @@
 import 'package:estatelqapp/core/services/local_storage_service.dart';
-import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user1.dart';
+import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/first_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -46,13 +45,13 @@ class _SplashPageState extends State<SplashPage>
         Navigator.pushReplacement(
           // ignore: use_build_context_synchronously
           context,
-          MaterialPageRoute(builder: (context) => const WelcomePage()),
+          MaterialPageRoute(builder: (context) => const FirstPage()),
         );
       }
       Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
         context,
-        MaterialPageRoute(builder: (context) => const GetinfoFromUser1()),
+        MaterialPageRoute(builder: (context) => const FirstPage()),
       );
     });
   }

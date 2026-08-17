@@ -109,7 +109,7 @@ class _Body2State extends State<Body2> {
                     SizedBox(height: width * 0.2),
 
                     OnboardingIllustration(
-                      imagePath: 'assets/images/Rectangle 102.png',
+                      imagePath: 'assets/images/Active Support-bro.png',
                     ),
 
                     TitlePage(title: 'We’re Here When You Need Us'),

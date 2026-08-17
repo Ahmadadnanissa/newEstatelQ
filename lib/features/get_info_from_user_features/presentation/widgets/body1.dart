@@ -88,7 +88,7 @@ class _Body1State extends State<Body1> {
                     SizedBox(height: width * 0.2),
 
                     OnboardingIllustration(
-                      imagePath: 'assets/images/Rectangle 102.png',
+                      imagePath: 'assets/images/House searching-amico.png',
                     ),
 
                     TitlePage(title: 'Find Your Perfect Property'),
