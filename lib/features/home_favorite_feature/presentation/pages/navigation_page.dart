@@ -36,3 +36,76 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 }
+
+// import 'package:estatelqapp/core/widgets/client_prefrences_popup.dart';
+// import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
+// import 'package:flutter/material.dart';
+
+// import 'home_page.dart';
+// import 'favorite_page.dart';
+// import '../widgets/custom_bottom_navigation_bar.dart';
+
+// class NavigationPage extends StatefulWidget {
+//   const NavigationPage({super.key});
+
+//   @override
+//   State<NavigationPage> createState() => _NavigationPageState();
+// }
+
+// class _NavigationPageState extends State<NavigationPage> {
+//   int currentIndex = 0;
+
+//   final List<Widget> pages = [HomePage(), FavoritePage(), ProfilePage()];
+
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       _showPreferencesPopup();
+//     });
+//   }
+
+//   void _showPreferencesPopup() {
+//     if (!mounted) return;
+
+//     showDialog(
+//       context: context,
+//       barrierDismissible: false,
+//       builder: (context) {
+//         return ClientPreferencesPopup(
+//           onConfirm:
+//               ({
+//                 required String minPrice,
+//                 required String maxPrice,
+//                 required String source,
+//               }) {
+//                 print('Min Price: $minPrice');
+//                 print('Max Price: $maxPrice');
+//                 print('Source: $source');
+//               },
+//         );
+//       },
+//     );
+//   }
+
+//   void changePage(int index) {
+//     setState(() {
+//       currentIndex = index;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//         body: IndexedStack(index: currentIndex, children: pages),
+
+//         floatingActionButton: CustomBottomNavigationBar(
+//           currentIndex: currentIndex,
+//           onTap: changePage,
+//         ),
+//       ),
+//     );
+//   }
+// }

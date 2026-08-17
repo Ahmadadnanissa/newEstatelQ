@@ -8,13 +8,14 @@ class CustomTextFormFieldForString extends StatelessWidget {
     required this.onChanged,
     required this.validator,
     required this.icon,
+    this.controller,
   });
 
   void Function(String)? onChanged;
   String? Function(String?)? validator;
   String hintText;
   Icon icon;
-
+  TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -33,6 +34,7 @@ class CustomTextFormFieldForString extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        controller: controller,
         validator: validator,
         onChanged: onChanged,
         textAlign: TextAlign.start,

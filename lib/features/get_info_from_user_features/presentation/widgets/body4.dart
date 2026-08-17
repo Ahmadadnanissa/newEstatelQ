@@ -1,12 +1,9 @@
-// ignore_for_file: avoid_print
-
-import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
-import 'package:estatelqapp/core/widgets/secondary_button.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/check_number_of_room.dart';
+import 'package:estatelqapp/core/widgets/skip_button.dart';
+import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
+import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/onboardingIllustraion.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/sub_title_page.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/title_page.dart';
-import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 
 class Body4 extends StatefulWidget {
@@ -17,10 +14,12 @@ class Body4 extends StatefulWidget {
     this.minPrice,
     this.maxPrice,
   });
+
   final String? selectedType;
   final String? selectedLocation;
   final String? minPrice;
   final String? maxPrice;
+
   @override
   State<Body4> createState() => _Body4State();
 }
@@ -28,11 +27,46 @@ class Body4 extends StatefulWidget {
 class _Body4State extends State<Body4> {
   TextEditingController roomController = TextEditingController();
 
+  bool _isNavigating = false;
+
   @override
   void dispose() {
     roomController.dispose();
-
     super.dispose();
+  }
+
+  Future<void> _finishOnboarding() async {
+    if (_isNavigating) return;
+
+    setState(() {
+      _isNavigating = true;
+    });
+
+    final String numberOfRoom = roomController.text;
+
+    print(numberOfRoom);
+    print(widget.selectedLocation);
+    print(widget.selectedType);
+    print(widget.minPrice);
+    print(widget.maxPrice);
+
+    await Navigator.pushAndRemoveUntil(
+      context,
+      SlideRight(page: const WelcomePage()),
+      (route) => false,
+    );
+
+    if (mounted) {
+      setState(() {
+        _isNavigating = false;
+      });
+    }
+  }
+
+  void _goToPreviousPage() {
+    if (_isNavigating) return;
+
+    Navigator.pop(context);
   }
 
   @override
@@ -40,49 +74,53 @@ class _Body4State extends State<Body4> {
     double width = MediaQuery.of(context).size.width;
 
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.01),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TitlePage(title: 'How many beds?'),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
 
-              SubTitlePage(
-                subTitle:
-                    'this is just to get you started.you can change this later.',
+        onHorizontalDragEnd: (details) {
+          final velocity = details.primaryVelocity ?? 0;
+
+          // Swipe Left → إنهاء الـ Onboarding
+          if (velocity < -300) {
+            _finishOnboarding();
+          }
+          // Swipe Right → الرجوع إلى Body3
+          else if (velocity > 300) {
+            _goToPreviousPage();
+          }
+        },
+
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.01),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: width * 0.2),
+
+                    OnboardingIllustration(
+                      imagePath: 'assets/images/Rectangle 102.png',
+                    ),
+
+                    TitlePage(title: 'Stay Updated, Every Step'),
+
+                    SubTitlePage(
+                      subTitle:
+                          'Follow your property status in real time.Get notified whenever something changes.',
+                    ),
+
+                    // مساحة حتى لا يتداخل المحتوى مع Skip
+                    SizedBox(height: width * 0.30),
+                  ],
+                ),
               ),
-              CheckNumberOfRoom(controller: roomController),
+            ),
 
-              SizedBox(height: width + width * 0.05),
-
-              PrimaryButton(
-                name: 'Next',
-                pushing: () async {
-                  String? numberOFroom = roomController.text;
-                  print(numberOFroom);
-                  print(widget.selectedLocation);
-                  print(widget.selectedType);
-                  print(widget.minPrice);
-                  print(widget.maxPrice);
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    SlideRight(page: NavigationPage()),
-                    (route) => false,
-                  );
-                },
-              ),
-
-              SizedBox(height: width * 0.04),
-
-              SecondaryButton(
-                name: 'Skip',
-                pushing: () {
-                  Navigator.push(context, SlideRight(page: NavigationPage()));
-                },
-              ),
-            ],
-          ),
+            // Skip Button
+            const SkipButton(),
+          ],
         ),
       ),
     );

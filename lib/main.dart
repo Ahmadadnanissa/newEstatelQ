@@ -19,10 +19,6 @@ import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_pa
 import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/change_password_page.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/enter_your_email.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user1.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user2.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user3.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user4.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/datasources/favorite_remote_data_source.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/datasources/property_card_data_source.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/repositories/favorite_repository.dart';
@@ -217,10 +213,6 @@ class MyApp extends StatelessWidget {
             SplashPage.id: (context) => SplashPage(),
             LoginPage.id: (context) => LoginPage(),
             SignupPage.id: (context) => SignupPage(),
-            GetinfoFromUser1.id: (context) => GetinfoFromUser1(),
-            GetinfoFromUser2.id: (context) => GetinfoFromUser2(),
-            GetinfoFromUser3.id: (context) => GetinfoFromUser3(),
-            GetinfoFromUser4.id: (context) => GetinfoFromUser4(),
             ChangePasswordPage.id: (context) => ChangePasswordPage(),
             EnterYourEmail.id: (context) => EnterYourEmail(),
             FavoritePage.id: (context) => FavoritePage(),

@@ -1,7 +1,8 @@
 import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/getinfo_from_user1.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -34,7 +35,7 @@ class _GetStartButtonState extends State<GetStartButton> {
 
           await LocalStorageService.saveUserType("guest");
 
-          Navigator.push(context, SlideRight(page: GetinfoFromUser1()));
+          Navigator.push(context, SlideRight(page: NavigationPage()));
         },
       ),
     );

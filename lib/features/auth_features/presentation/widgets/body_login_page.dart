@@ -8,7 +8,6 @@ import 'package:estatelqapp/features/auth_features/presentation/widgets/forget_y
 import 'package:estatelqapp/features/auth_features/presentation/widgets/login_and_signup_image.dart';
 import 'package:estatelqapp/core/widgets/name_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/row_for_navigation_between_login_and_signup.dart';
-import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

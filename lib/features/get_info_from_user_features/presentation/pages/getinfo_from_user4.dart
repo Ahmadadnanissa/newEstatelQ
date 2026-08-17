@@ -1,5 +1,4 @@
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/body4.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/custom_app_bar_for_get_info.dart';
 import 'package:flutter/material.dart';
 
 class GetinfoFromUser4 extends StatefulWidget {
@@ -25,7 +24,6 @@ class _GetinfoFromUser4State extends State<GetinfoFromUser4> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: CustomAppBarForGetInfo(title: '4 0f 4'),
 
       body: Body4(
         minPrice: widget.minPrice,

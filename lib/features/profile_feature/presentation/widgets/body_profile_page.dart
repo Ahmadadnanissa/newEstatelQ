@@ -1,5 +1,6 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/services/local_storage_service.dart';
+import 'package:estatelqapp/core/widgets/client_prefrences_popup.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/enter_your_adress_with_map_page.dart';
@@ -116,6 +117,18 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
                 SizedBox(height: width * 0.2),
                 ThemeToggleTile(),
                 SizedBox(height: width * 0.2),
+                ClientPreferencesPopup(
+                  onConfirm:
+                      ({
+                        required String minPrice,
+                        required String maxPrice,
+                        required String source,
+                      }) {
+                        print('Min Price: $minPrice');
+                        print('Max Price: $maxPrice');
+                        print('Source: $source');
+                      },
+                ),
               ],
             ),
           );

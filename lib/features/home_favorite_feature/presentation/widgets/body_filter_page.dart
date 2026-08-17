@@ -1,7 +1,8 @@
 import 'package:estatelqapp/core/widgets/button.dart';
+import 'package:estatelqapp/core/widgets/check_number_of_room.dart';
 import 'package:estatelqapp/core/widgets/form_field_for_location.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/check_number_of_room.dart';
-import 'package:estatelqapp/features/get_info_from_user_features/presentation/widgets/price_range.dart';
+import 'package:estatelqapp/core/widgets/price_range.dart';
+
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/buy_or_rent_custom_container.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/custom_sub_title_for_filter_page.dart';
