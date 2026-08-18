@@ -72,6 +72,7 @@ import 'package:estatelqapp/features/property_details_feature/presentation/provi
 
 import 'package:estatelqapp/firebase_options.dart';
 import 'package:estatelqapp/splash__page.dart';
+import 'package:estatelqapp/virtual_tour_firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -139,6 +140,12 @@ void main() async {
 
   final markAsReadUseCase = MarkAsReadUseCase(notificationRepo);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await Firebase.initializeApp(
+    name: 'virtualTourFirebase',
+    options: VirtualTourFirebaseOptions.currentPlatform,
+  );
+
   runApp(
     MultiProvider(
       providers: [
