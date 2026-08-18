@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/services/app_navigation.dart';
 
@@ -69,6 +70,7 @@ import 'package:estatelqapp/features/property_details_feature/data/repositories/
 import 'package:estatelqapp/features/property_details_feature/domain/usecases/get_property_by_id_use_case.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
+import 'package:estatelqapp/features/virtual_tour_feature/data/repositories/firestore_virtual_tour_repository.dart';
 
 import 'package:estatelqapp/firebase_options.dart';
 import 'package:estatelqapp/splash__page.dart';
@@ -145,7 +147,27 @@ void main() async {
     name: 'virtualTourFirebase',
     options: VirtualTourFirebaseOptions.currentPlatform,
   );
+  final virtualTourFirebaseApp = Firebase.app('virtualTourFirebase');
 
+  final virtualTourFirestore = FirebaseFirestore.instanceFor(
+    app: virtualTourFirebaseApp,
+  );
+  final virtualTourRepository = FirestoreVirtualTourRepository(
+    virtualTourFirestore,
+  );
+  try {
+    final testSnapshot = await virtualTourFirestore
+        .collection('virtual_tours')
+        .limit(1)
+        .get();
+
+    print(
+      '🔥 Virtual Tour Firestore test SUCCESS: '
+      '${testSnapshot.docs.length} document(s) found',
+    );
+  } catch (e) {
+    print('❌ Virtual Tour Firestore test FAILED: $e');
+  }
   runApp(
     MultiProvider(
       providers: [
