@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/services/visitor_local_storage.dart';
 import 'package:estatelqapp/core/widgets/second_price_range.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_text_form_field_for_string.dart';
@@ -35,18 +36,31 @@ class _ClientPreferencesPopupState extends State<ClientPreferencesPopup> {
     super.dispose();
   }
 
-  void _confirm() {
+  Future<void> _confirm() async {
     FocusScope.of(context).unfocus();
 
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    widget.onConfirm(
-      minPrice: _minPriceController.text.trim(),
-      maxPrice: _maxPriceController.text.trim(),
-      source: _sourceController.text.trim(),
-    );
+    final minPrice = _minPriceController.text.trim();
+    final maxPrice = _maxPriceController.text.trim();
+    final source = _sourceController.text.trim();
+
+    // Save minimum budget
+    await VisitorLocalStorageService.saveMin(double.parse(minPrice));
+
+    // Save maximum budget
+    await VisitorLocalStorageService.saveMax(double.parse(maxPrice));
+
+    // Save source
+    await VisitorLocalStorageService.saveSource(source);
+
+    // Existing callback
+    widget.onConfirm(minPrice: minPrice, maxPrice: maxPrice, source: source);
+
+    // Go to Home
+    if (!mounted) return;
 
     Navigator.pushReplacementNamed(context, HomePage.id);
   }
