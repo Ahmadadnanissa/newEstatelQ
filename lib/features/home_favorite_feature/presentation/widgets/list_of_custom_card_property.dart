@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/services/visitor_local_storage.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/custom_card_for_property.dart';
@@ -64,7 +65,10 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
           final property = provider.properties[index];
 
           return GestureDetector(
-            onTap: () {
+            onTap: () async {
+              await VisitorLocalStorageService.saveViewId(
+                property.id.toString(),
+              );
               Navigator.push(
                 context,
                 SlideRight(page: PropertyPage(propertyId: property.id)),

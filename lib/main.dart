@@ -87,6 +87,8 @@ void main() async {
   await Hive.initFlutter();
 
   await Hive.openBox('authBox');
+  await Hive.openBox('visitorBox');
+
   final remoteP = PropertyCardRemoteDataSource(http.Client());
   final remotepd = PropertyDetailsRemoteDataSource(http.Client());
   final repoPd = PropertyDetailsRepositoryImpl(remotepd);

@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/services/visitor_local_storage.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/base_property_details_widget.dart';
@@ -17,15 +18,35 @@ class BodyPropertyPage extends StatefulWidget {
 }
 
 class _BodyPropertyPageState extends State<BodyPropertyPage> {
+  DateTime? _propertyEntryTime;
+  Future<void> _saveTimeSpent() async {
+    if (_propertyEntryTime == null) {
+      return;
+    }
+
+    final exitTime = DateTime.now();
+
+    final difference = exitTime.difference(_propertyEntryTime!);
+
+    await VisitorLocalStorageService.saveTimeInProperty(difference.inSeconds);
+  }
+
   @override
   void initState() {
     super.initState();
-
+    _propertyEntryTime = DateTime.now();
     Future.microtask(() {
       context.read<PropertyDetailsProvider>().getPropertyById(
         widget.propertyId,
       );
     });
+  }
+
+  @override
+  void dispose() {
+    _saveTimeSpent();
+
+    super.dispose();
   }
 
   @override

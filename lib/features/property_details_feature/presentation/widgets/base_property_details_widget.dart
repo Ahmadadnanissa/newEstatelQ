@@ -46,8 +46,7 @@ class BasePropertyDetailsWidget extends StatelessWidget {
 
         TypeButtonReviewsWidget(
           propertyType: property.propertyType,
-          reviewCount: "0",
-          rating: "0",
+          id: property.requestId,
         ),
 
         DetailsOfDescription(

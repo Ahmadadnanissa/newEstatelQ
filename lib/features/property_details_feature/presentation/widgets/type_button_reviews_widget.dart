@@ -1,6 +1,7 @@
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/app_image.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/like_button.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -8,13 +9,11 @@ class TypeButtonReviewsWidget extends StatelessWidget {
   const TypeButtonReviewsWidget({
     super.key,
     required this.propertyType,
-    required this.reviewCount,
-    required this.rating,
+    required this.id,
   });
 
   final String propertyType;
-  final String reviewCount;
-  final String rating;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -63,51 +62,7 @@ class TypeButtonReviewsWidget extends StatelessWidget {
           const Spacer(),
 
           // ================= REVIEWS =================
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.rate_review_outlined,
-                    color: secondaryColor,
-                    size: width * 0.055,
-                  ),
-
-                  SizedBox(width: width * 0.01),
-
-                  CustomFont(
-                    name: reviewCount,
-                    fontColor: isDark ? darkSubtitleColor : Colors.grey,
-                    fontSize: width * 0.035,
-                  ),
-                ],
-              ),
-
-              SizedBox(height: width * 0.01),
-
-              Row(
-                children: List.generate(
-                  5,
-                  (index) => Icon(
-                    Icons.star_rounded,
-                    color: Colors.amber,
-                    size: width * 0.05,
-                  ),
-                ),
-              ),
-
-              SizedBox(height: width * 0.01),
-
-              CustomFont(
-                name: rating,
-                fontColor: secondaryColor,
-                fontSize: width * 0.04,
-                fontWeight: FontWeight.w600,
-              ),
-            ],
-          ),
-
+          PropertyLikeButton(propertyId: id.toString()),
           const Spacer(),
 
           // ================= DIVIDER =================

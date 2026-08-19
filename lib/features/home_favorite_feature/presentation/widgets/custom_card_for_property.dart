@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/services/visitor_local_storage.dart';
 import 'package:estatelqapp/core/widgets/app_image.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/favorite_provider.dart';
@@ -128,6 +129,9 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
 
                     GestureDetector(
                       onTap: () async {
+                        await VisitorLocalStorageService.saveShareId(
+                          widget.id.toString(),
+                        );
                         await favoriteProvider.addToFavorite(widget.id);
                       },
 
