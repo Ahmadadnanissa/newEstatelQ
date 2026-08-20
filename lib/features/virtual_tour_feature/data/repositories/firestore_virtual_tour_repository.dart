@@ -32,6 +32,32 @@ class FirestoreVirtualTourRepository implements VirtualTourRepository {
   }
 
   @override
+  Future<VirtualTour?> getLatestTour(
+    String scopeId, {
+    bool publishedOnly = false,
+  }) async {
+    Query<Map<String, dynamic>> query = _tours.where(
+      'scopeId',
+      isEqualTo: scopeId,
+    );
+
+    if (publishedOnly) {
+      query = query.where('status', isEqualTo: 'published');
+    }
+
+    final snapshot = await query
+        .orderBy('updatedAt', descending: true)
+        .limit(1)
+        .get(const GetOptions(source: Source.server));
+
+    if (snapshot.docs.isEmpty) {
+      return null;
+    }
+
+    return _tour(snapshot.docs.first);
+  }
+
+  @override
   Future<VirtualTour?> getTour(String tourId) async {
     final doc = await _tours.doc(tourId).get();
     return doc.exists ? _tour(doc) : null;

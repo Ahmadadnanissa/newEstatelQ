@@ -71,6 +71,7 @@ import 'package:estatelqapp/features/property_details_feature/domain/usecases/ge
 import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
 import 'package:estatelqapp/features/virtual_tour_feature/data/repositories/firestore_virtual_tour_repository.dart';
+import 'package:estatelqapp/features/virtual_tour_feature/presentation/providers/virtual_tour_view_provider.dart';
 
 import 'package:estatelqapp/firebase_options.dart';
 import 'package:estatelqapp/splash__page.dart';
@@ -157,22 +158,43 @@ void main() async {
   final virtualTourRepository = FirestoreVirtualTourRepository(
     virtualTourFirestore,
   );
+  final virtualTourViewProvider = VirtualTourViewProvider(
+    repository: virtualTourRepository,
+    scopeId: 'demo-scope',
+  );
   try {
     final testSnapshot = await virtualTourFirestore
         .collection('virtual_tours')
+        .orderBy('updatedAt', descending: true)
         .limit(1)
-        .get();
+        .get(const GetOptions(source: Source.server));
 
-    print(
-      '🔥 Virtual Tour Firestore test SUCCESS: '
-      '${testSnapshot.docs.length} document(s) found',
-    );
+    if (testSnapshot.docs.isEmpty) {
+      print('⚠️ No Virtual Tours found');
+    } else {
+      final tourDoc = testSnapshot.docs.first;
+      final data = tourDoc.data();
+
+      print('🔥 LATEST Virtual Tour Firestore SUCCESS');
+      print('📌 Latest Tour ID: ${tourDoc.id}');
+      print('📌 scopeId: ${data['scopeId']}');
+      print('📌 title: ${data['title']}');
+      print('📌 updatedAt: ${data['updatedAt']}');
+
+      final roomsSnapshot = await virtualTourFirestore
+          .collection('rooms')
+          .where('tourId', isEqualTo: tourDoc.id)
+          .get(const GetOptions(source: Source.server));
+
+      print('📌 Rooms for latest tour: ${roomsSnapshot.docs.length}');
+    }
   } catch (e) {
-    print('❌ Virtual Tour Firestore test FAILED: $e');
+    print('❌ Latest Virtual Tour Firestore test FAILED: $e');
   }
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(value: virtualTourViewProvider),
         ChangeNotifierProvider(
           create: (_) => RequestProvider(sendRequestUseCase),
         ),

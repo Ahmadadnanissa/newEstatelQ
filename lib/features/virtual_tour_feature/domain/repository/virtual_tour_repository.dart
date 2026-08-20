@@ -3,7 +3,14 @@ import '../entities/room.dart';
 import '../entities/virtual_tour.dart';
 
 abstract interface class VirtualTourRepository {
-  Stream<List<VirtualTour>> watchTours(String scopeId, {bool publishedOnly = false});
+  Stream<List<VirtualTour>> watchTours(
+    String scopeId, {
+    bool publishedOnly = false,
+  });
+  Future<VirtualTour?> getLatestTour(
+    String scopeId, {
+    bool publishedOnly = false,
+  });
   Future<VirtualTour?> getTour(String tourId);
   Future<void> saveTour(VirtualTour tour);
   Future<void> deleteTour(String tourId);

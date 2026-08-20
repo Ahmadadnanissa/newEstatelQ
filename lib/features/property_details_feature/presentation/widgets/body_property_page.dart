@@ -4,6 +4,7 @@ import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/base_property_details_widget.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/widgets/custom_nearby_widget.dart';
+import 'package:estatelqapp/features/virtual_tour_feature/presentation/widgets/virtual_button.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -130,6 +131,8 @@ class _BodyPropertyPageState extends State<BodyPropertyPage> {
                     ],
                   ),
 
+                  SizedBox(height: width * 0.03),
+                  const VirtualTourTestButton(),
                   SizedBox(height: width * 0.03),
 
                   /// CHIPS
