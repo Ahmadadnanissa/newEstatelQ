@@ -2,19 +2,12 @@ import 'balcony_data.dart';
 
 class RoomItem {
   final String type;
-
   final double size;
-
   final String description;
-
   final String paintDescription;
-
   final List<String> photos;
-
   final bool hasBalcony;
-
   final BalconyData? balconyData;
-
   final Map<String, dynamic>? data;
 
   const RoomItem({
@@ -32,7 +25,10 @@ class RoomItem {
     return {
       'type': type,
       'size': size,
-      'data': data,
+
+      // Backend expects Object, not null
+      'data': data ?? {},
+
       'photos': photos,
       'description': description,
       'paintDescription': paintDescription,
@@ -42,17 +38,23 @@ class RoomItem {
   }
 
   factory RoomItem.fromJson(Map<String, dynamic> json) {
+    final roomData = json['data'];
+
     return RoomItem(
-      type: json['type'] ?? '',
+      type: json['type']?.toString() ?? '',
       size: (json['size'] as num?)?.toDouble() ?? 0,
-      description: json['description'] ?? '',
-      paintDescription: json['paintDescription'] ?? '',
+      description: json['description']?.toString() ?? '',
+      paintDescription: json['paintDescription']?.toString() ?? '',
+
       photos: List<String>.from(json['photos'] ?? []),
+
       hasBalcony: json['hasBalcony'] ?? false,
-      balconyData: json['balconyData'] != null
-          ? BalconyData.fromJson(json['balconyData'])
+
+      balconyData: json['balconyData'] is Map
+          ? BalconyData.fromJson(Map<String, dynamic>.from(json['balconyData']))
           : null,
-      data: json['data'],
+
+      data: roomData is Map ? Map<String, dynamic>.from(roomData) : {},
     );
   }
 }

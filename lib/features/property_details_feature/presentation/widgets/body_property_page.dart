@@ -96,11 +96,22 @@ class _BodyPropertyPageState extends State<BodyPropertyPage> {
       details.add("Built : ${property.constructionYear}");
     }
     if (property.nearByPlaces.isNotEmpty) {
-      for (int i = 0; i < property.nearByPlaces.length; i++) {
-        details.add(
-          "Nearby Place: \n ${property.nearByPlaces[i]['name']} ,${property.nearByPlaces[i]['distanceKm']} KM",
-        );
-      }
+      property.nearByPlaces.forEach((category, places) {
+        if (places is List) {
+          for (final place in places) {
+            if (place is Map<String, dynamic>) {
+              final name = place['name']?.toString() ?? '';
+              final distance = place['distance_km']?.toString() ?? '';
+
+              if (name.isNotEmpty) {
+                details.add(
+                  "Nearby Place:\n$name${distance.isNotEmpty ? ' ,$distance KM' : ''}",
+                );
+              }
+            }
+          }
+        }
+      });
     }
 
     return SafeArea(

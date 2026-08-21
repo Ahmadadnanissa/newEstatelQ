@@ -13,7 +13,10 @@ class PropertyModel {
   final String location;
   final double lat;
   final double lon;
-  final List<Map<String, dynamic>> nearByPlaces;
+
+  // Backend returns nearbyPlaces as an Object
+  final Map<String, dynamic> nearByPlaces;
+
   final List<OutdoorItem> outDoors;
   final String sqftArea;
   final String constructionYear;
@@ -24,7 +27,13 @@ class PropertyModel {
   final bool fireplace;
   final bool hasBasement;
   final String? basementArea;
-  final String internalGarageArea;
+
+  // Changed from internalGarageArea
+  final int garageCars;
+
+  final double overAllQual;
+  final double overAllCond;
+
   final String finishingQuality;
   final String maintenanceLevel;
   final String neighborhoodScore;
@@ -58,7 +67,9 @@ class PropertyModel {
     required this.fireplace,
     required this.hasBasement,
     this.basementArea,
-    required this.internalGarageArea,
+    required this.garageCars,
+    required this.overAllQual,
+    required this.overAllCond,
     required this.finishingQuality,
     required this.maintenanceLevel,
     required this.neighborhoodScore,
@@ -90,21 +101,36 @@ class PropertyModel {
       "fireplace": fireplace,
       "hasBasement": hasBasement,
       "basementArea": double.tryParse(basementArea ?? ""),
-      "internalGarageArea": double.tryParse(internalGarageArea),
+
+      // NEW
+      "garageCars": garageCars,
+
+      // NEW
+      "overAllQual": overAllQual,
+
+      // API uses overAllcond with lowercase c
+      "overAllcond": overAllCond,
+
       "primaryPhoto": primaryPhoto ?? '',
       "galleryPhoto": galleryPhoto,
+
+      // Backend expects Object
       "nearbyPlaces": nearByPlaces,
+
       "finishingQuality": double.tryParse(finishingQuality),
       "maintenanceLevel": double.tryParse(maintenanceLevel),
       "neighborhoodScore": double.tryParse(neighborhoodScore),
       "exteriorFinish": double.tryParse(exteriorFinish),
       "constructionYear": int.tryParse(constructionYear),
+
       "roomItems": roomItems.map((e) => e.toJson()).toList(),
       "outdoorItems": outDoors.map((e) => e.toJson()).toList(),
     };
   }
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
+    final nearbyPlacesJson = json['nearbyPlaces'];
+
     return PropertyModel(
       fullDescription: json['fullDescription'] ?? '',
       shortDescription: json['simpleDescription'] ?? '',
@@ -115,52 +141,57 @@ class PropertyModel {
       listingType: json['listingType'] ?? '',
       cityName: json['city'] ?? '',
       location: json['location'] ?? '',
+
       lat: (json['latitude'] as num?)?.toDouble() ?? 0,
       lon: (json['longitude'] as num?)?.toDouble() ?? 0,
 
-      nearByPlaces: json['nearbyPlaces'] != null
-          ? List<Map<String, dynamic>>.from(
-              json['nearbyPlaces'].map((e) => Map<String, dynamic>.from(e)),
-            )
-          : [],
+      // Backend returns Object
+      nearByPlaces: nearbyPlacesJson is Map
+          ? Map<String, dynamic>.from(nearbyPlacesJson)
+          : {},
 
-      //  json['nearbyPlaces'] != null
-      //     ? (json['nearbyPlaces'] as Map<String, dynamic>).entries.expand((
-      //         entry,
-      //       ) {
-      //         final list = entry.value as List;
-      //         return list.map(
-      //           (e) => {'category': entry.key, ...Map<String, dynamic>.from(e)},
-      //         );
-      //       }).toList()
-      //     : [],
       outDoors: (json['outdoorItems'] as List? ?? [])
-          .map((e) => OutdoorItem.fromJson(e))
+          .map((e) => OutdoorItem.fromJson(Map<String, dynamic>.from(e)))
           .toList(),
 
       sqftArea: json['sqft']?.toString() ?? '',
       constructionYear: json['constructionYear']?.toString() ?? '',
 
       roomItems: (json['roomItems'] as List? ?? [])
-          .map((e) => RoomItem.fromJson(e))
+          .map((e) => RoomItem.fromJson(Map<String, dynamic>.from(e)))
           .toList(),
 
       heating: json['heating'] ?? '',
       furnishing: json['furnishing'] ?? '',
       rentalPeriod: json['rentalPeriod']?.toString(),
+
       fireplace: json['fireplace'] ?? false,
       hasBasement: json['hasBasement'] ?? false,
+
       basementArea: json['basementArea']?.toString(),
-      internalGarageArea: json['internalGarageArea']?.toString() ?? '',
+
+      // NEW
+      garageCars: (json['garageCars'] as num?)?.toInt() ?? 0,
+
+      // NEW
+      overAllQual: (json['overAllQual'] as num?)?.toDouble() ?? 0,
+
+      // API field is overAllcond
+      overAllCond: (json['overAllcond'] as num?)?.toDouble() ?? 0,
+
       finishingQuality: json['finishingQuality']?.toString() ?? '',
       maintenanceLevel: json['maintenanceLevel']?.toString() ?? '',
       neighborhoodScore: json['neighborhoodScore']?.toString() ?? '',
       exteriorFinish: json['exteriorFinish']?.toString() ?? '',
+
       floorNumber: json['floorNumber']?.toString(),
       numberOfFloors: json['numOfFloors']?.toString(),
+
       elevator: json['elevator'] ?? false,
-      requestId: json['id'] ?? '',
-      primaryPhoto: json['primaryPhoto'],
+
+      requestId: json['id']?.toString() ?? '',
+
+      primaryPhoto: json['primaryPhoto']?.toString(),
     );
   }
 }

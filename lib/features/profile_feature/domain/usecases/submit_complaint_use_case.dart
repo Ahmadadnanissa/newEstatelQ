@@ -5,7 +5,13 @@ class SubmitComplaintUseCase {
 
   SubmitComplaintUseCase(this.repository);
 
-  Future<void> execute({required String id, required String message}) {
-    return repository.submitComplaint(id: id, message: message);
+  Future<void> execute({
+    required String issueMessage,
+    required String complaintTypeId,
+  }) {
+    return repository.submitComplaint(
+      issueMessage: issueMessage,
+      complaintTypeId: complaintTypeId,
+    );
   }
 }

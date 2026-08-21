@@ -57,6 +57,7 @@ import 'package:estatelqapp/features/profile_feature/data/datasources/support_re
 import 'package:estatelqapp/features/profile_feature/data/repositories/client_repository.dart';
 import 'package:estatelqapp/features/profile_feature/data/repositories/support_repository.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/get_client_use_case.dart';
+import 'package:estatelqapp/features/profile_feature/domain/usecases/get_complaint_types_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/submit_complaint_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/domain/usecases/update_profile_use_case.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/pages/edit_profile_page.dart';
@@ -136,7 +137,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final supportRemote = SupportRemoteDataSource(http.Client());
   final supportRepo = SupportRepository(supportRemote);
-
+  final getComplaintTypesUseCase = GetComplaintTypesUseCase(supportRepo);
   final submitComplaintUseCase = SubmitComplaintUseCase(supportRepo);
   final socketService = SocketService();
 
@@ -219,7 +220,8 @@ void main() async {
         ),
 
         ChangeNotifierProvider(
-          create: (_) => SupportProvider(submitComplaintUseCase),
+          create: (_) =>
+              SupportProvider(submitComplaintUseCase, getComplaintTypesUseCase),
         ),
 
         ChangeNotifierProvider(

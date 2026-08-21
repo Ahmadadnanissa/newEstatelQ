@@ -14,9 +14,13 @@ class OutdoorItem {
   }
 
   factory OutdoorItem.fromJson(Map<String, dynamic> json) {
+    final data = json['data'];
+
     return OutdoorItem(
-      type: json['type'] ?? '',
-      desc: json['data']?['spec'],
+      type: json['type']?.toString() ?? '',
+
+      desc: data is Map ? data['spec'] : null,
+
       photos: List<String>.from(json['photos'] ?? []),
     );
   }

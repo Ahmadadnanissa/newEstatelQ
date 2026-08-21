@@ -1,12 +1,9 @@
 import 'package:estatelqapp/core/widgets/button.dart';
-
 import 'package:estatelqapp/features/profile_feature/presentation/providers/support_provider.dart';
-
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/form_field_for_describe_issue.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/how_we_can_help_you_text.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/image_help_and_support_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/widgets/selected_request_type_text.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +18,15 @@ class _BodyHelpAndSupportPaheState extends State<BodyHelpAndSupportPahe> {
   final TextEditingController complaintController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SupportProvider>().getComplaintTypes();
+    });
+  }
+
+  @override
   void dispose() {
     complaintController.dispose();
 
@@ -29,14 +35,13 @@ class _BodyHelpAndSupportPaheState extends State<BodyHelpAndSupportPahe> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
 
     return Consumer<SupportProvider>(
       builder: (context, provider, _) {
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-
             children: [
               ImageHelpAndSupportPage(),
 
@@ -52,19 +57,25 @@ class _BodyHelpAndSupportPaheState extends State<BodyHelpAndSupportPahe> {
 
               PrimaryButton(
                 name: provider.isLoading ? "Sending..." : "Submit Request",
-
                 pushing: () async {
-                  if (complaintController.text.trim().isEmpty) {
+                  if (provider.isLoading) {
                     return;
                   }
 
-                  await provider.submitComplaint(
-                    message: complaintController.text.trim(),
+                  final message = complaintController.text.trim();
 
+                  if (message.isEmpty) {
+                    return;
+                  }
+
+                  final success = await provider.submitComplaint(
+                    message: message,
                     context: context,
                   );
 
-                  complaintController.clear();
+                  if (success && mounted) {
+                    complaintController.clear();
+                  }
                 },
               ),
 

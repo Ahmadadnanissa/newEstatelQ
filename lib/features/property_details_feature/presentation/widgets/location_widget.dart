@@ -10,9 +10,8 @@ class LocationWidget extends StatelessWidget {
   const LocationWidget({super.key, required this.property});
 
   List<String> getNearbyServices() {
-    return property.nearByPlaces
-        .map((e) => e['category']?.toString() ?? '')
-        .where((e) => e.isNotEmpty)
+    return property.nearByPlaces.keys
+        .where((key) => key.isNotEmpty)
         .toSet()
         .toList();
   }
