@@ -1,7 +1,10 @@
 import 'package:estatelqapp/core/app_theme.dart';
-import 'package:estatelqapp/core/services/visitor_local_storage.dart';
+import 'package:estatelqapp/core/services/visitor_local_storage_services.dart';
 import 'package:estatelqapp/core/widgets/second_price_range.dart';
-import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/auth_features/data/datasources/update_lead_remote_data_source.dart';
+import 'package:estatelqapp/features/auth_features/data/repositories/update_lead_repository.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/update_lead_use_case.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/update_lead_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/widgets/custom_text_form_field_for_string.dart';
 import 'package:flutter/material.dart';
 
@@ -28,11 +31,29 @@ class _ClientPreferencesPopupState extends State<ClientPreferencesPopup> {
 
   final TextEditingController _sourceController = TextEditingController();
 
+  late final UpdateLeadProvider updateLeadProvider;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final remoteDataSource = UpdateLeadRemoteDataSource();
+
+    final repository = UpdateLeadRepository(remoteDataSource);
+
+    final useCase = UpdateLeadUseCase(repository);
+
+    updateLeadProvider = UpdateLeadProvider(useCase);
+  }
+
   @override
   void dispose() {
     _minPriceController.dispose();
     _maxPriceController.dispose();
     _sourceController.dispose();
+
+    updateLeadProvider.dispose();
+
     super.dispose();
   }
 
@@ -47,14 +68,55 @@ class _ClientPreferencesPopupState extends State<ClientPreferencesPopup> {
     final maxPrice = _maxPriceController.text.trim();
     final source = _sourceController.text.trim();
 
+    final visitorSessionId = VisitorLocalStorageService.getVisitorId();
+
+    if (visitorSessionId == null || visitorSessionId.trim().isEmpty) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Visitor session not found. Please try again.'),
+        ),
+      );
+
+      return;
+    }
+
+    // final double minBudget = double.parse(minPrice);
+    final double maxBudget = double.parse(maxPrice);
+
     // Save minimum budget
-    await VisitorLocalStorageService.saveMin(double.parse(minPrice));
+    // await VisitorLocalStorageService.saveMin(
+    //   minBudget,
+    // );
 
-    // Save maximum budget
-    await VisitorLocalStorageService.saveMax(double.parse(maxPrice));
+    // // Save maximum budget
+    // await VisitorLocalStorageService.saveMax(
+    //   maxBudget,
+    // );
 
-    // Save source
-    await VisitorLocalStorageService.saveSource(source);
+    // // Save source
+    // await VisitorLocalStorageService.saveSource(
+    //   source,
+    // );
+
+    // Update Lead
+    await updateLeadProvider.updateLead(
+      visitorSessionId: visitorSessionId,
+      source: source,
+      budget: maxBudget,
+    );
+
+    // Check API error
+    if (updateLeadProvider.error != null) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(updateLeadProvider.error!)));
+
+      return;
+    }
 
     // Existing callback
     widget.onConfirm(minPrice: minPrice, maxPrice: maxPrice, source: source);
@@ -62,7 +124,7 @@ class _ClientPreferencesPopupState extends State<ClientPreferencesPopup> {
     // Go to Home
     if (!mounted) return;
 
-    Navigator.pushReplacementNamed(context, HomePage.id);
+    Navigator.pop(context);
   }
 
   @override
@@ -122,7 +184,6 @@ class _ClientPreferencesPopupState extends State<ClientPreferencesPopup> {
                           ),
                         ),
                       ),
-
                       IconButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -248,7 +309,7 @@ class _ClientPreferencesPopupState extends State<ClientPreferencesPopup> {
                     width: double.infinity,
                     height: width * 0.12,
                     child: ElevatedButton(
-                      onPressed: _confirm,
+                      onPressed: updateLeadProvider.isLoading ? null : _confirm,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: secondaryColor,
                         foregroundColor: primaryColor,
@@ -257,14 +318,20 @@ class _ClientPreferencesPopupState extends State<ClientPreferencesPopup> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      child: Text(
-                        'Confirm',
-                        style: TextStyle(
-                          fontFamily: fontFamily,
-                          fontSize: width * 0.04,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: updateLeadProvider.isLoading
+                          ? const SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(),
+                            )
+                          : Text(
+                              'Confirm',
+                              style: TextStyle(
+                                fontFamily: fontFamily,
+                                fontSize: width * 0.04,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                 ),

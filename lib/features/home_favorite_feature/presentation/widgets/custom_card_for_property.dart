@@ -177,7 +177,7 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: width * 0.65,
+                            width: width * 0.55,
                             child: Text(
                               maxLines: 2,
                               formatPropertyType(widget.title),

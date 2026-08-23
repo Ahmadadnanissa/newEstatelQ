@@ -6,7 +6,7 @@ class VisitorRepository {
 
   VisitorRepository(this.remote);
 
-  Future<VisitorModel> createVisitor() async {
-    return await remote.createVisitor();
+  Future<VisitorModel> createVisitor({required String ip}) async {
+    return await remote.createVisitor(ip: ip);
   }
 }

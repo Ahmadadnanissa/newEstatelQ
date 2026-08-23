@@ -6,7 +6,7 @@ class CreateVisitorUseCase {
 
   CreateVisitorUseCase(this.repository);
 
-  Future<VisitorModel> execute() async {
-    return await repository.createVisitor();
+  Future<VisitorModel> execute({required String ip}) async {
+    return await repository.createVisitor(ip: ip);
   }
 }

@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  android_id: ^0.4.0
   connectivity_plus: ^7.0.0
   cloudinary_public: ^0.23.1
   panorama_viewer: ^2.0.7

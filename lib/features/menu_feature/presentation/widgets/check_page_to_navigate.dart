@@ -1,4 +1,6 @@
+import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
@@ -11,9 +13,12 @@ class CheckPageToNavigate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
+    final double width = MediaQuery.of(context).size.width;
     final colorScheme = Theme.of(context).colorScheme;
+
+    final String? userType = LocalStorageService.getUserType();
+
+    final bool isClient = userType == 'client';
 
     return Padding(
       padding: EdgeInsets.only(left: width * 0.24, top: width * 0.02),
@@ -137,6 +142,40 @@ class CheckPageToNavigate extends StatelessWidget {
               ],
             ),
           ),
+
+          // Login يظهر فقط إذا المستخدم Visitor / غير مسجل
+          if (!isClient) ...[
+            SizedBox(height: width * 0.03),
+
+            InkWell(
+              focusColor: colorScheme.surface,
+              hoverColor: colorScheme.surface,
+              splashColor: colorScheme.surface,
+              onTap: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  (route) => false,
+                );
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.login_rounded,
+                    size: width * 0.065,
+                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  ),
+                  SizedBox(width: width * 0.04),
+                  CustomFont(
+                    name: 'Login',
+                    fontColor: colorScheme.onSurface,
+                    fontSize: width * 0.045,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );

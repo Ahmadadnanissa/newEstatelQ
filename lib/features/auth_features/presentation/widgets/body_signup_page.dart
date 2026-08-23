@@ -8,7 +8,6 @@ import 'package:estatelqapp/features/auth_features/presentation/widgets/custom_f
 
 // import 'package:estatelqapp/features/auth_features/presentation/widgets/custom_text_form_field_for_number.dart';
 
-import 'package:estatelqapp/features/auth_features/presentation/widgets/google_or_face_widget.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/login_and_signup_image.dart';
 import 'package:estatelqapp/core/widgets/name_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/widgets/or_continue_with.dart';

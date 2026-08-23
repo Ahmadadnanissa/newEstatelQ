@@ -1,11 +1,14 @@
 import 'package:estatelqapp/core/services/local_storage_service.dart';
+import 'package:estatelqapp/core/services/visitor_local_storage_services.dart';
 import 'package:estatelqapp/features/get_info_from_user_features/presentation/pages/first_page.dart';
-import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
+import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
+
   static String id = 'SplashScreen';
+
   @override
   State<SplashPage> createState() => _SplashPageState();
 }
@@ -34,26 +37,39 @@ class _SplashPageState extends State<SplashPage>
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 2), () {
-      if (LocalStorageService.getToken() != null) {
-        Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      } else {
-        Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(builder: (context) => const FirstPage()),
-        );
-      }
+    _handleNavigation();
+  }
+
+  Future<void> _handleNavigation() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    // Client ID
+    final String? clientId = LocalStorageService.getId();
+
+    // Visitor ID
+    final String? visitorId = VisitorLocalStorageService.getVisitorId();
+
+    if (clientId != null && clientId.isNotEmpty) {
+      // المستخدم Client ومسجل من قبل
       Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: (context) => const NavigationPage()),
+      );
+    } else if (visitorId != null && visitorId.isNotEmpty) {
+      // المستخدم Visitor وعنده Visitor ID
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const NavigationPage()),
+      );
+    } else {
+      // مستخدم جديد بالكامل
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const FirstPage()),
       );
-    });
+    }
   }
 
   @override
@@ -65,7 +81,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffEDF6F9),
+      backgroundColor: const Color(0xffEDF6F9),
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,

@@ -5,10 +5,11 @@ import 'package:estatelqapp/features/auth_features/data/models/visitor_model.dar
 import 'package:http/http.dart' as http;
 
 class VisitorRemoteDataSource {
-  Future<VisitorModel> createVisitor() async {
+  Future<VisitorModel> createVisitor({required String ip}) async {
     final response = await http.post(
       Uri.parse("$baseUrl/api/v1/visitors"),
       headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"ip": ip}),
     );
 
     print(response.statusCode);

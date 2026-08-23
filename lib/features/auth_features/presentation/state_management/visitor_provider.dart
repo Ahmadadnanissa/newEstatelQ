@@ -11,14 +11,14 @@ class VisitorProvider extends ChangeNotifier {
 
   String? error;
 
-  Future<void> createVisitor() async {
+  Future<void> createVisitor({required String ip}) async {
     try {
       error = null;
       isLoading = true;
 
       notifyListeners();
 
-      final visitor = await createVisitorUseCase.execute();
+      final visitor = await createVisitorUseCase.execute(ip: ip);
 
       await VisitorLocalStorageService.saveVisitor(
         id: visitor.id,
