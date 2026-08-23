@@ -15,8 +15,12 @@ class _GoToLoginButtonState extends State<GoToLoginButton> {
   Widget build(BuildContext context) {
     return SecondaryButton(
       name: 'Login',
-      pushing: () {
-        Navigator.push(context, SlideRight(page: LoginPage()));
+      pushing: () async {
+        await Navigator.pushAndRemoveUntil(
+          context,
+          SlideRight(page: const LoginPage()),
+          (route) => false,
+        );
       },
     );
   }

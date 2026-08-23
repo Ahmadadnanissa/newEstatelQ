@@ -19,7 +19,7 @@ class PropertyDetailsRemoteDataSource {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
-
+      print(response.body);
       final data = jsonData['data'];
 
       if (data == null) {

@@ -1,9 +1,16 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/widgets/buy_request_popup.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CustomButton extends StatefulWidget {
-  CustomButton({super.key, required this.name, required this.pushing});
+  CustomButton({
+    super.key,
+    required this.name,
+    required this.pushing,
+    required this.id,
+  });
+  final String id;
   String name;
   Function() pushing;
 
@@ -30,9 +37,17 @@ class _CustomButtonState extends State<CustomButton> {
         opacity = 1;
         scale = 1;
       });
+
       await Future.delayed(const Duration(milliseconds: 150));
 
-      widget.pushing();
+      if (!mounted) return;
+
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return BuyRequestPopup(propertyId: widget.id);
+        },
+      );
     }
 
     return GestureDetector(

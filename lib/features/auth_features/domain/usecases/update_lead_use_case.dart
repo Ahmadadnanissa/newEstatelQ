@@ -1,5 +1,5 @@
-import 'package:estatelqapp/features/lead_update_feature/data/models/update_lead_model.dart';
-import 'package:estatelqapp/features/lead_update_feature/data/repositories/update_lead_repository.dart';
+import 'package:estatelqapp/features/auth_features/data/models/update_lead_model.dart';
+import 'package:estatelqapp/features/auth_features/data/repositories/update_lead_repository.dart';
 
 class UpdateLeadUseCase {
   final UpdateLeadRepository repository;

@@ -40,23 +40,27 @@ class _GetStartButtonState extends State<GetStartButton> {
   }
 
   Future<void> createVisitor() async {
-    await visitorProvider.createVisitor();
+    // await visitorProvider.createVisitor();
 
-    if (visitorProvider.error != null) {
-      if (!mounted) return;
+    // if (visitorProvider.error != null) {
+    //   if (!mounted) return;
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(visitorProvider.error!)));
+    //   ScaffoldMessenger.of(
+    //     context,
+    //   ).showSnackBar(SnackBar(content: Text(visitorProvider.error!)));
 
-      return;
-    }
+    //   return;
+    // }
 
-    await LocalStorageService.saveUserType("guest");
+    // await LocalStorageService.saveUserType("guest");
 
-    if (!mounted) return;
+    // if (!mounted) return;
 
-    Navigator.push(context, SlideRight(page: NavigationPage()));
+    await Navigator.pushAndRemoveUntil(
+      context,
+      SlideRight(page: const NavigationPage()),
+      (route) => false,
+    );
   }
 
   @override
@@ -66,7 +70,7 @@ class _GetStartButtonState extends State<GetStartButton> {
     return Padding(
       padding: EdgeInsets.only(bottom: width * 0.04, top: width * 0.17),
       child: PrimaryButton(
-        name: 'Get Start',
+        name: 'Get Started',
         pushing: () async {
           await createVisitor();
         },

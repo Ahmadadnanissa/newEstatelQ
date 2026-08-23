@@ -125,7 +125,7 @@ class _ClientPreferencesPopupState extends State<ClientPreferencesPopup> {
 
                       IconButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, HomePage.id);
+                          Navigator.pop(context);
                         },
                         icon: Icon(
                           Icons.close_rounded,

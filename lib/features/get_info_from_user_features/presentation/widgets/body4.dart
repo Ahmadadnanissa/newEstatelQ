@@ -1,3 +1,4 @@
+import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/core/widgets/skip_button.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
@@ -73,6 +74,8 @@ class _Body4State extends State<Body4> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SafeArea(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -103,6 +106,36 @@ class _Body4State extends State<Body4> {
                     OnboardingIllustration(
                       imagePath: 'assets/images/New notifications-amico.png',
                     ),
+
+                    SizedBox(height: width * 0.035),
+
+                    // Onboarding Page Indicator
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(4, (index) {
+                        final bool isActive = index == 3;
+
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeOut,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: width * 0.012,
+                          ),
+                          width: isActive ? width * 0.055 : width * 0.022,
+                          height: width * 0.022,
+                          decoration: BoxDecoration(
+                            color: isActive
+                                ? secondaryColor
+                                : (isDark
+                                      ? darkContainerColor
+                                      : greenColor.withOpacity(0.35)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        );
+                      }),
+                    ),
+
+                    SizedBox(height: width * 0.035),
 
                     TitlePage(title: 'Stay Updated, Every Step'),
 

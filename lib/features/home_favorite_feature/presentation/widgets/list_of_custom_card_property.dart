@@ -48,18 +48,42 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
     }
 
     if (provider.error != null && provider.properties.isEmpty) {
-      return Center(child: Text(provider.error!));
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.08),
+          child: Text(
+            'Something went wrong. Please try again later.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? darkSubtitleColor
+                  : Colors.grey.shade600,
+              fontSize: width * 0.04,
+              fontFamily: fontFamily,
+            ),
+          ),
+        ),
+      );
     }
 
     if (provider.properties.isEmpty) {
-      return Center(child: Text("No properties found"));
+      return Center(
+        child: Text(
+          'No properties found',
+          style: TextStyle(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? darkSubtitleColor
+                : Colors.grey.shade600,
+            fontSize: width * 0.04,
+            fontFamily: fontFamily,
+          ),
+        ),
+      );
     }
 
     return ListView.builder(
       controller: controller,
-
       itemCount: provider.properties.length + 1,
-
       itemBuilder: (context, index) {
         if (index < provider.properties.length) {
           final property = provider.properties[index];
@@ -69,33 +93,25 @@ class _ListOfCustomCardPropertyState extends State<ListOfCustomCardProperty> {
               await VisitorLocalStorageService.saveViewId(
                 property.id.toString(),
               );
+
               Navigator.push(
                 context,
                 SlideRight(page: PropertyPage(propertyId: property.id)),
               );
             },
-
             child: Padding(
               padding: EdgeInsets.symmetric(
                 vertical: width * .02,
                 horizontal: width * .04,
               ),
-
               child: CustomCardForProperty(
                 image: property.primaryImage!,
-
                 title: property.simpleDescription,
-
                 address: property.city,
-
                 price: "\$${property.listedPrice.toInt()}",
-
                 type: property.type,
-
                 numberOfRooms: property.numOfRooms,
-
                 numberOfPath: property.bathrooms.toInt(),
-
                 sqft: property.sqft.toInt(),
                 id: property.id,
               ),

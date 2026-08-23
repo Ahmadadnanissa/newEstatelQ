@@ -78,10 +78,14 @@ import 'package:estatelqapp/features/profile_feature/presentation/pages/help_and
 import 'package:estatelqapp/features/profile_feature/presentation/pages/profile_page.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/providers/client_provider.dart';
 import 'package:estatelqapp/features/profile_feature/presentation/providers/support_provider.dart';
+import 'package:estatelqapp/features/property_details_feature/data/datasources/buy_request_remote_data_source.dart';
 import 'package:estatelqapp/features/property_details_feature/data/datasources/property_details_remote_data_source.dart';
+import 'package:estatelqapp/features/property_details_feature/data/repositories/buy_request_repository.dart';
 import 'package:estatelqapp/features/property_details_feature/data/repositories/property_details_repository_impl.dart';
+import 'package:estatelqapp/features/property_details_feature/domain/usecases/create_buy_request_use_case.dart';
 import 'package:estatelqapp/features/property_details_feature/domain/usecases/get_property_by_id_use_case.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/pages/property_page.dart';
+import 'package:estatelqapp/features/property_details_feature/presentation/providers/buy_request_provider.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
 import 'package:estatelqapp/features/virtual_tour_feature/data/repositories/firestore_virtual_tour_repository.dart';
 import 'package:estatelqapp/features/virtual_tour_feature/presentation/providers/virtual_tour_view_provider.dart';
@@ -102,6 +106,13 @@ void main() async {
 
   await Hive.openBox('authBox');
   await Hive.openBox('visitorBox');
+
+  final buyRequestRemote = BuyRequestRemoteDataSource();
+
+  final buyRequestRepo = BuyRequestRepository(buyRequestRemote);
+
+  final createBuyRequestUseCase = CreateBuyRequestUseCase(buyRequestRepo);
+
   final updateLeadRemote = UpdateLeadRemoteDataSource();
 
   final updateLeadRepo = UpdateLeadRepository(updateLeadRemote);
@@ -223,6 +234,10 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => BuyRequestProvider(createBuyRequestUseCase),
+        ),
+
         ChangeNotifierProvider(
           create: (_) => UpdateLeadProvider(updateLeadUseCase),
         ),

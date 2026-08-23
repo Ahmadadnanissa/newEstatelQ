@@ -115,20 +115,63 @@ class _BodyProfilePageState extends State<BodyProfilePage> {
                 LogoutButton(),
 
                 SizedBox(height: width * 0.2),
+
                 ThemeToggleTile(),
-                SizedBox(height: width * 0.2),
-                ClientPreferencesPopup(
-                  onConfirm:
-                      ({
-                        required String minPrice,
-                        required String maxPrice,
-                        required String source,
-                      }) {
-                        print('Min Price: $minPrice');
-                        print('Max Price: $maxPrice');
-                        print('Source: $source');
+
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: width * 0.13,
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ClientPreferencesPopup(
+                              onConfirm:
+                                  ({
+                                    required String minPrice,
+                                    required String maxPrice,
+                                    required String source,
+                                  }) {
+                                    print('Min Price: $minPrice');
+                                    print('Max Price: $maxPrice');
+                                    print('Source: $source');
+                                  },
+                            );
+                          },
+                        );
                       },
+                      icon: Icon(
+                        Icons.tune_rounded,
+                        size: width * 0.06,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      label: Text(
+                        'Complete Your Preferences',
+                        style: TextStyle(
+                          fontFamily: fontFamily,
+                          fontSize: width * 0.038,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.secondary.withValues(alpha: 0.45),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
+
+                SizedBox(height: width * 0.3),
               ],
             ),
           );

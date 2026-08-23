@@ -36,16 +36,41 @@ class _ListOfCustomCardPropertyForFavoritePageState
     }
 
     if (provider.error != null && provider.favoriteProperties.isEmpty) {
-      return Center(child: Text(provider.error!));
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.08),
+          child: Text(
+            'Something went wrong. Please try again later.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? darkSubtitleColor
+                  : Colors.grey.shade600,
+              fontSize: width * 0.04,
+              fontFamily: fontFamily,
+            ),
+          ),
+        ),
+      );
     }
 
     if (provider.favoriteProperties.isEmpty) {
-      return Center(child: Text("No favorite properties yet"));
+      return Center(
+        child: Text(
+          'No favorite properties yet',
+          style: TextStyle(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? darkSubtitleColor
+                : Colors.grey.shade600,
+            fontSize: width * 0.04,
+            fontFamily: fontFamily,
+          ),
+        ),
+      );
     }
 
     return ListView.builder(
       itemCount: provider.favoriteProperties.length,
-
       itemBuilder: (context, index) {
         final property = provider.favoriteProperties[index];
 
@@ -56,29 +81,19 @@ class _ListOfCustomCardPropertyForFavoritePageState
               SlideRight(page: PropertyPage(propertyId: property.id)),
             );
           },
-
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical: width * .02,
-
               horizontal: width * .04,
             ),
-
             child: CustomCardForProperty(
               image: property.primaryImage ?? "",
-
               title: property.simpleDescription,
-
               address: property.city,
-
               price: "\$${property.listedPrice.toInt()}",
-
               type: property.type,
-
               numberOfRooms: property.numOfRooms,
-
               numberOfPath: property.bathrooms.toInt(),
-
               sqft: property.sqft.toInt(),
               id: property.id,
             ),

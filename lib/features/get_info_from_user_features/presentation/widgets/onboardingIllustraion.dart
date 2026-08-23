@@ -11,7 +11,7 @@ class OnboardingIllustration extends StatelessWidget {
       padding: const EdgeInsets.only(top: 32, bottom: 16),
       child: SizedBox(
         width: double.infinity,
-        height: 300,
+        height: 330,
         child: Image.asset(imagePath, fit: BoxFit.contain),
       ),
     );

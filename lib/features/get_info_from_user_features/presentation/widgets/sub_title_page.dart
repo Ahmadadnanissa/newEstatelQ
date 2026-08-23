@@ -14,13 +14,16 @@ class SubTitlePage extends StatelessWidget {
 
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return CustomFont(
-      name: subTitle,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+      child: CustomFont(
+        name: subTitle,
 
-      // لون متناسق مع الثيمين
-      fontColor: isDark ? darkSubtitleColor : greenColor,
+        // لون متناسق مع الثيمين
+        fontColor: isDark ? darkSubtitleColor : greenColor,
 
-      fontSize: width * 0.045,
+        fontSize: width * 0.048,
+      ),
     );
   }
 }

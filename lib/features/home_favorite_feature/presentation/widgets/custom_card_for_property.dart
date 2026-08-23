@@ -37,9 +37,13 @@ class CustomCardForProperty extends StatefulWidget {
 
 class _CustomCardForPropertyState extends State<CustomCardForProperty> {
   String formatPropertyType(String type) {
-    if (type.isEmpty) return "";
+    if (type.trim().isEmpty) return "";
 
-    return type[0].toUpperCase() + type.substring(1).toLowerCase();
+    return type
+        .trim()
+        .split(RegExp(r'\s+'))
+        .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
+        .join(' ');
   }
 
   @override
@@ -176,7 +180,7 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
                             width: width * 0.65,
                             child: Text(
                               maxLines: 2,
-                              widget.title,
+                              formatPropertyType(widget.title),
                               softWrap: true,
                               style: TextStyle(
                                 color: secondaryColor,
@@ -211,7 +215,7 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
 
                       fontColor: secondaryColor,
 
-                      fontSize: width * .05,
+                      fontSize: width * .045,
 
                       fontWeight: FontWeight.bold,
                     ),
@@ -221,7 +225,7 @@ class _CustomCardForPropertyState extends State<CustomCardForProperty> {
 
                       fontColor: isDark ? darkSubtitleColor : Colors.grey,
 
-                      fontSize: width * .035,
+                      fontSize: width * .04,
                     ),
                   ],
                 ),

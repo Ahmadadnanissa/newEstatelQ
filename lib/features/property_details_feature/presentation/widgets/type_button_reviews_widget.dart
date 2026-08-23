@@ -77,7 +77,7 @@ class TypeButtonReviewsWidget extends StatelessWidget {
           const Spacer(),
 
           // ================= BUTTON =================
-          CustomButton(name: 'Book Now', pushing: () {}),
+          CustomButton(name: 'Book Now', pushing: () {}, id: id),
         ],
       ),
     );
