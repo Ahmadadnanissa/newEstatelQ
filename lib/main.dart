@@ -5,19 +5,31 @@ import 'package:estatelqapp/core/services/app_navigation.dart';
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/them_provider.dart';
 import 'package:estatelqapp/features/auth_features/data/datasources/auth_remote_data_source.dart';
+import 'package:estatelqapp/features/auth_features/data/datasources/lead_remote_dat_source.dart';
+import 'package:estatelqapp/features/auth_features/data/datasources/update_lead_remote_data_source.dart';
+import 'package:estatelqapp/features/auth_features/data/datasources/visitor_remote_data_source.dart';
+import 'package:estatelqapp/features/auth_features/data/repositories/lead_repository.dart';
+import 'package:estatelqapp/features/auth_features/data/repositories/update_lead_repository.dart';
+import 'package:estatelqapp/features/auth_features/data/repositories/visitor_repository.dart';
 import 'package:estatelqapp/features/auth_features/domain/repository/auth_repository_impl.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/create_lead_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/create_visitor_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/forgot_password_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/log_out_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/login_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/reset_password_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/send_otp_use_Case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/sign_up_use_case.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/update_lead_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/verify_forgot_password_otp_use_case.dart';
 import 'package:estatelqapp/features/auth_features/domain/usecases/verify_otp_use_case.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/signup_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/pages/welcome_page.dart';
 import 'package:estatelqapp/features/auth_features/presentation/state_management/auth_provider.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/lead_provider.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/update_lead_provider.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/visitor_provider.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/change_password_page.dart';
 import 'package:estatelqapp/features/forget_password_features/presentation/pages/enter_your_email.dart';
 import 'package:estatelqapp/features/home_favorite_feature/data/datasources/favorite_remote_data_source.dart';
@@ -90,6 +102,22 @@ void main() async {
 
   await Hive.openBox('authBox');
   await Hive.openBox('visitorBox');
+  final updateLeadRemote = UpdateLeadRemoteDataSource();
+
+  final updateLeadRepo = UpdateLeadRepository(updateLeadRemote);
+
+  final updateLeadUseCase = UpdateLeadUseCase(updateLeadRepo);
+  final leadRemote = LeadRemoteDataSource();
+
+  final leadRepo = LeadRepository(leadRemote);
+
+  final createLeadUseCase = CreateLeadUseCase(leadRepo);
+
+  final visitorRemote = VisitorRemoteDataSource();
+
+  final visitorRepo = VisitorRepository(visitorRemote);
+
+  final createVisitorUseCase = CreateVisitorUseCase(visitorRepo);
 
   final remoteP = PropertyCardRemoteDataSource(http.Client());
   final remotepd = PropertyDetailsRemoteDataSource(http.Client());
@@ -195,6 +223,14 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => UpdateLeadProvider(updateLeadUseCase),
+        ),
+
+        ChangeNotifierProvider(
+          create: (_) => VisitorProvider(createVisitorUseCase),
+        ),
+        ChangeNotifierProvider(create: (_) => LeadProvider(createLeadUseCase)),
         ChangeNotifierProvider.value(value: virtualTourViewProvider),
         ChangeNotifierProvider(
           create: (_) => RequestProvider(sendRequestUseCase),

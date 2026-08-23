@@ -1,12 +1,14 @@
 import 'package:estatelqapp/core/services/local_storage_service.dart';
-import 'package:estatelqapp/core/services/visitor_local_storage.dart';
 import 'package:estatelqapp/core/widgets/button.dart';
 import 'package:estatelqapp/core/widgets/navigation_route.dart';
+import 'package:estatelqapp/features/auth_features/data/datasources/visitor_remote_data_source.dart';
+import 'package:estatelqapp/features/auth_features/data/repositories/visitor_repository.dart';
+import 'package:estatelqapp/features/auth_features/domain/usecases/create_visitor_use_case.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/visitor_provider.dart';
 
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/navigation_page.dart';
+
 import 'package:flutter/material.dart';
-import 'package:network_info_plus/network_info_plus.dart';
-import 'package:uuid/uuid.dart';
 
 class GetStartButton extends StatefulWidget {
   const GetStartButton({super.key});
@@ -16,23 +18,45 @@ class GetStartButton extends StatefulWidget {
 }
 
 class _GetStartButtonState extends State<GetStartButton> {
-  final Uuid uuid = Uuid();
+  late final VisitorProvider visitorProvider;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final remoteDataSource = VisitorRemoteDataSource();
+
+    final repository = VisitorRepository(remoteDataSource);
+
+    final useCase = CreateVisitorUseCase(repository);
+
+    visitorProvider = VisitorProvider(useCase);
+  }
+
+  @override
+  void dispose() {
+    visitorProvider.dispose();
+    super.dispose();
+  }
+
   Future<void> createVisitor() async {
-    final info = NetworkInfo();
+    await visitorProvider.createVisitor();
 
-    // Get device IP
-    final ip = await info.getWifiIP();
+    if (visitorProvider.error != null) {
+      if (!mounted) return;
 
-    if (ip != null) {
-      await VisitorLocalStorageService.saveIp(ip);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(visitorProvider.error!)));
+
+      return;
     }
 
-    // Get visitor creation time
-    final createdAt = DateTime.now().toIso8601String();
+    await LocalStorageService.saveUserType("guest");
 
-    await VisitorLocalStorageService.saveCreatedAt(createdAt);
+    if (!mounted) return;
 
-    // بعد هيك كمل الانتقال للتطبيق
+    Navigator.push(context, SlideRight(page: NavigationPage()));
   }
 
   @override
@@ -45,18 +69,6 @@ class _GetStartButtonState extends State<GetStartButton> {
         name: 'Get Start',
         pushing: () async {
           await createVisitor();
-
-          final guestId = uuid.v4();
-
-          await LocalStorageService.saveUser(
-            id: guestId, // أو تخليه String إذا بدك (أفضل لاحقاً)
-            name: "Guest",
-            email: "guest@local",
-          );
-
-          await LocalStorageService.saveUserType("guest");
-
-          Navigator.push(context, SlideRight(page: NavigationPage()));
         },
       ),
     );
