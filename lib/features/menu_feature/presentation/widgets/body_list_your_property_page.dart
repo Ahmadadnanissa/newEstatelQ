@@ -32,6 +32,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
   int numberOfRooms = 0;
   int numberOfBathrooms = 0;
   String locationProperty = '';
+  String buildingNumber = '';
   String propertyType = 'Apartment';
 
   bool isParking = true;
@@ -76,6 +77,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
       rooms: numberOfRooms,
       bathrooms: numberOfBathrooms,
       location: locationProperty,
+      buildingNumber: buildingNumber,
       type: propertyType,
       parking: isParking,
       swimmingPool: isSwimmingPool,
@@ -109,6 +111,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextInListYourProperty(name: 'Add Property'),
+
                 SizedBox(height: width * 0.02),
 
                 CustomTextFormFieldForString(
@@ -127,6 +130,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextInListYourProperty(name: 'Property Type'),
+
                         SelectRequestType(
                           requestTypes: [
                             "Apartment",
@@ -143,11 +147,14 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                         ),
                       ],
                     ),
+
                     const Spacer(),
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextInListYourProperty(name: 'Property Status'),
+
                         SelectRequestType(
                           requestTypes: ["For Sale", "For Rent"],
                           hintText: 'For Sale',
@@ -163,12 +170,29 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
 
                 SizedBox(height: width * 0.04),
 
+                // Building Number
+                CustomTextInListYourProperty(name: 'Building Number'),
+
+                CustomTextFormFieldForString(
+                  icon: Icon(
+                    Icons.location_city_outlined,
+                    color: colorScheme.primary,
+                  ),
+                  hintText: 'Enter Building Number',
+                  onChanged: (data) => buildingNumber = data.trim(),
+                  validator: (data) =>
+                      data!.isEmpty ? 'this field required' : null,
+                ),
+
+                SizedBox(height: width * 0.04),
+
                 Row(
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextInListYourProperty(name: 'Price'),
+
                         CustomTextFormFieldForString(
                           icon: Icon(
                             Icons.attach_money,
@@ -182,11 +206,14 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                         ),
                       ],
                     ),
+
                     const Spacer(),
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextInListYourProperty(name: 'Area'),
+
                         CustomTextFormFieldForString(
                           icon: Icon(
                             Icons.square_foot_outlined,
@@ -211,6 +238,7 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextInListYourProperty(name: 'Rooms'),
+
                         CustomTextFormFieldForString(
                           icon: Icon(
                             Icons.bed_outlined,
@@ -224,11 +252,14 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                         ),
                       ],
                     ),
+
                     const Spacer(),
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomTextInListYourProperty(name: 'Bathrooms'),
+
                         CustomTextFormFieldForString(
                           icon: Icon(
                             Icons.bathroom_outlined,
@@ -301,7 +332,9 @@ class _BodyListYourPropertyPageState extends State<BodyListYourPropertyPage> {
                     fit: BoxFit.contain,
                   ),
                 ),
+
                 SizedBox(height: width * 0.05),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

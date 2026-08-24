@@ -5,6 +5,7 @@ class RequestModel {
   final int rooms;
   final int bathrooms;
   final String location;
+  final String buildingNumber;
   final String type;
 
   final bool parking;
@@ -30,6 +31,7 @@ class RequestModel {
     required this.furnished,
     required this.heating,
     required this.lat,
+    required this.buildingNumber,
     required this.lng,
     required this.images,
   });
@@ -47,6 +49,7 @@ class RequestModel {
       "swimming_pool": swimmingPool,
       "furnished": furnished,
       "heating": heating,
+      "buildingNumber": buildingNumber,
       "lat": lat,
       "lng": lng,
       "images": images,
