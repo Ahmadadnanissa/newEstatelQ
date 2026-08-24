@@ -3,19 +3,28 @@ import 'dart:async';
 import 'package:estatelqapp/core/services/app_navigation.dart';
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/widgets/notification_overlay.dart';
+import 'package:estatelqapp/core/widgets/schedule_notification_overlay.dart';
 import 'package:estatelqapp/features/menu_feature/data/models/notification_model.dart';
 import 'package:estatelqapp/features/menu_feature/domain/repository/notification.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_use_case.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/schedule_provider.dart';
 import 'package:flutter/material.dart';
 
 class NotificationProvider extends ChangeNotifier {
+  final ScheduleProvider scheduleProvider;
+
   final NotificationRepository repo;
 
   final SocketService socketService;
 
   final MarkAsReadUseCase markAsReadUseCase;
 
-  NotificationProvider(this.repo, this.socketService, this.markAsReadUseCase);
+  NotificationProvider(
+    this.repo,
+    this.socketService,
+    this.markAsReadUseCase,
+    this.scheduleProvider,
+  );
 
   List<AppNotification> notifications = [];
   bool _isSocketInitialized = false;
@@ -80,17 +89,34 @@ class NotificationProvider extends ChangeNotifier {
       final notification = AppNotification.fromJson(data);
 
       final exists = notifications.any((n) => n.id == notification.id);
+      if (notification.entityType == "SCHEDULE" &&
+          notification.entityId != null) {
+        ScheduleNotificationOverlay.show(
+          title: notification.title,
+          body: notification.body,
+          createdAt: notification.createdAt,
 
-      if (!exists) {
-        notifications.insert(0, notification);
+          // YES = ACCEPT
+          onYes: () async {
+            await scheduleProvider.acceptSchedule(
+              scheduleId: notification.entityId!,
+            );
+          },
+
+          // NO = REJECT
+          onNo: () async {
+            await scheduleProvider.rejectSchedule(
+              scheduleId: notification.entityId!,
+            );
+          },
+        );
+      } else {
+        NotificationOverlay.show(
+          title: notification.title,
+          body: notification.body,
+          createdAt: notification.createdAt,
+        );
       }
-      print("Notification event received");
-      print(AppNavigation.navigatorKey.currentContext);
-      NotificationOverlay.show(
-        title: notification.title,
-        body: notification.body,
-        createdAt: notification.createdAt,
-      );
 
       notifyListeners();
     });

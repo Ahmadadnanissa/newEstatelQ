@@ -47,11 +47,15 @@ import 'package:estatelqapp/features/home_favorite_feature/presentation/provider
 import 'package:estatelqapp/features/menu_feature/data/datasources/notification_remote.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/property_status_remote_data_source.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/request_remote_data_source.dart';
+import 'package:estatelqapp/features/menu_feature/data/datasources/schedule_remote_data_source.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/property_status_reomte_data_source_impl.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/request_repository.dart';
+import 'package:estatelqapp/features/menu_feature/data/repositories/schedule_repository.dart';
 import 'package:estatelqapp/features/menu_feature/domain/repository/notification.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/accept_schedule_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/get_property_activities.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_use_case.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/reject_schedule_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/send_request_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
@@ -64,6 +68,7 @@ import 'package:estatelqapp/features/menu_feature/presentation/provider_state_ma
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/request_provider.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/schedule_provider.dart';
 import 'package:estatelqapp/features/profile_feature/data/datasources/client_remote_data_source.dart';
 import 'package:estatelqapp/features/profile_feature/data/datasources/support_remote_data_source.dart';
 import 'package:estatelqapp/features/profile_feature/data/repositories/client_repository.dart';
@@ -106,6 +111,19 @@ void main() async {
 
   await Hive.openBox('authBox');
   await Hive.openBox('visitorBox');
+
+  final scheduleRemote = ScheduleRemoteDataSource();
+
+  final scheduleRepo = ScheduleRepository(scheduleRemote);
+
+  final acceptScheduleUseCase = AcceptScheduleUseCase(scheduleRepo);
+
+  final rejectScheduleUseCase = RejectScheduleUseCase(scheduleRepo);
+
+  final scheduleProvider = ScheduleProvider(
+    acceptScheduleUseCase,
+    rejectScheduleUseCase,
+  );
 
   final buyRequestRemote = BuyRequestRemoteDataSource();
 
@@ -234,6 +252,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => scheduleProvider),
+
         ChangeNotifierProvider(
           create: (_) => BuyRequestProvider(createBuyRequestUseCase),
         ),
@@ -264,6 +284,7 @@ void main() async {
             notificationRepo,
             socketService,
             markAsReadUseCase,
+            scheduleProvider,
           )..connectSocket(),
         ),
         ChangeNotifierProvider(
