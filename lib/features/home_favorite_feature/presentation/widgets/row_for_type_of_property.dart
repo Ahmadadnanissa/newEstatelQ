@@ -22,6 +22,7 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
       required String value,
       required IconData icon,
       required Color bg,
+      required VoidCallback onTap,
     }) {
       return TypeOfProperty(
         icon: icon,
@@ -30,8 +31,7 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
         isSelected: selectedType == value,
         onTap: () {
           setState(() => selectedType = value);
-
-          context.read<HomeProvider>().setType(value);
+          onTap();
         },
       );
     }
@@ -42,18 +42,64 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           children: [
+            // =========================
+            // ALL
+            // =========================
             item(
               label: 'All',
               value: 'All',
               icon: Icons.public_rounded,
               bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setType('All');
+                context.read<HomeProvider>().setPropertyTopic('All');
+              },
             ),
 
+            // =========================
+            // TOPICS
+            // =========================
+            item(
+              label: 'Trendy',
+              value: 'Trendy',
+              icon: Icons.trending_up_rounded,
+              bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setPropertyTopic('Trendy');
+              },
+            ),
+
+            item(
+              label: 'For You',
+              value: 'For You',
+              icon: Icons.recommend_rounded,
+              bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setPropertyTopic('For You');
+              },
+            ),
+
+            item(
+              label: 'Collaborative',
+              value: 'Collaborative',
+              icon: Icons.people_alt_rounded,
+              bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setPropertyTopic('Collaborative');
+              },
+            ),
+
+            // =========================
+            // PROPERTY TYPES
+            // =========================
             item(
               label: 'Apartment',
               value: 'APARTMENT',
               icon: Icons.apartment_rounded,
               bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setType('APARTMENT');
+              },
             ),
 
             item(
@@ -61,6 +107,9 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
               value: 'VILLA',
               icon: Icons.villa_rounded,
               bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setType('VILLA');
+              },
             ),
 
             item(
@@ -68,6 +117,9 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
               value: 'HOUSE',
               icon: Icons.home_rounded,
               bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setType('HOUSE');
+              },
             ),
 
             item(
@@ -75,6 +127,9 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
               value: 'STORE',
               icon: Icons.storefront_rounded,
               bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setType('STORE');
+              },
             ),
 
             item(
@@ -82,6 +137,9 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
               value: 'OFFICE',
               icon: Icons.business_rounded,
               bg: colorScheme.surface,
+              onTap: () {
+                context.read<HomeProvider>().setType('OFFICE');
+              },
             ),
           ],
         ),

@@ -1,7 +1,9 @@
 class FilterPropertyModel {
   String? q;
   String? city;
-
+  bool? trendy;
+  bool? foryou;
+  bool? collaborative;
   String? type;
 
   String? listingType;
@@ -15,6 +17,9 @@ class FilterPropertyModel {
   FilterPropertyModel({
     this.q,
     this.city,
+    this.trendy,
+    this.foryou,
+    this.collaborative,
     this.type,
     this.listingType,
     this.numOfRooms,
@@ -50,6 +55,17 @@ class FilterPropertyModel {
     }
     if (q != null && q!.isNotEmpty) {
       data["q"] = q;
+    }
+    if (trendy == true) {
+      data["trendy"] = true;
+    }
+
+    if (foryou == true) {
+      data["foryou"] = true;
+    }
+
+    if (collaborative == true) {
+      data["collaborative"] = true;
     }
 
     return data;

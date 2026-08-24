@@ -107,6 +107,35 @@ class HomeProvider extends ChangeNotifier {
   // =====================
   Future<void> setType(String type) async {
     filter.type = type == "All" ? null : type;
+
+    filter.trendy = null;
+    filter.foryou = null;
+    filter.collaborative = null;
+
+    await refresh();
+  }
+
+  Future<void> setPropertyTopic(String topic) async {
+    filter.trendy = null;
+    filter.foryou = null;
+    filter.collaborative = null;
+
+    filter.type = null;
+
+    switch (topic) {
+      case "Trendy":
+        filter.trendy = true;
+        break;
+
+      case "For You":
+        filter.foryou = true;
+        break;
+
+      case "Collaborative":
+        filter.collaborative = true;
+        break;
+    }
+
     await refresh();
   }
 
