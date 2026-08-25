@@ -111,6 +111,7 @@ void main() async {
 
   await Hive.openBox('authBox');
   await Hive.openBox('visitorBox');
+    await Hive.openBox('buildingNumberBox');
 
   final scheduleRemote = ScheduleRemoteDataSource();
 

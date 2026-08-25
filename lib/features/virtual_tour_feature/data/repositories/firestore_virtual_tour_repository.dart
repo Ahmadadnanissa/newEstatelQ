@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:estatelqapp/core/services/building_number_local_storage.dart';
 import 'package:estatelqapp/features/virtual_tour_feature/domain/repository/virtual_tour_repository.dart';
 
 import '../../domain/entities/hotspot.dart';
@@ -36,9 +37,11 @@ class FirestoreVirtualTourRepository implements VirtualTourRepository {
     String scopeId, {
     bool publishedOnly = false,
   }) async {
+    final buildingNumber = BuildingNumberLocalStorage.getBuildingNumber();
+
     Query<Map<String, dynamic>> query = _tours.where(
       'scopeId',
-      isEqualTo: scopeId,
+      isEqualTo: buildingNumber,
     );
 
     if (publishedOnly) {

@@ -43,8 +43,9 @@ class PropertyModel {
   final bool elevator;
   final String requestId;
   final String? primaryPhoto;
-
+  final String buildingNumber;
   const PropertyModel({
+    required this.buildingNumber,
     required this.fullDescription,
     required this.shortDescription,
     required this.zipCode,
@@ -132,6 +133,7 @@ class PropertyModel {
     final nearbyPlacesJson = json['nearbyPlaces'];
 
     return PropertyModel(
+      buildingNumber: json['buildingNumber']?.toString() ?? '123456',
       fullDescription: json['fullDescription'] ?? '',
       shortDescription: json['simpleDescription'] ?? '',
       zipCode: json['zipCode']?.toString() ?? '',

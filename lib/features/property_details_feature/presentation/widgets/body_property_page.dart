@@ -1,4 +1,5 @@
 import 'package:estatelqapp/core/app_theme.dart';
+import 'package:estatelqapp/core/services/building_number_local_storage.dart';
 import 'package:estatelqapp/core/services/visitor_local_storage.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/property_details_feature/presentation/providers/property_details_provider.dart';
@@ -35,6 +36,7 @@ class _BodyPropertyPageState extends State<BodyPropertyPage> {
   @override
   void initState() {
     super.initState();
+
     _propertyEntryTime = DateTime.now();
     Future.microtask(() {
       context.read<PropertyDetailsProvider>().getPropertyById(
