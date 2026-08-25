@@ -111,7 +111,7 @@ void main() async {
 
   await Hive.openBox('authBox');
   await Hive.openBox('visitorBox');
-    await Hive.openBox('buildingNumberBox');
+  await Hive.openBox('buildingNumberBox');
 
   final scheduleRemote = ScheduleRemoteDataSource();
 
@@ -127,18 +127,12 @@ void main() async {
   );
 
   final buyRequestRemote = BuyRequestRemoteDataSource();
-
   final buyRequestRepo = BuyRequestRepository(buyRequestRemote);
-
   final createBuyRequestUseCase = CreateBuyRequestUseCase(buyRequestRepo);
-
   final updateLeadRemote = UpdateLeadRemoteDataSource();
-
   final updateLeadRepo = UpdateLeadRepository(updateLeadRemote);
-
   final updateLeadUseCase = UpdateLeadUseCase(updateLeadRepo);
   final leadRemote = LeadRemoteDataSource();
-
   final leadRepo = LeadRepository(leadRemote);
 
   final createLeadUseCase = CreateLeadUseCase(leadRepo);

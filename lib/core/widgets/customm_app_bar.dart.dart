@@ -31,13 +31,13 @@ class CustommAppBar extends StatelessWidget implements PreferredSizeWidget {
       shadowColor: Theme.of(context).scaffoldBackgroundColor,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       title: GestureDetector(
-        onTap: () async {
-          final visitorSessionId = VisitorLocalStorageService.getVisitorId();
+        // onTap: () async {
+        //   final visitorSessionId = VisitorLocalStorageService.getVisitorId();
 
-          if (visitorSessionId != null) {
-            await context.read<LeadProvider>().createLead(visitorSessionId);
-          }
-        },
+        //   if (visitorSessionId != null) {
+        //     await context.read<LeadProvider>().createLead(visitorSessionId);
+        //   }
+        // },
         child: Text(
           title,
           style: TextStyle(

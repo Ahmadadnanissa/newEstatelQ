@@ -11,7 +11,6 @@ class LeadRemoteDataSource {
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"visitorSessionId": visitorSessionId}),
     );
-
     print(response.statusCode);
     print(response.body);
 
