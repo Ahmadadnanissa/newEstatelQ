@@ -1,3 +1,6 @@
+import 'package:estatelqapp/core/services/lead_local_storage.dart';
+import 'package:estatelqapp/core/services/local_storage_service.dart';
+import 'package:estatelqapp/features/auth_features/presentation/state_management/lead_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/type_of_property.dart';
@@ -15,6 +18,14 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
 
   @override
   Widget build(BuildContext context) {
+    // مهم جداً:
+    // يجعل الواجهة تسمع لأي notifyListeners من LeadProvider
+    context.watch<LeadProvider>();
+
+    final bool isClient = LocalStorageService.getUserType() == 'client';
+
+    final bool isLead = LeadLocalStorageService.getIsLead();
+
     final colorScheme = Theme.of(context).colorScheme;
 
     Widget item({
@@ -42,9 +53,6 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           children: [
-            // =========================
-            // ALL
-            // =========================
             item(
               label: 'All',
               value: 'All',
@@ -56,9 +64,6 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
               },
             ),
 
-            // =========================
-            // TOPICS
-            // =========================
             item(
               label: 'Trendy',
               value: 'Trendy',
@@ -69,26 +74,29 @@ class _RowForTypeOfPropertyState extends State<RowForTypeOfProperty> {
               },
             ),
 
-            item(
-              label: 'For You',
-              value: 'For You',
-              icon: Icons.recommend_rounded,
-              bg: colorScheme.surface,
-              onTap: () {
-                context.read<HomeProvider>().setPropertyTopic('For You');
-              },
-            ),
+            if (isClient || isLead)
+              item(
+                label: 'For You',
+                value: 'For You',
+                icon: Icons.recommend_rounded,
+                bg: colorScheme.surface,
+                onTap: () {
+                  context.read<HomeProvider>().setPropertyTopic('For You');
+                },
+              ),
 
-            item(
-              label: 'Collaborative',
-              value: 'Collaborative',
-              icon: Icons.people_alt_rounded,
-              bg: colorScheme.surface,
-              onTap: () {
-                context.read<HomeProvider>().setPropertyTopic('Collaborative');
-              },
-            ),
-
+            if (isClient)
+              item(
+                label: 'Collaborative',
+                value: 'Collaborative',
+                icon: Icons.people_alt_rounded,
+                bg: colorScheme.surface,
+                onTap: () {
+                  context.read<HomeProvider>().setPropertyTopic(
+                    'Collaborative',
+                  );
+                },
+              ),
             // =========================
             // PROPERTY TYPES
             // =========================

@@ -1,15 +1,8 @@
-import 'package:estatelqapp/core/services/local_storage_service.dart';
-
 import 'package:estatelqapp/features/menu_feature/domain/entity/property_activity.dart';
-
-import 'package:estatelqapp/features/menu_feature/domain/usecases/get_property_activities.dart';
-
 import 'package:flutter/material.dart';
 
 class PropertyStatusProvider extends ChangeNotifier {
-  final GetPropertyActivities getPropertyActivities;
-
-  PropertyStatusProvider(this.getPropertyActivities);
+  PropertyStatusProvider();
 
   List<PropertyActivity> activities = [];
 
@@ -20,19 +13,46 @@ class PropertyStatusProvider extends ChangeNotifier {
   Future<void> getActivities(String propertyId) async {
     try {
       isLoading = true;
-
       error = null;
-
       notifyListeners();
 
-      final token = LocalStorageService.getToken() ?? "";
+      // Mock Data
+      await Future.delayed(const Duration(milliseconds: 500));
 
-      activities = await getPropertyActivities(propertyId, token);
+      activities = [
+        PropertyActivity(
+          title: 'Deal Started',
+          description:
+              'Someone is interested in your property and has started a conversation.',
+          date: DateTime.now().subtract(const Duration(days: 2)),
+          status: 'started',
+        ),
+        PropertyActivity(
+          title: 'Deal Failed',
+          description:
+              'Unfortunately, the client was not serious. We will try again.',
+          date: DateTime.now(),
+          status: 'failed',
+        ),
+        PropertyActivity(
+          title: 'Deal Started',
+          description:
+              'Someone is interested in your property and has started a conversation.',
+          date: DateTime.now().subtract(const Duration(days: 2)),
+          status: 'started',
+        ),
+        PropertyActivity(
+          title: 'Deal Completed',
+          description:
+              'Congratulations! The deal has been completed successfully.',
+          date: DateTime.now().subtract(const Duration(days: 1)),
+          status: 'success',
+        ),
+      ];
     } catch (e) {
       error = e.toString();
     } finally {
       isLoading = false;
-
       notifyListeners();
     }
   }

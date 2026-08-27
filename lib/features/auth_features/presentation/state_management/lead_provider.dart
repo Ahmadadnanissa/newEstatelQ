@@ -15,7 +15,6 @@ class LeadProvider extends ChangeNotifier {
     try {
       error = null;
       isLoading = true;
-
       notifyListeners();
 
       final lead = await createLeadUseCase.execute(visitorSessionId);
@@ -27,6 +26,7 @@ class LeadProvider extends ChangeNotifier {
         isLead: lead.isLead,
         ip: lead.ip,
       );
+      notifyListeners();
     } catch (e) {
       error = e.toString();
     }

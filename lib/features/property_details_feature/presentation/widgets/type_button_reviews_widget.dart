@@ -1,4 +1,6 @@
 import 'package:estatelqapp/core/app_theme.dart';
+
+import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:estatelqapp/core/widgets/app_image.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/widgets/like_button.dart';
@@ -22,7 +24,7 @@ class TypeButtonReviewsWidget extends StatelessWidget {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     final Color textColor = Theme.of(context).colorScheme.onSurface;
-
+    final bool isClient = LocalStorageService.getUserType() == 'client';
     return Padding(
       padding: EdgeInsets.all(width * 0.03),
 
@@ -77,7 +79,7 @@ class TypeButtonReviewsWidget extends StatelessWidget {
           const Spacer(),
 
           // ================= BUTTON =================
-          CustomButton(name: 'Book Now', pushing: () {}, id: id),
+          if (isClient) CustomButton(name: 'Book Now', pushing: () {}, id: id),
         ],
       ),
     );

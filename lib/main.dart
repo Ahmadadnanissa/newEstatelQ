@@ -312,9 +312,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ChatWithAiProvider()),
         ChangeNotifierProvider(create: (_) => ChatProvider(socketService)),
 
-        ChangeNotifierProvider(
-          create: (_) => PropertyStatusProvider(getPropertyActivities),
-        ),
+        ChangeNotifierProvider(create: (_) => PropertyStatusProvider()),
       ],
       child: const MyApp(),
     ),
