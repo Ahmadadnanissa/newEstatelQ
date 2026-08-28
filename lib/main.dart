@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:estatelqapp/core/app_theme.dart';
 import 'package:estatelqapp/core/services/app_navigation.dart';
+import 'package:estatelqapp/core/services/chat_socket_service.dart';
 
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/them_provider.dart';
@@ -44,18 +45,24 @@ import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/fi
 import 'package:estatelqapp/features/home_favorite_feature/presentation/pages/home_page.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/favorite_provider.dart';
 import 'package:estatelqapp/features/home_favorite_feature/presentation/provider/home_provider.dart';
+import 'package:estatelqapp/features/menu_feature/data/datasources/chat_remote_data_source.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/notification_remote.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/property_status_remote_data_source.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/request_remote_data_source.dart';
 import 'package:estatelqapp/features/menu_feature/data/datasources/schedule_remote_data_source.dart';
+import 'package:estatelqapp/features/menu_feature/data/repositories/chat_repository.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/property_status_reomte_data_source_impl.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/request_repository.dart';
 import 'package:estatelqapp/features/menu_feature/data/repositories/schedule_repository.dart';
 import 'package:estatelqapp/features/menu_feature/domain/repository/notification.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/accept_schedule_use_case.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/get_chats_use_case.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/get_messages_use_case.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/get_my_deals_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/get_property_activities.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/mark_as_read_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/reject_schedule_use_case.dart';
+import 'package:estatelqapp/features/menu_feature/domain/usecases/send_message_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/domain/usecases/send_request_use_case.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/live_chat_page.dart';
@@ -65,6 +72,9 @@ import 'package:estatelqapp/features/menu_feature/presentation/pages/notificatio
 import 'package:estatelqapp/features/menu_feature/presentation/pages/rooms_live_chat_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/chat_with_ai_provider.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/internal_chats_provider.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/messages_provider.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/my_deals_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/property_status_provider.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/provider_state_managment/request_provider.dart';
@@ -113,6 +123,14 @@ void main() async {
   await Hive.openBox('visitorBox');
   await Hive.openBox('buildingNumberBox');
 
+  final chatRemote = ChatRemoteDataSource(http.Client());
+
+  final chatRepository = ChatRepository(chatRemote);
+
+  final getChatsUseCase = GetChatsUseCase(chatRepository);
+  final getMessagesUseCase = GetMessagesUseCase(chatRepository);
+  final getMyDealsUseCase = GetMyDealsUseCase(chatRepository);
+  final sendMessageUseCase = SendMessageUseCase(chatRepository);
   final scheduleRemote = ScheduleRemoteDataSource();
 
   final scheduleRepo = ScheduleRepository(scheduleRemote);
@@ -192,29 +210,34 @@ void main() async {
   final getComplaintTypesUseCase = GetComplaintTypesUseCase(supportRepo);
   final submitComplaintUseCase = SubmitComplaintUseCase(supportRepo);
   final socketService = SocketService();
-
+  final chatSocketService = ChatSocketService();
   final notificationRemote = NotificationRemoteDataSource(http.Client());
   final notificationRepo = NotificationRepository(notificationRemote);
 
   final markAsReadUseCase = MarkAsReadUseCase(notificationRepo);
+  chatSocketService.connect();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await Firebase.initializeApp(
     name: 'virtualTourFirebase',
     options: VirtualTourFirebaseOptions.currentPlatform,
   );
+
   final virtualTourFirebaseApp = Firebase.app('virtualTourFirebase');
 
   final virtualTourFirestore = FirebaseFirestore.instanceFor(
     app: virtualTourFirebaseApp,
   );
+
   final virtualTourRepository = FirestoreVirtualTourRepository(
     virtualTourFirestore,
   );
+
   final virtualTourViewProvider = VirtualTourViewProvider(
     repository: virtualTourRepository,
     scopeId: 'demo-scope',
   );
+
   try {
     final testSnapshot = await virtualTourFirestore
         .collection('virtual_tours')
@@ -247,6 +270,20 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => MessagesProvider(
+            getMessagesUseCase,
+            sendMessageUseCase,
+            chatSocketService,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MyDealsProvider(getMyDealsUseCase),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => InternalChatsProvider(getChatsUseCase),
+        ),
+
         ChangeNotifierProvider(create: (_) => scheduleProvider),
 
         ChangeNotifierProvider(
@@ -310,9 +347,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
 
         ChangeNotifierProvider(create: (_) => ChatWithAiProvider()),
-        ChangeNotifierProvider(create: (_) => ChatProvider(socketService)),
 
-        ChangeNotifierProvider(create: (_) => PropertyStatusProvider()),
+        // ChangeNotifierProvider(create: (_) => ChatProvider(
+        //   // socketService
+        //   )),
+        ChangeNotifierProvider(
+          create: (_) => PropertyStatusProvider(getPropertyActivities),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -336,7 +377,7 @@ class MyApp extends StatelessWidget {
             ChangePasswordPage.id: (context) => ChangePasswordPage(),
             EnterYourEmail.id: (context) => EnterYourEmail(),
             FavoritePage.id: (context) => FavoritePage(),
-            RoomsLiveChatPage.id: (context) => RoomsLiveChatPage(),
+            // RoomsLiveChatPage.id: (context) => RoomsLiveChatPage(),
             PropertyPage.id: (context) => PropertyPage(propertyId: ""),
             ProfilePage.id: (context) => ProfilePage(),
             HelpAndSupportPage.id: (context) => HelpAndSupportPage(),
@@ -348,7 +389,7 @@ class MyApp extends StatelessWidget {
               location: '',
             ),
             FilterPage.id: (context) => FilterPage(),
-            LiveChatPage.id: (context) => LiveChatPage(dealId: ''),
+            // LiveChatPage.id: (context) => LiveChatPage(dealId: ''),
             NotificationPage.id: (context) => NotificationPage(),
             ListYourPropertyPage.id: (context) => ListYourPropertyPage(),
             MenuPage.id: (context) => MenuPage(),

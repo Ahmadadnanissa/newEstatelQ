@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:estatelqapp/core/services/app_navigation.dart';
 import 'package:estatelqapp/core/services/socket_service.dart';
 import 'package:estatelqapp/core/widgets/notification_overlay.dart';
 import 'package:estatelqapp/core/widgets/schedule_notification_overlay.dart';

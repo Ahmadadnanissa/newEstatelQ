@@ -1,4 +1,6 @@
 import 'package:estatelqapp/features/auth_features/presentation/pages/login_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/deals_chats_page.dart';
+import 'package:estatelqapp/features/menu_feature/presentation/pages/internal_chats_page.dart';
 import 'package:flutter/material.dart';
 import 'package:estatelqapp/core/services/local_storage_service.dart';
 import 'package:estatelqapp/core/widgets/custom_font.dart';
@@ -6,7 +8,6 @@ import 'package:estatelqapp/core/widgets/navigation_route.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/list_your_property_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/notification_page.dart';
 import 'package:estatelqapp/features/menu_feature/presentation/pages/property_status_page.dart';
-import 'package:estatelqapp/features/menu_feature/presentation/pages/rooms_live_chat_page.dart';
 
 class CheckPageToNavigate extends StatelessWidget {
   const CheckPageToNavigate({super.key});
@@ -17,8 +18,14 @@ class CheckPageToNavigate extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final String? userType = LocalStorageService.getUserType();
+    final String? token = LocalStorageService.getToken();
 
     final bool isClient = userType == 'client';
+    final bool isGuest =
+        token == null ||
+        token.isEmpty ||
+        userType == null ||
+        userType == 'guest';
 
     return Padding(
       padding: EdgeInsets.only(left: width * 0.24, top: width * 0.02),
@@ -30,9 +37,24 @@ class CheckPageToNavigate extends StatelessWidget {
             hoverColor: colorScheme.surface,
             splashColor: colorScheme.surface,
             onTap: () {
+              if (isGuest) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  (route) => false,
+                );
+
+                return;
+              }
+
               Navigator.pushReplacement(
                 context,
-                SlideLeft(0, page: RoomsLiveChatPage()),
+                SlideLeft(
+                  0,
+                  page: isClient
+                      ? const DealsChatsPage()
+                      : const InternalChatsPage(),
+                ),
               );
             },
             child: Row(
